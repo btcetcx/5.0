@@ -7,7 +7,7 @@
         :key="item.key"
         type="button"
         class="tab"
-        :class="{ on: item.key === activeKey, pending: item.status === 'pending' }"
+        :class="{ on: item.key === activeKey }"
         @click="router.push(item.route)"
       >
         <span class="tab-ic">{{ item.icon }}</span>

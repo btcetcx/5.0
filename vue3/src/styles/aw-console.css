@@ -10,11 +10,6 @@ button{font:inherit;cursor:pointer}
 .aw-topbar .tab:hover{opacity:1}
 .aw-topbar .tab.on{opacity:1;font-weight:500}
 .aw-topbar .tab.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:#fff;border-radius:2px}
-.aw-topbar .tab.pending{color:#FF4D4F;opacity:1;text-shadow:0 1px 1px rgba(16,24,40,.18)}
-.aw-topbar .tab.pending .tab-ic{color:#FF4D4F}
-.aw-topbar .tab.pending:hover{color:#FF7875}
-.aw-topbar .tab.pending:hover .tab-ic{color:#FF7875}
-.aw-topbar .tab.pending.on{color:#FF4D4F}
 .aw-topbar .right{display:flex;gap:14px;align-items:center;font-size:13px;flex:none}
 .aw-topbar .ic{cursor:pointer;opacity:.88}
 .aw-topbar .aw-top-help{width:22px;height:22px;border:0;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;display:inline-flex;align-items:center;justify-content:center;font:inherit;font-weight:700;padding:0}

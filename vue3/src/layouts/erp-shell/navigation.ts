@@ -730,14 +730,29 @@ export const topNavItems: TopNavItem[] = [
         ],
       },
       {
-        key: 'inoutManage',
-        label: '出入库管理',
-        route: '/storehouse/inout-management',
+        key: 'outboundManage',
+        label: '出库管理',
+        route: '/storehouse/outbound-management',
+      },
+      {
+        key: 'inboundManage',
+        label: '入库管理',
+        route: '/storehouse/inbound-management',
       },
       {
         key: 'sortingDelivery',
         label: '分拣配送',
         route: '/storehouse/sorting-delivery',
+        flyout: [
+          {
+            title: '配送管理',
+            items: [
+              { label: '订单分拣', route: '/storehouse/sorting-delivery' },
+              { label: '发货配送', route: '/storehouse/shipping-delivery' },
+              { label: '销售订单', route: '/storehouse/sales-orders' },
+            ],
+          },
+        ],
       },
       {
         key: 'incomingMaterial',

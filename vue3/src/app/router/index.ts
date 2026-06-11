@@ -307,7 +307,41 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '仓库管理' },
       },
       {
-        path: 'storehouse/:section(inout-management|sorting-delivery|incoming-material|inventory-warning)',
+        path: 'storehouse/inout-management',
+        redirect: '/storehouse/outbound-management',
+      },
+      {
+        path: 'storehouse/outbound-management',
+        name: 'StorehouseOutboundManagement',
+        component: () => import('@/views/storehouse/StorehouseInoutManagement.vue'),
+        meta: { title: '出库管理' },
+      },
+      {
+        path: 'storehouse/inbound-management',
+        name: 'StorehouseInboundManagement',
+        component: () => import('@/views/storehouse/StorehouseInoutManagement.vue'),
+        meta: { title: '入库管理' },
+      },
+      {
+        path: 'storehouse/sorting-delivery',
+        name: 'StorehouseSortingDelivery',
+        component: () => import('@/views/storehouse/StorehouseSortingDelivery.vue'),
+        meta: { title: '分拣配送' },
+      },
+      {
+        path: 'storehouse/shipping-delivery',
+        name: 'StorehouseShippingDelivery',
+        component: () => import('@/views/storehouse/StorehouseShippingDelivery.vue'),
+        meta: { title: '发货配送' },
+      },
+      {
+        path: 'storehouse/sales-orders',
+        name: 'StorehouseSalesOrders',
+        component: () => import('@/views/storehouse/StorehouseSalesOrders.vue'),
+        meta: { title: '销售订单' },
+      },
+      {
+        path: 'storehouse/:section(incoming-material|inventory-warning)',
         name: 'StorehouseSection',
         component: () => import('@/views/contracts/ContractWorkbenchPage.vue'),
         meta: { title: '仓库中心' },

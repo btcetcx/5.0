@@ -5,6 +5,7 @@ import AwDataTable from '@/components/list-page/AwDataTable.vue';
 import AwListPage from '@/components/list-page/AwListPage.vue';
 import AwListToolbar from '@/components/list-page/AwListToolbar.vue';
 import AwResourceTree from '@/components/list-page/AwResourceTree.vue';
+import AwSettingModal from '@/components/setting-page/AwSettingModal.vue';
 import type { AwTableColumn, AwTreeNode } from '@/components/list-page/types';
 
 type StorehouseProductRow = Record<string, unknown> & {
@@ -36,10 +37,19 @@ type StorehouseWarehouseRow = Record<string, unknown> & {
 
 const route = useRoute();
 const isMultiWarehouse = computed(() => route.query.setting === 'multi-warehouse');
+const isWarehouseRules = computed(() => route.query.setting === 'warehouse-rules');
+const isWarehouseListMode = computed(() => isMultiWarehouse.value || isWarehouseRules.value);
 
 const activeWarehouse = ref('all');
 const productKeyword = ref('');
 const warehouseKeyword = ref('');
+const showRuleModal = ref(false);
+const activeRuleWarehouse = ref<StorehouseWarehouseRow | null>(null);
+const finishedGoodsRules = reactive({
+  storageManagement: 'enabled',
+  productionDateManagement: 'enabled',
+  allowOverStockOrder: 'disabled',
+});
 const productColumnFilters = reactive<Record<string, string>>({});
 const warehouseColumnFilters = reactive<Record<string, string>>({});
 
@@ -111,7 +121,7 @@ const filteredWarehouseRows = computed(() => warehouseRows.filter((row) => {
   const keywordMatched = !warehouseKeyword.value.trim() || JSON.stringify(row).includes(warehouseKeyword.value.trim());
   const filterMatched = Object.entries(warehouseColumnFilters).every(([key, value]) => !value || row[key] === value);
   return keywordMatched && filterMatched;
-}).map((row) => ({ ...row, action: '查看' })));
+}).map((row) => ({ ...row, action: isWarehouseRules.value ? '规则设置' : '查看' })));
 
 function setProductColumnFilter(columnKey: string, value: string) {
   if (value) productColumnFilters[columnKey] = value;
@@ -122,13 +132,18 @@ function setWarehouseColumnFilter(columnKey: string, value: string) {
   if (value) warehouseColumnFilters[columnKey] = value;
   else delete warehouseColumnFilters[columnKey];
 }
+
+function openRuleModal(record: Record<string, unknown>) {
+  activeRuleWarehouse.value = warehouseRows.find((row) => row.id === record.id) || null;
+  showRuleModal.value = true;
+}
 </script>
 
 <template>
-  <AwListPage v-if="isMultiWarehouse">
+  <AwListPage v-if="isWarehouseListMode">
     <AwListToolbar
       search-placeholder="全局搜索（如仓库名称、仓库编码、负责人）"
-      create-label="新增仓库"
+      :create-label="isWarehouseRules ? '新增规则' : '新增仓库'"
       @search="warehouseKeyword = $event"
     />
     <AwDataTable
@@ -138,7 +153,80 @@ function setWarehouseColumnFilter(columnKey: string, value: string) {
       :filter-values="warehouseColumnFilters"
       fit-width
       @column-filter="setWarehouseColumnFilter"
-    />
+    >
+      <template #cell="{ column, record, value }">
+        <button
+          v-if="column.key === 'action' && isWarehouseRules"
+          class="aw-link-btn"
+          type="button"
+          @click="openRuleModal(record)"
+        >
+          规则设置
+        </button>
+        <span v-else>{{ value ?? '-' }}</span>
+      </template>
+    </AwDataTable>
+
+    <AwSettingModal
+      :open="showRuleModal"
+      :title="`${activeRuleWarehouse?.name || '仓库'}规则设置`"
+      width="760px"
+      @cancel="showRuleModal = false"
+      @confirm="showRuleModal = false"
+    >
+      <div class="storehouse-rule-modal">
+        <div class="storehouse-rule-summary">
+          <span>适用仓库</span>
+          <strong>{{ activeRuleWarehouse?.name || '-' }}</strong>
+          <span>仓库类型</span>
+          <strong>{{ activeRuleWarehouse?.type || '-' }}</strong>
+        </div>
+        <div class="storehouse-rule-section">
+          <h4>产成规则</h4>
+          <div class="storehouse-rule-grid">
+            <div class="storehouse-rule-item">
+              <span>是否启用仓储管理</span>
+              <div class="storehouse-radio-group">
+                <label>
+                  <input v-model="finishedGoodsRules.storageManagement" type="radio" value="enabled" />
+                  <span>启用</span>
+                </label>
+                <label>
+                  <input v-model="finishedGoodsRules.storageManagement" type="radio" value="disabled" />
+                  <span>不启用</span>
+                </label>
+              </div>
+            </div>
+            <div class="storehouse-rule-item">
+              <span>是否管理产品生成日期</span>
+              <div class="storehouse-radio-group">
+                <label>
+                  <input v-model="finishedGoodsRules.productionDateManagement" type="radio" value="enabled" />
+                  <span>启用</span>
+                </label>
+                <label>
+                  <input v-model="finishedGoodsRules.productionDateManagement" type="radio" value="disabled" />
+                  <span>不启用</span>
+                </label>
+              </div>
+            </div>
+            <div class="storehouse-rule-item">
+              <span>是否允许客户下单数量比库存显示数量多</span>
+              <div class="storehouse-radio-group">
+                <label>
+                  <input v-model="finishedGoodsRules.allowOverStockOrder" type="radio" value="enabled" />
+                  <span>启用</span>
+                </label>
+                <label>
+                  <input v-model="finishedGoodsRules.allowOverStockOrder" type="radio" value="disabled" />
+                  <span>不启用</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </AwSettingModal>
   </AwListPage>
 
   <AwListPage v-else>
@@ -167,3 +255,80 @@ function setWarehouseColumnFilter(columnKey: string, value: string) {
     />
   </AwListPage>
 </template>
+
+<style scoped>
+.aw-link-btn {
+  background: transparent;
+  border: 0;
+  color: var(--aw-primary);
+  cursor: pointer;
+  padding: 0;
+}
+
+.storehouse-rule-modal {
+  display: grid;
+  gap: 14px;
+}
+
+.storehouse-rule-summary {
+  background: var(--aw-fill-light);
+  border: 1px solid var(--aw-border);
+  border-radius: 8px;
+  display: grid;
+  gap: 8px 14px;
+  grid-template-columns: 80px 1fr 80px 1fr;
+  padding: 12px;
+}
+
+.storehouse-rule-summary span,
+.storehouse-rule-grid > span,
+.storehouse-rule-item > span {
+  color: var(--aw-fg-3);
+  font-size: 13px;
+}
+
+.storehouse-rule-section {
+  display: grid;
+  gap: 12px;
+}
+
+.storehouse-rule-section h4 {
+  font-size: 15px;
+  margin: 0;
+}
+
+.storehouse-rule-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.storehouse-rule-item {
+  align-items: center;
+  border: 1px solid var(--aw-border);
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(260px, 1fr) 180px;
+  min-height: 42px;
+  padding: 10px 12px;
+}
+
+.storehouse-radio-group {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+}
+
+.storehouse-radio-group label {
+  align-items: center;
+  color: var(--aw-fg-2);
+  cursor: pointer;
+  display: inline-flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.storehouse-radio-group input {
+  accent-color: var(--aw-primary);
+}
+</style>
