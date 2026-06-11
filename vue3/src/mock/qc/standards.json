@@ -1,0 +1,296 @@
+[
+  {
+    "id": "std_001",
+    "subject": "轴承来料检验方案",
+    "code": "PLAN-202605-001",
+    "source": "检验方案 / IQC",
+    "object": "轴承BPS2024",
+    "qty": "V3.2 / AQL 1.0",
+    "inspector": "老夏",
+    "date": "2026-05-01",
+    "status": "启用",
+    "stage": "STANDARD",
+    "version": "V3.2",
+    "sampling": "GB/T 2828.1 一般II AQL 1.0",
+    "defect": "CR=0 / MA=1 / MI=3",
+    "approval": "质量经理已批准",
+    "groupIds": ["std_003", "std_008", "std_009"],
+    "standardIds": ["std_006", "std_010", "std_011"],
+    "tone": "green"
+  },
+  {
+    "id": "std_006",
+    "subject": "来料外观与尺寸质检标准",
+    "code": "STD-202605-001",
+    "source": "质检标准 / IQC",
+    "object": "供应商来料、委外收货、采购到货",
+    "qty": "V2.1 / CR=0 MA=1 MI=3",
+    "inspector": "质量经理",
+    "date": "2026-05-12",
+    "status": "启用",
+    "stage": "STANDARD",
+    "version": "V2.1",
+    "sampling": "按检验方案带出 AQL 抽样",
+    "defect": "外观划伤、尺寸偏差、材质证明缺失",
+    "approval": "质检主管复核，质量经理批准",
+    "judgementType": "分数值",
+    "criteria": [
+      {
+        "id": 1,
+        "name": "来料关键尺寸",
+        "standardType": "企业标准",
+        "baseUnit": "毫米(mm)",
+        "baseline": "50.00",
+        "standardValue": "50.00",
+        "upperDeviation": "0.10",
+        "lowerDeviation": "0.10",
+        "standardDescription": ""
+      }
+    ],
+    "standardAttachments": [
+      {
+        "id": 1,
+        "name": "来料外观与尺寸检验规范.pdf",
+        "type": "标准文件",
+        "date": "2026-05-12",
+        "remark": "IQC 来料检验判定依据"
+      },
+      {
+        "id": 2,
+        "name": "轴承尺寸测量图纸.dwg",
+        "type": "图纸附件",
+        "date": "2026-05-12",
+        "remark": "尺寸基准和测量点位"
+      }
+    ],
+    "standardDetail": "适用范围：供应商来料、委外收货、采购到货场景的 IQC 检验。\n检验依据：采购技术协议、来料检验方案、图纸尺寸要求和企业质量标准。\n判定要求：关键尺寸按基准值和上下差值判定；外观划伤、材质证明缺失按 CR/MA/MI 缺陷等级执行。\n版本说明：V2.1 增加材质证明缺失的拒收判定要求。",
+    "tone": "green"
+  },
+  {
+    "id": "std_007",
+    "subject": "出货包装与标签质检标准",
+    "code": "STD-202605-002",
+    "source": "质检标准 / OQC",
+    "object": "销售出库、客户验货、出货放行",
+    "qty": "V1.6 / 包装全检+外观抽检",
+    "inspector": "陈质检",
+    "date": "2026-05-15",
+    "status": "待审批",
+    "stage": "STANDARD",
+    "version": "V1.6",
+    "sampling": "每批不少于 32 件，客户特殊要求优先",
+    "defect": "错标、漏贴、包装破损、装箱差异",
+    "approval": "等待质量经理审批",
+    "judgementType": "文本",
+    "criteria": [
+      {
+        "id": 1,
+        "name": "包装与标签一致性",
+        "standardType": "客户标准",
+        "baseUnit": "",
+        "baseline": "",
+        "standardValue": "",
+        "upperDeviation": "",
+        "lowerDeviation": "",
+        "standardDescription": "外箱、唛头、标签、装箱清单必须与客户订单和出货通知一致；轻微外观异常需客户确认后方可放行。"
+      }
+    ],
+    "standardAttachments": [
+      {
+        "id": 1,
+        "name": "客户包装标签标准.pdf",
+        "type": "标准文件",
+        "date": "2026-05-15",
+        "remark": "OQC 出货检验依据"
+      },
+      {
+        "id": 2,
+        "name": "出货包装照片模板.zip",
+        "type": "图纸附件",
+        "date": "2026-05-15",
+        "remark": "拍照留档模板"
+      }
+    ],
+    "standardDetail": "适用范围：销售出库、客户验货、出货放行场景的 OQC 检验。\n检验依据：客户包装标准、销售订单、出货通知和装箱清单。\n判定要求：文本型判定以包装完整性、标签一致性、客户特殊要求为准；不符合项需记录照片并进入异常处理。\n版本说明：V1.6 增加客户特殊要求优先级说明。",
+    "tone": "yellow"
+  },
+  {
+    "id": "std_010",
+    "subject": "来料材质证明质检标准",
+    "code": "STD-202605-003",
+    "source": "质检标准 / IQC",
+    "object": "供应商来料、委外收货、采购到货",
+    "qty": "V1.2 / 证书一致性",
+    "inspector": "王质检",
+    "date": "2026-05-16",
+    "status": "启用",
+    "stage": "STANDARD",
+    "version": "V1.2",
+    "sampling": "每批核验证书与炉批号",
+    "defect": "材质证明缺失、炉批号不一致、报告过期",
+    "approval": "质检主管复核，质量经理批准",
+    "judgementType": "文本",
+    "criteria": [
+      {
+        "id": 1,
+        "name": "材质证明一致性",
+        "standardType": "企业标准",
+        "baseUnit": "",
+        "baseline": "",
+        "standardValue": "",
+        "upperDeviation": "",
+        "lowerDeviation": "",
+        "standardDescription": "材质证明、炉批号、供应商批次、采购订单物料必须一致；证书缺失或过期需转异常处理。"
+      }
+    ],
+    "standardAttachments": [
+      {
+        "id": 1,
+        "name": "来料材质证明核验规范.pdf",
+        "type": "标准文件",
+        "date": "2026-05-16",
+        "remark": "IQC 材质证明判定依据"
+      }
+    ],
+    "standardDetail": "适用范围：供应商来料和委外收货的材质证明核验。\n判定要求：证书、炉批号、供应商批次、采购订单物料必须一致。",
+    "tone": "green"
+  },
+  {
+    "id": "std_011",
+    "subject": "来料包装标识质检标准",
+    "code": "STD-202605-004",
+    "source": "质检标准 / IQC",
+    "object": "供应商来料、采购到货",
+    "qty": "V1.0 / 包装标识核验",
+    "inspector": "陈质检",
+    "date": "2026-05-16",
+    "status": "启用",
+    "stage": "STANDARD",
+    "version": "V1.0",
+    "sampling": "每批包装全检，标签抽检32件",
+    "defect": "包装破损、标签缺失、批次标识不清",
+    "approval": "质检主管复核，质量经理批准",
+    "judgementType": "文本",
+    "criteria": [
+      {
+        "id": 1,
+        "name": "包装标签一致性",
+        "standardType": "企业标准",
+        "baseUnit": "",
+        "baseline": "",
+        "standardValue": "",
+        "upperDeviation": "",
+        "lowerDeviation": "",
+        "standardDescription": "外包装不得破损受潮；物料标签、供应商批次、采购到货单号必须清晰一致。"
+      }
+    ],
+    "standardAttachments": [
+      {
+        "id": 1,
+        "name": "来料包装标识检验规范.pdf",
+        "type": "标准文件",
+        "date": "2026-05-16",
+        "remark": "IQC 包装标签判定依据"
+      }
+    ],
+    "standardDetail": "适用范围：供应商来料包装、标签、批次标识核验。\n判定要求：包装完好，标签与到货单、供应商批次保持一致。",
+    "tone": "green"
+  },
+  {
+    "id": "std_002",
+    "subject": "瓶身高度检验项目",
+    "code": "ITEM-202605-001",
+    "source": "检验项目 / 尺寸",
+    "object": "目标200.00mm，上限200.40，下限199.60",
+    "qty": "数值型 / mm",
+    "inspector": "老夏",
+    "date": "2026-05-01",
+    "status": "启用",
+    "stage": "STANDARD",
+    "upper": "200.40mm",
+    "lower": "199.60mm",
+    "defect": "MAJOR",
+    "frequency": "每批抽样",
+    "tone": "green"
+  },
+  {
+    "id": "std_003",
+    "subject": "来料检验组A授权",
+    "code": "GROUP-202605-001",
+    "source": "检验组/授权",
+    "object": "IQC来料检验",
+    "qty": "5人 / 2人可判定",
+    "inspector": "王质检",
+    "date": "2026-05-01",
+    "status": "启用",
+    "stage": "STANDARD",
+    "leader": "王质检",
+    "auth": "抽样、判定、特采建议",
+    "shift": "白班/夜班",
+    "standardIds": ["std_006"],
+    "tone": "green"
+  },
+  {
+    "id": "std_008",
+    "subject": "来料材质检验组B授权",
+    "code": "GROUP-202605-002",
+    "source": "检验组/授权",
+    "object": "IQC材质证明核验",
+    "qty": "3人 / 1人可判定",
+    "inspector": "王质检",
+    "date": "2026-05-01",
+    "status": "启用",
+    "stage": "STANDARD",
+    "leader": "王质检",
+    "auth": "材质证明、炉批号、证书有效性判定",
+    "shift": "白班",
+    "standardIds": ["std_010"],
+    "tone": "green"
+  },
+  {
+    "id": "std_009",
+    "subject": "来料包装检验组C授权",
+    "code": "GROUP-202605-003",
+    "source": "检验组/授权",
+    "object": "IQC包装标识核验",
+    "qty": "4人 / 2人可判定",
+    "inspector": "陈质检",
+    "date": "2026-05-01",
+    "status": "启用",
+    "stage": "STANDARD",
+    "leader": "陈质检",
+    "auth": "包装外观、标签、批次标识判定",
+    "shift": "白班/夜班",
+    "standardIds": ["std_011"],
+    "tone": "green"
+  },
+  {
+    "id": "std_004",
+    "subject": "GB/T 2828.1 抽样规则",
+    "code": "SAMP-202605-001",
+    "source": "抽样规则",
+    "object": "IQC/FQC/OQC通用",
+    "qty": "一般II / AQL 1.0",
+    "inspector": "质量经理",
+    "date": "2026-05-05",
+    "status": "修订中",
+    "stage": "STANDARD",
+    "sampling": "批量范围自动换算样本量",
+    "defect": "按 CR/MA/MI 分级判定",
+    "tone": "yellow"
+  },
+  {
+    "id": "std_005",
+    "subject": "缺陷等级判定表",
+    "code": "DEF-202605-001",
+    "source": "缺陷等级",
+    "object": "CR/MA/MI分级",
+    "qty": "CR=停线 / MA=返工",
+    "inspector": "质量经理",
+    "date": "2026-05-08",
+    "status": "待审批",
+    "stage": "STANDARD",
+    "defect": "CRITICAL / MAJOR / MINOR",
+    "tone": "yellow"
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "mnt_001",
+    "code": "MP-202605-001",
+    "name": "CNC月度一级保养",
+    "equipmentId": "asset_001",
+    "equipmentCode": "EQ-202605-001",
+    "equipmentName": "CNC加工中心-01",
+    "maintenanceType": "一级保养",
+    "cycleType": "按月",
+    "cycleValue": 1,
+    "planDate": "2026-06-03",
+    "lastDate": "2026-05-24",
+    "nextDate": "2026-06-24",
+    "warningDays": 3,
+    "ownerName": "陈工",
+    "warningStatus": "正常",
+    "status": "待执行",
+    "standard": "CNC一级保养标准",
+    "items": [
+      { "id": 1, "itemName": "主轴润滑检查", "standard": "油位正常，无异响", "method": "目视+试运行", "tools": "润滑油", "required": "是" },
+      { "id": 2, "itemName": "导轨清洁", "standard": "无铁屑堆积", "method": "清洁擦拭", "tools": "清洁布", "required": "是" }
+    ]
+  },
+  {
+    "id": "mnt_002",
+    "code": "MP-202605-002",
+    "name": "包装线月度保养",
+    "equipmentId": "asset_003",
+    "equipmentCode": "EQ-202605-003",
+    "equipmentName": "自动包装线-01",
+    "maintenanceType": "日常保养",
+    "cycleType": "按周",
+    "cycleValue": 2,
+    "planDate": "2026-05-29",
+    "lastDate": "2026-05-10",
+    "nextDate": "2026-06-07",
+    "warningDays": 2,
+    "ownerName": "王主管",
+    "warningStatus": "已预警",
+    "status": "已逾期",
+    "standard": "包装线保养标准",
+    "items": [
+      { "id": 1, "itemName": "输送带张紧", "standard": "无跑偏", "method": "试运行", "tools": "扳手", "required": "是" }
+    ]
+  }
+]

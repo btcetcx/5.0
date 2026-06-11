@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>销售订单详情预览</title>
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-soft: #eff6ff;
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --border: #dfe5ef;
+        --text: #1f2937;
+        --muted: #667085;
+        --success: #16a34a;
+        --warning: #d97706;
+        --danger: #dc2626;
+        --sidebar: #172033;
+        --sidebar-active: #23304a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 1180px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 226px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        background: var(--sidebar);
+        color: #d8e1f2;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 56px;
+        padding: 0 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, .08);
+      }
+
+      .brand strong {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .menu {
+        padding: 10px 8px;
+      }
+
+      .menu button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        height: 40px;
+        margin-bottom: 4px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .menu button.active,
+      .menu button:hover {
+        background: var(--sidebar-active);
+        color: #fff;
+      }
+
+      .shell {
+        min-width: 0;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .topbar strong {
+        display: block;
+      }
+
+      .topbar span {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .segmented {
+        display: inline-flex;
+        padding: 2px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: #fff;
+      }
+
+      .segmented button {
+        height: 26px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--muted);
+      }
+
+      .segmented button.active {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .tabs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 40px;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .tab {
+        display: inline-flex;
+        align-items: center;
+        height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .tab.active {
+        border-color: var(--primary);
+        background: var(--primary-soft);
+        color: var(--primary);
+      }
+
+      main {
+        padding: 16px;
+      }
+
+      .page {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .btn {
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: #fff;
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .btn.primary {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .btn.danger {
+        border-color: #fecaca;
+        color: var(--danger);
+      }
+
+      .toolbar,
+      .toolbar-actions,
+      .title-line,
+      .metas,
+      .attachment-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .toolbar {
+        justify-content: space-between;
+        padding: 12px;
+      }
+
+      .toolbar-actions {
+        gap: 8px;
+      }
+
+      .detail-header {
+        padding: 18px 20px;
+      }
+
+      .title-line {
+        gap: 12px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        line-height: 1.3;
+      }
+
+      .code {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .metas {
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .status {
+        font-weight: 700;
+      }
+
+      .status.green {
+        color: var(--success);
+      }
+
+      .status.blue {
+        color: var(--primary);
+      }
+
+      .status.yellow {
+        color: var(--warning);
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .metric {
+        padding: 16px;
+      }
+
+      .metric span,
+      .metric em {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+        font-style: normal;
+      }
+
+      .metric strong {
+        display: block;
+        margin: 10px 0 6px;
+        font-size: 24px;
+      }
+
+      .notice {
+        display: none;
+        padding: 10px 12px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 13px;
+      }
+
+      .notice.show {
+        display: block;
+      }
+
+      .detail-card {
+        padding: 0 16px 16px;
+      }
+
+      .detail-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .detail-tabs button {
+        height: 44px;
+        padding: 0 16px;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .detail-tabs button.active {
+        border-bottom-color: var(--primary);
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .section-title {
+        margin: 14px 0 10px;
+        font-weight: 700;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border: 1px solid var(--border);
+        border-right: 0;
+        border-bottom: 0;
+      }
+
+      .info-item {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr);
+        min-height: 42px;
+        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .info-item span,
+      .info-item strong {
+        padding: 10px 12px;
+      }
+
+      .info-item span {
+        background: #f8fafc;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .info-item strong {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 500;
+      }
+
+      .attachment-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(180px, 1fr));
+        gap: 12px;
+      }
+
+      .attachment-card {
+        display: grid;
+        gap: 8px;
+        padding: 14px;
+        border: 1px dashed var(--border);
+        border-radius: 6px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .attachment-card strong {
+        color: var(--text);
+        font-size: 13px;
+      }
+
+      .attachment-actions {
+        gap: 12px;
+      }
+
+      .link {
+        color: var(--primary);
+        cursor: pointer;
+      }
+
+      .table-wrap {
+        overflow: auto;
+      }
+
+      table {
+        min-width: 1180px;
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        height: 42px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      th {
+        background: #f8fafc;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      tbody tr:hover td {
+        background: #fafcff;
+      }
+
+      .empty {
+        display: grid;
+        justify-items: center;
+        gap: 14px;
+        padding: 34px 12px;
+        border: 1px dashed var(--border);
+        border-radius: 6px;
+        color: var(--muted);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand"><strong>AW</strong><span>销售中心</span></div>
+        <nav class="menu">
+          <button><span>台</span>销售工作台</button>
+          <button><span>客</span>客户管理</button>
+          <button><span>计</span>销售计划</button>
+          <button><span>报</span>报价管理</button>
+          <button><span>合</span>合同管理</button>
+          <button class="active"><span>单</span>订单管理</button>
+        </nav>
+      </aside>
+      <section class="shell">
+        <header class="topbar">
+          <div>
+            <strong>销售订单详情</strong>
+            <span>参考后台框架详情母版复刻：工具栏、详情头、页签、明细与状态回填</span>
+          </div>
+          <div class="topbar-actions">
+            <div class="segmented"><button class="active">Mock</button><button>Remote</button></div>
+            <div class="avatar">销</div>
+          </div>
+        </header>
+        <nav class="tabs">
+          <span class="tab">销售工作台</span>
+          <span class="tab">订单管理</span>
+          <span class="tab active">销售订单详情</span>
+        </nav>
+        <main>
+          <section class="page">
+            <section class="card toolbar">
+              <button class="btn" onclick="notice('返回订单列表，当前为静态预览文件。')">返回</button>
+              <div class="toolbar-actions">
+                <button class="btn primary" onclick="notice('发货动作已记录，订单当前状态保持执行中。')">发货</button>
+                <button class="btn" onclick="notice('修改动作已记录，静态预览不改写业务数据。')">修改</button>
+                <button class="btn" onclick="notice('打印任务已创建。')">打印</button>
+                <button class="btn" onclick="notice('导出任务已创建。')">导出</button>
+              </div>
+            </section>
+
+            <section class="card detail-header">
+              <div class="title-line">
+                <h1>启明控制器首批订单 SO-20260603001</h1>
+                <span class="status blue">执行中</span>
+              </div>
+              <div class="code">单据编号：SO-20260603001</div>
+              <div class="metas">
+                <span>客户：深圳市启明科技有限公司</span>
+                <span>来源：HT-20260603001</span>
+                <span>下单日期：2026-06-03</span>
+                <span>销售人员：张国</span>
+                <span>订单金额：42,600.00</span>
+                <span>已回款：3,000.00</span>
+                <span>订单进展：待发货</span>
+              </div>
+            </section>
+
+            <div class="metric-grid">
+              <article class="card metric"><span>订单金额</span><strong>42,600.00</strong><em>来源合同首批下单金额</em></article>
+              <article class="card metric"><span>应收金额</span><strong>18,600.00</strong><em>已按发货节点确认</em></article>
+              <article class="card metric"><span>已回款</span><strong>3,000.00</strong><em>部分核销，释放信用</em></article>
+              <article class="card metric"><span>生产进度</span><strong>58%</strong><em>智能控制器生产中</em></article>
+            </div>
+
+            <div class="notice" id="notice"></div>
+
+            <section class="card detail-card">
+              <nav class="detail-tabs" id="tabs"></nav>
+              <div id="panel"></div>
+            </section>
+          </section>
+        </main>
+      </section>
+    </div>
+
+    <script>
+      const tabs = [
+        ["info", "订单信息"],
+        ["lines", "订单明细"],
+        ["delivery", "发货应收"],
+        ["invoice", "开票申请"],
+        ["payment", "回款核销"],
+        ["production", "生产记录"],
+        ["return", "退换货记录"],
+        ["logs", "操作记录"]
+      ];
+      const infoItems = [
+        ["订单主题", "启明控制器首批订单"],
+        ["订单编号", "SO-20260603001"],
+        ["订单来源", "合同转订单"],
+        ["来源单据", "HT-20260603001"],
+        ["下单日期", "2026-06-03"],
+        ["客户", "深圳市启明科技有限公司"],
+        ["订单金额", "42,600.00"],
+        ["销售人员", "张国"],
+        ["订单状态", "执行中"],
+        ["订单进展", "待发货"],
+        ["异常标签", "-"],
+        ["信用校验", "通过"],
+        ["信用占用", "已占用 18,600.00"],
+        ["应收金额", "18,600.00"],
+        ["开票申请", "待开票"],
+        ["已回款", "3,000.00"],
+        ["交付日期", "2026-06-18"],
+        ["交货地址", "深圳市南山区科技园启明科技收货仓"]
+      ];
+      const attachments = [
+        ["销售订单确认单.pdf", "248 KB", "2026-06-03 10:18:26"],
+        ["客户采购需求.xlsx", "96 KB", "2026-06-03 10:22:41"],
+        ["交付地址确认.png", "512 KB", "2026-06-03 10:28:05"]
+      ];
+      const tables = {
+        lines: {
+          title: "订单明细",
+          columns: ["来源明细", "产品编号", "产品名称", "规格型号", "单位", "单价", "销售数量", "合计金额", "已出库数量", "未出库数量", "退货数量", "计划生产数量", "交付日期", "备注"],
+          rows: [
+            ["HT-20260603001-01", "PRD-CTRL-001", "智能控制器", "AW-C200 / 工业级", "台", "1,280.00", "20", "25,600.00", "8", "12", "0", "20", "2026-06-18", "首批交付"],
+            ["HT-20260603001-02", "PRD-SEN-011", "温湿度传感器", "AW-S18", "只", "168.00", "100", "16,800.00", "50", "50", "0", "100", "2026-06-18", "随控制器配套"]
+          ]
+        },
+        delivery: {
+          title: "发货生成应收",
+          columns: ["来源明细", "发货单号", "发货仓库/库位", "发货数量", "OQC状态", "发货金额", "应收确认点", "应收单号", "应收金额", "物流状态", "发货时间"],
+          rows: [
+            ["HT-20260603001-01", "OUT-20260603001", "成品仓 / A-01", "8", "通过", "10,240.00", "出库/OQC/签收完成后确认", "AR-20260603001", "10,240.00", "运输中", "2026-06-08 14:30"],
+            ["HT-20260603001-02", "OUT-20260603002", "成品仓 / B-02", "50", "通过", "8,400.00", "出库/OQC/签收完成后确认", "AR-20260603002", "8,400.00", "待揽收", "2026-06-09 09:15"]
+          ]
+        },
+        invoice: {
+          title: "开票申请",
+          columns: ["开票申请", "来源应收", "申请金额", "税率", "税额", "发票状态", "申请时间"],
+          rows: [["INV-REQ-20260603001", "AR-20260603001", "10,240.00", "13%", "1,331.20", "待开票", "2026-06-09 11:00"]]
+        },
+        payment: {
+          title: "回款核销",
+          columns: ["回款单号", "收款金额", "收款账户", "核销订单", "核销明细", "核销金额", "未核销金额", "信用释放", "核销状态", "收款日期"],
+          rows: [["PAY-20260603001", "3,000.00", "建设银行一般户", "SO-20260603001", "首批订单预付款", "3,000.00", "15,600.00", "已释放 3,000.00", "部分核销", "2026-06-10"]]
+        },
+        production: {
+          title: "生产记录",
+          columns: ["来源明细", "生产需求号", "生产订单号", "产品名称", "计划生产", "已生产", "待生产", "生产状态"],
+          rows: [
+            ["HT-20260603001-01", "MRP-20260603001", "MO-20260603001", "智能控制器", "20", "8", "12", "生产中"],
+            ["HT-20260603001-02", "MRP-20260603002", "MO-20260603002", "温湿度传感器", "100", "50", "50", "待排产"]
+          ]
+        },
+        logs: {
+          title: "操作记录",
+          columns: ["操作类型", "操作人", "操作时间", "操作内容"],
+          rows: [
+            ["创建订单", "张国", "2026-06-03 10:12", "由合同 HT-20260603001 转订单"],
+            ["信用校验", "系统", "2026-06-03 10:13", "客户信用额度充足，校验通过"],
+            ["提交审批", "张国", "2026-06-03 10:16", "提交销售主管审批"],
+            ["发货登记", "仓储", "2026-06-08 14:30", "生成首批发货单 OUT-20260603001"]
+          ]
+        }
+      };
+      let active = "info";
+
+      function renderTabs() {
+        document.getElementById("tabs").innerHTML = tabs.map(([key, label]) =>
+          `<button class="${active === key ? "active" : ""}" onclick="switchTab('${key}')">${label}</button>`
+        ).join("");
+      }
+
+      function renderPanel() {
+        if (active === "info") {
+          document.getElementById("panel").innerHTML = `
+            <div class="section-title">基础信息</div>
+            <div class="info-grid">
+              ${infoItems.map(([label, value]) => `<div class="info-item"><span>${label}</span><strong>${value}</strong></div>`).join("")}
+            </div>
+            <div class="section-title">附件</div>
+            <div class="attachment-grid">
+              ${attachments.map(([name, size, uploadedAt]) => `
+                <article class="attachment-card">
+                  <strong>${name}</strong>
+                  <span>文件大小：${size}</span>
+                  <span>上传日期：${uploadedAt}</span>
+                  <div class="attachment-actions"><span class="link">查看</span><span class="link">下载</span></div>
+                </article>
+              `).join("")}
+            </div>`;
+          return;
+        }
+        if (active === "return") {
+          document.getElementById("panel").innerHTML = `
+            <div class="section-title">退换货记录</div>
+            <div class="empty">
+              <div>暂无退换货记录。可从本订单发起退货或换货，后续记录会按售后单据回填。</div>
+              <div><button class="btn primary" onclick="notice('退货动作已记录。')">退货</button> <button class="btn" onclick="notice('换货动作已记录。')">换货</button></div>
+            </div>`;
+          return;
+        }
+        const table = tables[active];
+        document.getElementById("panel").innerHTML = `
+          <div class="section-title">${table.title}</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th style="width:64px">序号</th>${table.columns.map((column) => `<th>${column}</th>`).join("")}</tr></thead>
+              <tbody>
+                ${table.rows.map((row, index) => `<tr><td>${index + 1}</td>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`).join("")}
+              </tbody>
+            </table>
+          </div>`;
+      }
+
+      function switchTab(key) {
+        active = key;
+        renderTabs();
+        renderPanel();
+      }
+
+      function notice(text) {
+        const el = document.getElementById("notice");
+        el.textContent = text;
+        el.classList.add("show");
+      }
+
+      renderTabs();
+      renderPanel();
+    </script>
+  </body>
+</html>

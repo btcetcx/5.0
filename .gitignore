@@ -1,0 +1,5 @@
+.codex-tools/
+.codex-validation/
+*.log
+*.out.log
+*.err.log

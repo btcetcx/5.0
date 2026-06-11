@@ -1,0 +1,149 @@
+{
+  "roles": [
+    {
+      "id": "role-rd-admin",
+      "name": "研发管理员",
+      "center": "研发中心",
+      "users": 3,
+      "menu": "研发中心全部菜单",
+      "data": "研发全量数据",
+      "functionPolicy": "研发全功能控制",
+      "dataPolicy": "研发全量数据",
+      "updated": "2026-05-31",
+      "enabled": true
+    },
+    {
+      "id": "role-rd-manager",
+      "name": "研发主管",
+      "center": "研发中心",
+      "users": 8,
+      "menu": "项目 / 产品 / BOM / 工艺",
+      "data": "本部门及下级项目",
+      "functionPolicy": "研发主管审批与维护",
+      "dataPolicy": "本部门及下级研发数据",
+      "updated": "2026-05-31",
+      "enabled": true
+    },
+    {
+      "id": "role-rd-engineer",
+      "name": "研发工程师",
+      "center": "研发中心",
+      "users": 26,
+      "menu": "文档 / 物料 / BOM",
+      "data": "本人参与项目",
+      "functionPolicy": "研发工程师维护",
+      "dataPolicy": "本人参与项目数据",
+      "updated": "2026-05-31",
+      "enabled": true
+    },
+    {
+      "id": "role-rd-viewer",
+      "name": "研发只读",
+      "center": "研发中心",
+      "users": 12,
+      "menu": "研发中心只读菜单",
+      "data": "授权项目只读",
+      "functionPolicy": "研发只读浏览",
+      "dataPolicy": "授权项目只读数据",
+      "updated": "2026-05-31",
+      "enabled": false
+    }
+  ],
+  "functionPermissions": [
+    {
+      "id": "perm-rd-project-manager",
+      "role": "研发主管",
+      "module": "研发中心",
+      "menu": "项目管理",
+      "page": "项目列表 / 项目详情",
+      "tabs": ["基本信息", "项目成员", "项目BOM", "工艺流程", "报价", "采购", "生产", "费用", "操作记录"],
+      "fieldsView": ["项目编号", "项目名称", "客户", "负责人", "报价金额", "采购金额", "生产状态", "成本明细"],
+      "fieldsEdit": ["项目名称", "负责人", "项目成员", "项目BOM", "工艺流程", "费用明细"],
+      "view": true,
+      "create": true,
+      "edit": true,
+      "delete": false,
+      "import": true,
+      "export": true,
+      "approve": true
+    },
+    {
+      "id": "perm-rd-bom-engineer",
+      "role": "研发工程师",
+      "module": "研发中心",
+      "menu": "BOM管理",
+      "page": "BOM列表 / 替代料",
+      "tabs": ["BOM列表", "替代料"],
+      "fieldsView": ["BOM编号", "BOM名称", "适用产品", "物料编码", "用量", "损耗率", "关联工序", "版本"],
+      "fieldsEdit": ["BOM名称", "适用产品", "物料编码", "用量", "损耗率", "关联工序", "替代料"],
+      "view": true,
+      "create": true,
+      "edit": true,
+      "delete": false,
+      "import": true,
+      "export": true,
+      "approve": false
+    },
+    {
+      "id": "perm-rd-doc-viewer",
+      "role": "研发只读",
+      "module": "研发中心",
+      "menu": "文档库",
+      "page": "文档列表 / 文档详情",
+      "tabs": ["基本信息", "附件", "版本记录", "操作记录"],
+      "fieldsView": ["文档编号", "文档名称", "分类", "版本", "状态", "附件", "审批记录"],
+      "fieldsEdit": [],
+      "view": true,
+      "create": false,
+      "edit": false,
+      "delete": false,
+      "import": false,
+      "export": true,
+      "approve": false
+    }
+  ],
+  "dataPermissions": [
+    {
+      "id": "data-rd-all",
+      "name": "研发全量数据",
+      "role": "研发管理员",
+      "center": "研发中心",
+      "department": "全部研发部门",
+      "region": "全部区域",
+      "customerScope": "全部客户",
+      "projectScope": "全部项目",
+      "documentScope": "全部文档分类",
+      "materialScope": "全部产品 / 物料",
+      "bomScope": "全部 BOM 与替代料",
+      "enabled": true
+    },
+    {
+      "id": "data-rd-dept",
+      "name": "本部门及下级研发数据",
+      "role": "研发主管",
+      "center": "研发中心",
+      "department": "本部门及下级",
+      "region": "负责区域",
+      "customerScope": "负责客户及协作客户",
+      "projectScope": "本部门项目及下级项目",
+      "documentScope": "本部门文档分类",
+      "materialScope": "本部门维护产品 / 物料",
+      "bomScope": "本部门项目 BOM",
+      "enabled": true
+    },
+    {
+      "id": "data-rd-mine",
+      "name": "本人参与项目数据",
+      "role": "研发工程师",
+      "center": "研发中心",
+      "department": "本人所在部门",
+      "region": "本人负责区域",
+      "customerScope": "项目关联客户",
+      "projectScope": "本人负责或参与项目",
+      "documentScope": "本人创建 / 协作文档",
+      "materialScope": "本人维护产品 / 物料",
+      "bomScope": "本人维护 BOM 与替代料",
+      "enabled": true
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "ins_001",
+    "code": "IP-202605-001",
+    "planName": "CNC日点检",
+    "equipmentId": "asset_001",
+    "equipmentCode": "EQ-202605-001",
+    "equipmentName": "CNC加工中心-01",
+    "inspectionType": "日点检",
+    "inspector": "陈工",
+    "inspectionAt": "2026-05-31 08:30",
+    "result": "正常",
+    "exceptionCount": 0,
+    "status": "正常",
+    "standard": "CNC日点检标准",
+    "items": [
+      { "id": 1, "itemName": "急停按钮", "standard": "动作有效", "recordType": "正常/异常", "upper": "-", "lower": "-", "required": "是", "measured": "正常", "result": "正常" },
+      { "id": 2, "itemName": "主轴声音", "standard": "无异常噪音", "recordType": "文本", "upper": "-", "lower": "-", "required": "是", "measured": "正常", "result": "正常" }
+    ]
+  },
+  {
+    "id": "ins_002",
+    "code": "IP-202605-002",
+    "planName": "空压机日点检",
+    "equipmentId": "asset_002",
+    "equipmentCode": "EQ-202605-002",
+    "equipmentName": "空压机-02",
+    "inspectionType": "日点检",
+    "inspector": "李工",
+    "inspectionAt": "2026-05-31 08:50",
+    "result": "异常",
+    "exceptionCount": 1,
+    "status": "异常",
+    "standard": "空压机点检标准",
+    "exceptionDesc": "压力低于下限，需要维修确认。",
+    "items": [
+      { "id": 1, "itemName": "运行压力", "standard": "0.7-0.8MPa", "recordType": "数值", "upper": "0.8", "lower": "0.7", "required": "是", "measured": "0.55", "result": "异常" }
+    ]
+  }
+]

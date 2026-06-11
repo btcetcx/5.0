@@ -1,0 +1,153 @@
+{
+  "fieldScopes": [
+    { "key": "assets", "label": "设备台账", "count": 18 },
+    { "key": "maintenance", "label": "保养计划", "count": 12 },
+    { "key": "repairs", "label": "维修记录", "count": 14 },
+    { "key": "inspections", "label": "点检记录", "count": 11 },
+    { "key": "spares", "label": "备件管理", "count": 10 }
+  ],
+  "fields": [
+    { "id": "f1", "name": "设备等级", "code": "level", "type": "下拉", "scope": "设备台账", "required": true, "enabled": true },
+    { "id": "f2", "name": "异常说明", "code": "exceptionDesc", "type": "多行文本", "scope": "点检记录", "required": true, "enabled": true }
+  ],
+  "numberCandidates": [
+    { "key": "prefix", "label": "固定前缀", "preview": "EQ", "fixed": true, "group": "基础" },
+    { "key": "y4", "label": "年（4位）", "preview": "2025", "group": "year" },
+    { "key": "y2", "label": "年（2位）", "preview": "25", "group": "year" },
+    { "key": "m", "label": "月（2位）", "preview": "05" },
+    { "key": "d", "label": "日（2位）", "preview": "15" },
+    { "key": "s3", "label": "流水号（3位）", "preview": "001", "group": "seq" },
+    { "key": "s1", "label": "流水号（1位）", "preview": "1", "group": "seq" },
+    { "key": "cc1", "label": "自定义代码", "preview": "C1", "editable": true },
+    { "key": "cc2", "label": "自定义代码", "preview": "C2", "editable": true }
+  ],
+  "numberPrefix": "EQ",
+  "numberSeparator": "-",
+  "numberSelected": ["y4", "m", "s3"],
+  "categories": [
+    { "id": "cat1", "name": "机加工设备", "code": "MACHINING", "parent": "生产设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat2", "name": "成型设备", "code": "FORMING", "parent": "生产设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat3", "name": "焊接设备", "code": "WELDING", "parent": "生产设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat4", "name": "装配设备", "code": "ASSEMBLY", "parent": "生产设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat5", "name": "包装设备", "code": "PACKING", "parent": "生产设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat6", "name": "空压系统", "code": "AIR_COMPRESSOR", "parent": "动力设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat7", "name": "配电设备", "code": "POWER_DISTRIBUTION", "parent": "动力设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat8", "name": "冷却水系统", "code": "COOLING_WATER", "parent": "动力设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat9", "name": "起重运输设备", "code": "LIFTING_TRANSPORT", "parent": "辅助设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat10", "name": "工装夹具设备", "code": "FIXTURE_TOOLING", "parent": "辅助设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat11", "name": "检测仪器", "code": "INSPECTION_INSTRUMENT", "parent": "计量检测设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat12", "name": "在线检具", "code": "INLINE_GAUGE", "parent": "计量检测设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat13", "name": "环保处理设备", "code": "ENVIRONMENTAL", "parent": "环保安全设备", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "cat14", "name": "安全消防设备", "code": "SAFETY_FIRE", "parent": "环保安全设备", "updatedAt": "2026-05-31", "enabled": true }
+  ],
+  "statuses": [
+    { "id": "st1", "name": "运行中", "code": "RUNNING", "scope": "设备生命周期", "updatedAt": "2026-05-30", "enabled": true },
+    { "id": "st2", "name": "停机", "code": "STOPPED", "scope": "设备生命周期", "updatedAt": "2026-05-30", "enabled": true },
+    { "id": "st3", "name": "故障", "code": "FAULT", "scope": "设备生命周期", "updatedAt": "2026-05-30", "enabled": true },
+    { "id": "st4", "name": "维修中", "code": "REPAIRING", "scope": "设备生命周期", "updatedAt": "2026-05-30", "enabled": true },
+    { "id": "st5", "name": "保养中", "code": "MAINTAINING", "scope": "设备生命周期", "updatedAt": "2026-05-30", "enabled": true },
+    { "id": "st6", "name": "报废", "code": "SCRAPPED", "scope": "设备生命周期", "updatedAt": "2026-05-30", "enabled": true }
+  ],
+  "assetTags": [
+    { "id": "tag1", "name": "固定资产标签", "code": "AT-FA", "scope": "固定资产", "updatedAt": "2026-05-29", "enabled": true }
+  ],
+  "maintenanceStandards": [
+    { "id": "ms1", "name": "CNC一级保养标准", "code": "MS-CNC-01", "scope": "加工设备", "updatedAt": "2026-05-29", "enabled": true }
+  ],
+  "maintenanceItems": [
+    {
+      "id": "mi1",
+      "name": "主轴润滑检查",
+      "code": "MI-SPINDLE-LUBE",
+      "scope": "CNC/加工设备",
+      "updatedAt": "2026-05-31",
+      "enabled": true,
+      "standards": [
+        { "id": "mi1-s1", "itemName": "主轴润滑检查", "standardName": "油位正常", "standard": "润滑油液位在标尺范围内，无乳化变色", "method": "目视+试运行", "tools": "润滑油", "required": "是" },
+        { "id": "mi1-s2", "itemName": "主轴润滑检查", "standardName": "运行无异响", "standard": "低速运行 3 分钟无异常噪声和振动", "method": "试运行", "tools": "听诊棒", "required": "是" }
+      ]
+    },
+    {
+      "id": "mi2",
+      "name": "导轨清洁防护",
+      "code": "MI-GUIDE-CLEAN",
+      "scope": "CNC/加工设备",
+      "updatedAt": "2026-05-31",
+      "enabled": true,
+      "standards": [
+        { "id": "mi2-s1", "itemName": "导轨清洁防护", "standardName": "无铁屑堆积", "standard": "导轨、防护罩和丝杆周边无铁屑堆积", "method": "清洁擦拭", "tools": "清洁布/毛刷", "required": "是" },
+        { "id": "mi2-s2", "itemName": "导轨清洁防护", "standardName": "防护罩完整", "standard": "防护罩无破损、卡滞和异常摩擦", "method": "目视检查", "tools": "手电", "required": "是" }
+      ]
+    },
+    {
+      "id": "mi3",
+      "name": "输送带张紧检查",
+      "code": "MI-BELT-TENSION",
+      "scope": "包装/输送设备",
+      "updatedAt": "2026-05-31",
+      "enabled": true,
+      "standards": [
+        { "id": "mi3-s1", "itemName": "输送带张紧检查", "standardName": "张紧适中", "standard": "输送带无跑偏，张紧度满足现场基准", "method": "点动试车", "tools": "张力计", "required": "是" },
+        { "id": "mi3-s2", "itemName": "输送带张紧检查", "standardName": "滚筒清洁", "standard": "滚筒表面无胶渍、无异物缠绕", "method": "目视检查", "tools": "清洁布", "required": "否" }
+      ]
+    }
+  ],
+  "maintenanceCycles": [
+    { "id": "mc1", "name": "月度保养", "code": "MONTHLY", "scope": "按月", "updatedAt": "2026-05-29", "enabled": true }
+  ],
+  "maintenanceWarnings": [
+    { "id": "mw1", "name": "逾期保养预警", "code": "OVERDUE", "scope": "计划日期超期未执行", "updatedAt": "2026-05-31", "enabled": true },
+    { "id": "mw2", "name": "提前预警天数", "code": "WARNING_DAYS", "scope": "按计划提前提醒", "updatedAt": "2026-05-31", "enabled": true }
+  ],
+  "faultCategories": [
+    { "id": "fc1", "name": "机械故障", "code": "MECH", "scope": "维修", "updatedAt": "2026-05-28", "enabled": true },
+    { "id": "fc2", "name": "动力故障", "code": "POWER", "scope": "维修", "updatedAt": "2026-05-28", "enabled": true }
+  ],
+  "repairLevels": [
+    { "id": "rl1", "name": "紧急", "code": "URGENT", "scope": "4小时响应", "updatedAt": "2026-05-28", "enabled": true },
+    { "id": "rl2", "name": "一般", "code": "NORMAL", "scope": "24小时响应", "updatedAt": "2026-05-28", "enabled": true }
+  ],
+  "inspectionStandards": [
+    { "id": "is1", "name": "CNC日点检标准", "code": "IS-CNC-D", "scope": "加工设备", "updatedAt": "2026-05-28", "enabled": true }
+  ],
+  "inspectionCycles": [
+    { "id": "ic1", "name": "日点检", "code": "DAILY", "scope": "每日", "updatedAt": "2026-05-28", "enabled": true }
+  ],
+  "safeStocks": [
+    { "id": "ss1", "name": "关键备件安全库存", "code": "SAFE-KEY", "scope": "低于安全库存预警", "updatedAt": "2026-05-27", "enabled": true }
+  ],
+  "spareCategories": [
+    { "id": "sc1", "name": "机械备件", "code": "MECH-SP", "parent": "备件", "updatedAt": "2026-05-27", "enabled": true },
+    { "id": "sc2", "name": "动力备件", "code": "POWER-SP", "parent": "备件", "updatedAt": "2026-05-27", "enabled": true }
+  ],
+  "approvals": [
+    {
+      "id": "ap2",
+      "name": "维修记录审批流程",
+      "category": "维修审批流程",
+      "nodes": [
+        { "name": "报修提交", "approvers": ["报修人"], "method": "自动" },
+        { "name": "维修主管确认", "approvers": ["维修主管"], "method": "顺签" }
+      ],
+      "creator": "系统管理员",
+      "updatedAt": "2026-05-30",
+      "enabled": true
+    }
+  ],
+  "strategies": [
+    {
+      "key": "maintenance",
+      "label": "保养策略",
+      "rows": [
+        { "key": "overdueWarning", "title": "逾期保养预警", "sub": "到期未执行进入预警列表", "type": "switch", "enabled": true }
+      ]
+    },
+    {
+      "key": "spares",
+      "label": "备件策略",
+      "rows": [
+        { "key": "stockLimit", "title": "禁止负库存", "sub": "设备中心内备件领用不能超过可用库存", "type": "switch", "enabled": true }
+      ]
+    }
+  ]
+}

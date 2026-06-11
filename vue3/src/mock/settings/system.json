@@ -1,0 +1,39 @@
+{
+  "company": {
+    "company": "海南傲为智慧科技有限公司",
+    "shortName": "海南傲为智慧",
+    "unifiedCode": "91460000MA5T000001",
+    "industry": "智能制造",
+    "contact": "老夏",
+    "phone": "0898-6688 0000",
+    "email": "admin@aowei.example",
+    "address": "海南省海口市龙华区智慧产业园 A 座",
+    "logoText": "傲"
+  },
+  "notifications": [
+    {
+      "id": "notice-site",
+      "channel": "站内通知",
+      "scene": "审批待办 / 系统公告 / 异常告警",
+      "rule": "实时推送，未读保留 90 天",
+      "receiver": "发起人、审批人、模块管理员",
+      "enabled": true
+    },
+    {
+      "id": "notice-sms",
+      "channel": "短信通知",
+      "scene": "登录异常 / 付款审批 / 发货异常",
+      "rule": "高风险事件立即发送，普通事件汇总发送",
+      "receiver": "负责人、部门主管",
+      "enabled": true
+    },
+    {
+      "id": "notice-mail",
+      "channel": "邮件通知",
+      "scene": "日报周报 / 导入导出结果 / 备份结果",
+      "rule": "按模板发送，失败自动重试 3 次",
+      "receiver": "订阅人、运维管理员",
+      "enabled": true
+    }
+  ]
+}

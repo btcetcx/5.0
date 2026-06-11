@@ -1,0 +1,315 @@
+[
+  {
+    "id": "scheme_sales",
+    "name": "销售薪资方案",
+    "code": "PAY-SCH-SALES",
+    "applicableScope": "销售中心 / 销售一部 / 销售二部",
+    "employeeScope": "销售经理、销售专员、客户代表",
+    "payCycle": "自然月",
+    "currency": "CNY",
+    "effectiveDate": "2026-05-01",
+    "owner": "财务复核",
+    "status": "启用",
+    "types": [
+      {
+        "id": "type_sales_fixed",
+        "schemeId": "scheme_sales",
+        "name": "固定薪酬",
+        "code": "PAY-TYPE-SALES-FIXED",
+        "direction": "应发",
+        "calcMethod": "按岗位等级取月固定标准",
+        "payoutTiming": "每月工资批次",
+        "owner": "王人事",
+        "status": "启用",
+        "items": [
+          {
+            "id": "item_sales_base",
+            "schemeId": "scheme_sales",
+            "typeId": "type_sales_fixed",
+            "name": "基本工资",
+            "code": "PAY-ITEM-BASE",
+            "direction": "应发",
+            "calcMethod": "岗位等级标准 * 出勤系数",
+            "formula": "P级基准工资 * 实际出勤天数 / 应出勤天数",
+            "taxable": true,
+            "socialBase": true,
+            "accountingSubject": "管理费用-工资",
+            "status": "启用",
+            "remark": "固定工资主体项"
+          },
+          {
+            "id": "item_sales_post",
+            "schemeId": "scheme_sales",
+            "typeId": "type_sales_fixed",
+            "name": "岗位津贴",
+            "code": "PAY-ITEM-POST",
+            "direction": "应发",
+            "calcMethod": "按岗位序列配置固定津贴",
+            "formula": "岗位津贴标准",
+            "taxable": true,
+            "socialBase": false,
+            "accountingSubject": "销售费用-工资",
+            "status": "启用",
+            "remark": "销售经理岗位适用"
+          }
+        ]
+      },
+      {
+        "id": "type_sales_variable",
+        "schemeId": "scheme_sales",
+        "name": "绩效提成",
+        "code": "PAY-TYPE-SALES-VAR",
+        "direction": "应发",
+        "calcMethod": "按业绩达成和回款确认计算",
+        "payoutTiming": "每月工资批次，可跨月追补",
+        "owner": "销售财务",
+        "status": "启用",
+        "items": [
+          {
+            "id": "item_sales_perf",
+            "schemeId": "scheme_sales",
+            "typeId": "type_sales_variable",
+            "name": "绩效工资",
+            "code": "PAY-ITEM-PERF",
+            "direction": "应发",
+            "calcMethod": "绩效基数 * 绩效系数",
+            "formula": "绩效基数 * 月度绩效系数",
+            "taxable": true,
+            "socialBase": false,
+            "accountingSubject": "销售费用-绩效",
+            "status": "启用",
+            "remark": "绩效系数来自绩效系统"
+          },
+          {
+            "id": "item_sales_commission",
+            "schemeId": "scheme_sales",
+            "typeId": "type_sales_variable",
+            "name": "销售提成",
+            "code": "PAY-ITEM-COMMISSION",
+            "direction": "应发",
+            "calcMethod": "确认回款额 * 提成比例",
+            "formula": "当月确认回款额 * 档位提成比例",
+            "taxable": true,
+            "socialBase": false,
+            "accountingSubject": "销售费用-提成",
+            "status": "启用",
+            "remark": "需回款确认后发放"
+          }
+        ]
+      },
+      {
+        "id": "type_sales_deduction",
+        "schemeId": "scheme_sales",
+        "name": "扣款项目",
+        "code": "PAY-TYPE-SALES-DEDUCT",
+        "direction": "应扣",
+        "calcMethod": "考勤、社保、公积金、个税汇总扣减",
+        "payoutTiming": "每月工资批次",
+        "owner": "财务复核",
+        "status": "启用",
+        "items": [
+          {
+            "id": "item_sales_attendance",
+            "schemeId": "scheme_sales",
+            "typeId": "type_sales_deduction",
+            "name": "考勤扣款",
+            "code": "PAY-ITEM-ATT-DEDUCT",
+            "direction": "应扣",
+            "calcMethod": "缺勤天数 * 日工资",
+            "formula": "月固定工资 / 应出勤天数 * 缺勤天数",
+            "taxable": false,
+            "socialBase": false,
+            "accountingSubject": "销售费用-工资冲减",
+            "status": "启用",
+            "remark": "来自考勤确认结果"
+          },
+          {
+            "id": "item_sales_tax",
+            "schemeId": "scheme_sales",
+            "typeId": "type_sales_deduction",
+            "name": "个人所得税",
+            "code": "PAY-ITEM-IIT",
+            "direction": "应扣",
+            "calcMethod": "按累计预扣预缴规则",
+            "formula": "累计应纳税所得额 * 税率 - 速算扣除 - 累计已预扣",
+            "taxable": false,
+            "socialBase": false,
+            "accountingSubject": "应交税费-个人所得税",
+            "status": "启用",
+            "remark": "由个税规则生成"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "scheme_rd",
+    "name": "研发薪资方案",
+    "code": "PAY-SCH-RD",
+    "applicableScope": "研发中心 / 研发一部 / 研发二部",
+    "employeeScope": "研发经理、前端工程师、后端工程师、测试工程师",
+    "payCycle": "自然月",
+    "currency": "CNY",
+    "effectiveDate": "2026-05-01",
+    "owner": "财务复核",
+    "status": "启用",
+    "types": [
+      {
+        "id": "type_rd_fixed",
+        "schemeId": "scheme_rd",
+        "name": "固定薪酬",
+        "code": "PAY-TYPE-RD-FIXED",
+        "direction": "应发",
+        "calcMethod": "按职级薪级取固定标准",
+        "payoutTiming": "每月工资批次",
+        "owner": "王人事",
+        "status": "启用",
+        "items": [
+          {
+            "id": "item_rd_base",
+            "schemeId": "scheme_rd",
+            "typeId": "type_rd_fixed",
+            "name": "基本工资",
+            "code": "PAY-ITEM-RD-BASE",
+            "direction": "应发",
+            "calcMethod": "薪级标准 * 出勤系数",
+            "formula": "薪级工资 * 实际出勤天数 / 应出勤天数",
+            "taxable": true,
+            "socialBase": true,
+            "accountingSubject": "研发费用-工资",
+            "status": "启用",
+            "remark": "研发固定工资主体项"
+          },
+          {
+            "id": "item_rd_project",
+            "schemeId": "scheme_rd",
+            "typeId": "type_rd_fixed",
+            "name": "项目津贴",
+            "code": "PAY-ITEM-RD-PROJECT",
+            "direction": "应发",
+            "calcMethod": "按项目角色和投入比例",
+            "formula": "项目津贴标准 * 项目投入比例",
+            "taxable": true,
+            "socialBase": false,
+            "accountingSubject": "研发费用-项目津贴",
+            "status": "启用",
+            "remark": "专项项目适用"
+          }
+        ]
+      },
+      {
+        "id": "type_rd_bonus",
+        "schemeId": "scheme_rd",
+        "name": "绩效奖金",
+        "code": "PAY-TYPE-RD-BONUS",
+        "direction": "应发",
+        "calcMethod": "按绩效等级和项目里程碑计算",
+        "payoutTiming": "月度预提，季度结算",
+        "owner": "研发财务",
+        "status": "启用",
+        "items": [
+          {
+            "id": "item_rd_perf",
+            "schemeId": "scheme_rd",
+            "typeId": "type_rd_bonus",
+            "name": "绩效奖金",
+            "code": "PAY-ITEM-RD-PERF",
+            "direction": "应发",
+            "calcMethod": "绩效基数 * 等级系数",
+            "formula": "绩效基数 * 绩效等级系数",
+            "taxable": true,
+            "socialBase": false,
+            "accountingSubject": "研发费用-绩效",
+            "status": "启用",
+            "remark": "绩效系统确认后发放"
+          },
+          {
+            "id": "item_rd_milestone",
+            "schemeId": "scheme_rd",
+            "typeId": "type_rd_bonus",
+            "name": "里程碑奖金",
+            "code": "PAY-ITEM-RD-MILE",
+            "direction": "应发",
+            "calcMethod": "里程碑奖金包 * 贡献系数",
+            "formula": "项目奖金包 * 个人贡献系数",
+            "taxable": true,
+            "socialBase": false,
+            "accountingSubject": "研发费用-项目奖金",
+            "status": "启用",
+            "remark": "项目验收后发放"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "scheme_function",
+    "name": "职能薪资方案",
+    "code": "PAY-SCH-FUNC",
+    "applicableScope": "财务部 / 人事部 / 行政团队",
+    "employeeScope": "会计、人事主管、行政专员",
+    "payCycle": "自然月",
+    "currency": "CNY",
+    "effectiveDate": "2026-05-01",
+    "owner": "财务复核",
+    "status": "草稿",
+    "types": [
+      {
+        "id": "type_func_fixed",
+        "schemeId": "scheme_function",
+        "name": "固定薪酬",
+        "code": "PAY-TYPE-FUNC-FIXED",
+        "direction": "应发",
+        "calcMethod": "按岗位等级和出勤计算",
+        "payoutTiming": "每月工资批次",
+        "owner": "王人事",
+        "status": "草稿",
+        "items": [
+          {
+            "id": "item_func_base",
+            "schemeId": "scheme_function",
+            "typeId": "type_func_fixed",
+            "name": "基本工资",
+            "code": "PAY-ITEM-FUNC-BASE",
+            "direction": "应发",
+            "calcMethod": "岗位等级标准 * 出勤系数",
+            "formula": "岗位工资 * 实际出勤天数 / 应出勤天数",
+            "taxable": true,
+            "socialBase": true,
+            "accountingSubject": "管理费用-工资",
+            "status": "草稿",
+            "remark": "职能人员固定工资"
+          }
+        ]
+      },
+      {
+        "id": "type_func_deduction",
+        "schemeId": "scheme_function",
+        "name": "法定扣款",
+        "code": "PAY-TYPE-FUNC-DEDUCT",
+        "direction": "应扣",
+        "calcMethod": "按社保、公积金、个税规则扣减",
+        "payoutTiming": "每月工资批次",
+        "owner": "财务复核",
+        "status": "草稿",
+        "items": [
+          {
+            "id": "item_func_social",
+            "schemeId": "scheme_function",
+            "typeId": "type_func_deduction",
+            "name": "社保公积金个人部分",
+            "code": "PAY-ITEM-FUNC-SOCIAL",
+            "direction": "应扣",
+            "calcMethod": "缴费基数 * 个人缴费比例",
+            "formula": "社保基数 * 社保个人比例 + 公积金基数 * 公积金个人比例",
+            "taxable": false,
+            "socialBase": false,
+            "accountingSubject": "其他应付款-社保公积金",
+            "status": "草稿",
+            "remark": "由社保方案生成"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "partners": [
+    { "id": "partner-printer", "name": "标签打印机", "type": "打印设备", "vendor": "斑马 Zebra", "product": "ZT411 工业标签打印机", "location": "仓储部", "method": "局域网 IP", "driver": "ZPL 打印协议", "endpoint": "192.168.10.42:9100", "purpose": "入库标签、库位标签、产品条码打印", "status": "已连接", "lastSync": "2026-05-31 08:20", "owner": "设备管理员" },
+    { "id": "partner-attendance", "name": "考勤机", "type": "考勤设备", "vendor": "中控智慧 ZKTeco", "product": "iFace702 人脸考勤机", "location": "人力资源部", "method": "TCP / SDK", "driver": "ZKAccess SDK", "endpoint": "192.168.20.18:4370", "purpose": "员工考勤记录采集、班次打卡同步", "status": "已连接", "lastSync": "2026-05-31 08:05", "owner": "人事管理员" },
+    { "id": "partner-scale", "name": "电子地磅", "type": "称重设备", "vendor": "梅特勒-托利多", "product": "IND570 称重仪表", "location": "仓储部", "method": "串口 / 网关", "driver": "Modbus RTU / TCP 网关", "endpoint": "COM3 / 192.168.30.21:502", "purpose": "收发货称重、过磅数据采集", "status": "连接异常", "lastSync": "2026-05-30 22:18", "owner": "仓储管理员" }
+  ],
+  "apiKeys": [
+    { "id": "api-open", "appName": "ERP Open App", "appKey": "AK-2026-001", "modules": "采购 / 销售 / 库存", "expireAt": "2026-12-31", "enabled": true },
+    { "id": "api-bi", "appName": "BI 数据应用", "appKey": "AK-2026-008", "modules": "报表 / 审计日志", "expireAt": "2026-09-30", "enabled": true },
+    { "id": "api-wms", "appName": "WMS 同步应用", "appKey": "AK-2026-011", "modules": "仓储 / 库存", "expireAt": "2026-10-31", "enabled": false }
+  ],
+  "syncTasks": [
+    { "id": "sync-customer", "name": "客户主数据同步", "direction": "双向同步", "object": "客户 / 联系人", "cycle": "每 30 分钟", "result": "成功 128 / 失败 0", "status": "运行中" },
+    { "id": "sync-stock", "name": "库存可用量同步", "direction": "ERP -> 电商", "object": "库存余额", "cycle": "每 10 分钟", "result": "成功 4,820 / 失败 2", "status": "运行中" },
+    { "id": "sync-pay", "name": "付款状态回写", "direction": "支付 -> ERP", "object": "付款单", "cycle": "实时触发", "result": "成功 86 / 失败 1", "status": "运行中" }
+  ]
+}

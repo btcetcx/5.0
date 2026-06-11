@@ -1,0 +1,72 @@
+:root {
+  --aw-primary: #2563eb;
+  --aw-primary-soft: #eff6ff;
+  --aw-bg: #f5f7fb;
+  --aw-surface: #ffffff;
+  --aw-border: #dfe5ef;
+  --aw-text: #1f2937;
+  --aw-muted: #667085;
+  --aw-success: #16a34a;
+  --aw-warning: #d97706;
+  --aw-danger: #dc2626;
+  --aw-sidebar: #172033;
+  --aw-sidebar-active: #23304a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 1180px;
+  background: var(--aw-bg);
+  color: var(--aw-text);
+  font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.aw-page {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.aw-card {
+  border: 1px solid var(--aw-border);
+  border-radius: 8px;
+  background: var(--aw-surface);
+}
+
+.aw-link {
+  color: var(--aw-primary);
+  cursor: pointer;
+}
+
+.aw-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.aw-status {
+  font-weight: 600;
+}
+
+.aw-status.green {
+  color: var(--aw-success);
+}
+
+.aw-status.blue {
+  color: var(--aw-primary);
+}
+
+.aw-status.yellow {
+  color: var(--aw-warning);
+}
+
+.aw-status.gray {
+  color: var(--aw-muted);
+}
