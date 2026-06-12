@@ -7,7 +7,19 @@
 
 ## 1. 访问结论
 
-本地站点首页会跳转到登录页：
+使用账号 `hongbin`、密码 `123456` 登录本地站点成功。登录后进入：
+
+```text
+http://localhost:8095/index-v4.html
+```
+
+登录后的企业名称显示为：
+
+```text
+天津宏观世纪企业
+```
+
+未登录时，本地站点首页会跳转到登录页：
 
 ```text
 http://localhost:8095/login.html#no-back
@@ -19,20 +31,66 @@ http://localhost:8095/login.html#no-back
 - 输入框：用户名、密码
 - 按钮：登录
 
-直接访问人力模块子页面：
+登录后主框架顶部菜单可见“人力管理”。展开后可见二级入口：
+
+| 二级入口 | 实测可见 |
+| --- | --- |
+| 员工管理 | 是 |
+| 人事审批 | 是 |
+| 考勤管理 | 是 |
+| 薪资管理 | 是 |
+| 账号管理 | 是 |
+| 组织机构 | 是 |
+| 劳动合同 | 是 |
+| 办公用品 | 是 |
+| 办公资产 | 是 |
+
+通过主框架菜单点击二级入口时，本次浏览器自动化未触发 iframe 切换，当前 iframe 仍停留在工作台：
+
+```text
+/v2/views/workbenches/index-v2.html
+```
+
+但在已登录状态下，直接访问各功能子页面本体可以正常渲染列表、查询项和字段。因此下面的功能分析已经结合登录后的页面实测和源码整理。
+
+需要注意：直接访问部分 `tab_index.html` 容器页仍不能完整渲染，例如：
 
 ```text
 http://localhost:8095/v2/views/manpowerManage/staffManagement/tab_index.html
 ```
 
-页面没有跳回登录页，但未能独立完整渲染。控制台报错显示旧页面依赖顶层框架上下文：
+这些 Tab 容器页依赖旧系统主框架上下文。控制台报错显示：
 
 ```text
 TypeError: appContext.menu.tabItems is not a function
 ReferenceError: getRootWindow is not defined
 ```
 
-因此，本次分析以源码为主要依据，实际访问结果用于确认：该模块必须在旧系统主框架、登录态、`appContext`、菜单权限上下文齐全时运行，不能像普通静态页面一样单独打开。
+因此，本次结论区分两类页面：
+
+- 功能本体页：如员工信息、组织管理、账号权限、考勤设置等，登录后可直接访问并渲染。
+- Tab 容器页：如 `staffManagement/tab_index.html`，依赖主框架 `appContext.menu.tabItems()`，不能脱离旧框架单独验证。
+
+### 1.1 登录后页面实测摘要
+
+| 页面 | 访问路径 | 实测结果 |
+| --- | --- | --- |
+| 员工信息 | `/v2/views/manpowerManage/staffManagement/staffInfo/index.html` | 可渲染，显示筛选项、分页、字段配置、导出、打印 |
+| 员工档案 | `/v2/views/manpowerManage/staffManagement/staffRecord/index.html` | 可渲染，显示员工档案字段 |
+| 离职员工 | `/v2/views/manpowerManage/staffManagement/staffDimission/index.html` | 可渲染，显示 5 条离职员工数据 |
+| 员工账号 | `/v2/views/manpowerManage/accountPermissions/loginAccount/index.html` | 可渲染，显示账号列表字段 |
+| 扫码注册 | `/v2/views/manpowerManage/accountPermissions/scanRegister/index.html` | 可渲染，显示微信扫码注册、有效时间、重新生成 |
+| 系统权限 | `/v2/views/manpowerManage/accountPermissions/permissionSetting/OpenSystemPermission.html` | 可渲染，显示完整系统菜单树和授权账号表格 |
+| 账号权限 | `/v2/views/manpowerManage/accountPermissions/permissionSetting/SetAccountPermission.html` | 可渲染，显示部门账号树、菜单树、复制他人权限、保存 |
+| 批量设置 | `/v2/views/manpowerManage/accountPermissions/permissionSetting/BatchSetPermission.html` | 可渲染，显示选择账号、选择权限、复制他人权限、保存 |
+| 超级管理员 | `/v2/views/manpowerManage/accountPermissions/permissionSetting/SetSuperAdministrator.html` | 可渲染，显示当前管理员账号，包括 `hongbin` |
+| 组织管理 | `/v2/views/manpowerManage/organization/organizationManage/index.html` | 可渲染，显示 23 条组织数据 |
+| 组织类型 | `/v2/views/manpowerManage/organization/organizationType/index.html` | 可渲染，当前列表 0 条 |
+| 岗位管理 | `/v2/views/manpowerManage/organization/postManage/index.html` | 可渲染，显示岗位列表字段 |
+| 员工合同 | `/v2/views/manpowerManage/contracManagement/employeeContrac/index.html` | 可渲染，显示员工合同字段 |
+| 合同模板 | `/v2/views/manpowerManage/contracManagement/contractTemplate/index.html` | 可渲染，显示合同模板字段 |
+| 固定资产 | `/v2/views/manpowerManage/assetsManagement/fixedAssets/index.html` | 可渲染，显示固定资产字段 |
+| 办公用品 | `/v2/views/manpowerManage/officeSupplies/supplies_tab.html` | 可渲染，显示 1 条办公用品分页信息 |
 
 ## 2. 模块总览
 
@@ -110,6 +168,14 @@ staffManagement/staffInfo/staff_info_edit_log.html
 - 支持同步员工到考勤机。
 - 支持查看或打开员工信息修改记录。
 - 支持离职登记。
+
+登录后实测字段：
+
+| 页面 | 实测查询/操作 | 实测列表字段 |
+| --- | --- | --- |
+| 员工信息 | 员工姓名、手机号码、部门、工作状态、入职日期开始/结束、下载导入模板 | 序号、姓名、性别、手机号、部门岗位、入职时间、在职状态、系统账号、员工编号、操作 |
+| 员工档案 | 员工姓名、手机号码、部门、工作状态、入职日期开始/结束 | 序号、姓名、性别、手机号、生日、最高学历、现住地址、身份证、工资卡号、操作 |
+| 离职员工 | 员工姓名 | 序号、姓名、性别、手机号、部门岗位、离职时间、离职原因、操作 |
 
 入职登记字段：
 
@@ -206,6 +272,14 @@ organization/organizationManage/post_setting.html
 - 支持部门关联岗位。
 - 支持同步钉钉/得力部门类外部组织数据。
 
+登录后实测：
+
+- 组织管理页显示查询项“组织名称”。
+- 支持“全部展开”。
+- 当前显示共 23 条组织数据。
+- 列表字段为：组织名称、组织类型、负责人、组织状态、手机号、邮箱、排序、备注、操作。
+- 可见组织示例包括：销售部、海口、三亚等。
+
 ### 5.2 组织类型
 
 源码入口：
@@ -227,6 +301,8 @@ organization/organizationType/create_edit.html
 
 - 维护组织分类字典。
 - 供组织新增/编辑页面选择组织类型。
+
+登录后实测字段：序号、类型名称、排序、操作。
 
 ### 5.3 岗位管理
 
@@ -251,6 +327,8 @@ organization/postManage/create_edit.html
 - 岗位列表、岗位新增/编辑、删除。
 - 岗位详情里包含岗位职责或任职要求类信息。
 - 岗位与组织存在关联配置，用于员工入职、权限、审批、薪资规则等下游功能。
+
+登录后实测字段：序号、岗位名称、岗位标识、岗位状态、岗位描述、操作。
 
 ## 6. 账号与权限
 
@@ -296,6 +374,13 @@ accountPermissions/loginAccount/relevancy_company.html
 - 已关联的企业
 - 创建时间
 - 操作
+
+登录后实测：
+
+- 员工账号页显示查询项“账号或姓名”。
+- 工具区显示字段配置、导出、打印。
+- 列表字段为：序号、账号、姓名、性别、手机号、身份证、状态、已关联的企业、创建时间、操作。
+- 当前账号 `hongbin` 在超级管理员页面可见，用户名显示 `hongbin`，姓名显示 `袁志刚`。
 
 账号新增字段：
 
@@ -367,6 +452,12 @@ accountPermissions/permissionSetting/OpenSystemPermission.html
 - 这是按“系统功能菜单”开通账号访问资格的入口。
 - 它更接近“菜单级授权”或“功能开通”，不是字段权限或数据权限。
 
+登录后实测：
+
+- 左侧系统树包含多个应用系统，例如“傲为智慧综合运营系统”“分路综合运营系统v3.2”“分路综合运营系统v4.0”等。
+- 系统树中可见完整人力管理菜单节点：员工管理、员工信息、员工档案、离职员工、组织机构、组织管理、组织类型、岗位管理、账号权限、登录账号、扫码注册、权限设置、人事审批、审批管理、转正申请、离职申请、审批人设置、劳动合同、员工合同、合同模板、历史合同、办公资产、固定资产、资产交接、资产类型、考勤管理、考勤设置、考勤信息、薪资管理、员工薪资、薪资规则设置、薪资规则审批、薪资结算申请、薪资结算复核、待付款薪资、已支付薪资、薪资计算公式。
+- 右侧授权账号表字段为：账号、姓名、部门、手机号、操作权限、删除。
+
 ### 6.4 账号权限
 
 源码入口：
@@ -392,6 +483,14 @@ accountPermissions/permissionSetting/SetAccountPermission.html
 - 支持勾选菜单权限。
 - 支持保存账号权限。
 - 支持“复制他人权限”。
+
+登录后实测：
+
+- 左侧部门账号树显示企业与部门/账号，例如天津宏观世纪企业、销售部、三亚、海口，以及多名员工账号。
+- 右侧标题为“已开通权限”。
+- 操作按钮包括“复制他人权限”“保存”。
+- 权限明细表字段为：应用系统、功能菜单、操作按钮。
+- 当前未选中具体账号时，权限明细表显示无数据。
 
 功能判断：
 
@@ -419,6 +518,13 @@ accountPermissions/permissionSetting/BatchSetPermission.html
 - 页面结构与账号权限类似，同样围绕账号树、菜单树、按钮权限明细。
 - 适合新部门、新岗位、新员工批量开通系统菜单。
 
+登录后实测：
+
+- 页面左侧区域标题为“选择账号”。
+- 右侧区域标题为“选择权限”。
+- 操作按钮包括“复制他人权限”“保存”。
+- 权限明细表字段为：应用系统、功能菜单、操作按钮。
+
 ### 6.6 超级管理员
 
 源码入口：
@@ -443,6 +549,14 @@ accountPermissions/permissionSetting/set_super_popup.html
 - 用户姓名
 - 部门岗位
 - 操作
+
+登录后实测：
+
+| 用户账号 | 用户姓名 | 操作 |
+| --- | --- | --- |
+| `konghaifeng` | 孔海风 | 删除 |
+| `yaotiancheng` | 姚天成 | 删除 |
+| `hongbin` | 袁志刚 | 删除 |
 
 功能能力：
 
