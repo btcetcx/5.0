@@ -969,7 +969,7 @@ export const topNavItems: TopNavItem[] = [
         { title: '薪酬设置', items: ['薪酬自定义字段', '薪酬自定义编号', '薪酬审批设置', '薪酬策略设置', '设置薪酬打印模板'] },
       ]),
       jsxSideItem('hrArchive', '档案管理', '/hr/archives', [
-        { title: '档案管理', items: ['档案列表', '合同档案', '证件档案'] },
+        { title: '档案管理', items: ['员工档案', '档案列表', '合同档案', '证件档案'] },
         { title: '档案设置', items: ['档案自定义字段', '档案自定义编号', '档案审批设置', '档案策略设置', '设置档案打印模板'] },
       ]),
       jsxSideItem('hrOffice', '人事办公', '/hr/office', [

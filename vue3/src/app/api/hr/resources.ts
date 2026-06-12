@@ -3,6 +3,7 @@ import { request } from '@/app/request/http';
 import type { HrActionResult, HrModuleConfig, HrPickerData, HrRecord, HrResource, HrSettings } from './types';
 import attendance from '@/mock/hr/attendance.json';
 import archives from '@/mock/hr/archives.json';
+import employeeArchives from '@/mock/hr/employee-archives.json';
 import employees from '@/mock/hr/employees.json';
 import office from '@/mock/hr/office.json';
 import orgs from '@/mock/hr/orgs.json';
@@ -12,7 +13,7 @@ import positions from '@/mock/hr/positions.json';
 import schedules from '@/mock/hr/schedules.json';
 import settings from '@/mock/hr/settings.json';
 import { hrCodeCandidates } from '@/views/hr/hrResource.config';
-import type { HrPayrollScheme } from './types';
+import type { HrEmployeeArchive, HrPayrollScheme } from './types';
 
 type HrMode = 'mock' | 'remote';
 
@@ -28,6 +29,7 @@ const mockMap: Record<HrResource, HrRecord[]> = {
 };
 
 let payrollStructureState: HrPayrollScheme[] = structuredClone(payrollStructure as HrPayrollScheme[]);
+let employeeArchiveState: HrEmployeeArchive[] = structuredClone(employeeArchives as HrEmployeeArchive[]);
 
 const actionLogs: Record<HrResource, HrActionResult[]> = {
   'hr-employees': [],
@@ -146,6 +148,57 @@ export function batchHrAction(resource: HrResource, ids: string[], action: 'subm
 export function listHrActionLogs(resource: HrResource, id?: string) {
   const logs = id ? actionLogs[resource].filter((item) => item.id === id) : actionLogs[resource];
   return Promise.resolve(logs.map((item) => ({ ...item })));
+}
+
+export function listHrEmployeeArchives(query?: ListQuery, mode: HrMode = 'mock') {
+  if (mode === 'mock') return Promise.resolve(toPageResult(employeeArchiveState as unknown as Record<string, unknown>[], query) as unknown as PageResult<HrEmployeeArchive>);
+  return request<PageResult<HrEmployeeArchive>>({ url: '/api/v1/hr/employee-archives', method: 'GET', params: query });
+}
+
+export function getHrEmployeeArchive(id: string, mode: HrMode = 'mock') {
+  if (mode === 'mock') {
+    const archive = employeeArchiveState.find((item) => item.id === id || item.employeeId === id || item.workNo === id) || employeeArchiveState[0];
+    return Promise.resolve(structuredClone(archive));
+  }
+  return request<HrEmployeeArchive>({ url: `/api/v1/hr/employee-archives/${id}`, method: 'GET' });
+}
+
+export function updateHrEmployeeArchive(id: string, data: Partial<HrEmployeeArchive>, mode: HrMode = 'mock') {
+  if (mode === 'mock') {
+    const index = employeeArchiveState.findIndex((item) => item.id === id || item.employeeId === id || item.workNo === id);
+    const current = employeeArchiveState[index >= 0 ? index : 0];
+    const next: HrEmployeeArchive = {
+      ...current,
+      ...structuredClone(data),
+      id: current.id,
+      contracts: current.contracts,
+      materials: data.materials ?? current.materials,
+      assets: current.assets,
+      operationLogs: [
+        {
+          id: `log_${Date.now()}`,
+          action: '修改',
+          operator: '王人事',
+          operatedAt: '2026-06-12 10:00',
+          remark: '保存员工档案主体与经历信息',
+        },
+        ...current.operationLogs,
+      ],
+    };
+    employeeArchiveState.splice(index >= 0 ? index : 0, 1, next);
+    return Promise.resolve(structuredClone(next));
+  }
+  return request<HrEmployeeArchive>({ url: `/api/v1/hr/employee-archives/${id}`, method: 'PATCH', data });
+}
+
+export function exportHrEmployeeArchive(id: string, mode: HrMode = 'mock') {
+  if (mode === 'mock') return Promise.resolve({ id, resource: 'hr-archives' as HrResource, action: 'export', operatedAt: '2026-06-12 10:00', message: '员工档案导出任务已生成' });
+  return request<HrActionResult>({ url: `/api/v1/hr/employee-archives/${id}/export`, method: 'POST' });
+}
+
+export function printHrEmployeeArchive(id: string, mode: HrMode = 'mock') {
+  if (mode === 'mock') return Promise.resolve({ id, resource: 'hr-archives' as HrResource, action: 'print', operatedAt: '2026-06-12 10:00', message: '员工档案打印任务已生成' });
+  return request<HrActionResult>({ url: `/api/v1/hr/employee-archives/${id}/print`, method: 'POST' });
 }
 
 export function getHrSettings(config: HrModuleConfig, mode: HrMode = 'mock') {

@@ -5,6 +5,20 @@
     :setting-key="settingKey"
   />
 
+  <hr-employee-archive-edit-page
+    v-else-if="isEmployeeArchiveEditView"
+    :record-id="recordId"
+  />
+
+  <hr-employee-archive-detail-page
+    v-else-if="isEmployeeArchiveDetailView"
+    :record-id="recordId"
+  />
+
+  <hr-employee-archive-list-page
+    v-else-if="isEmployeeArchiveListView"
+  />
+
   <hr-job-description-create-page
     v-else-if="isJobDescriptionCreateView"
   />
@@ -57,6 +71,9 @@ import HrActionList from './components/HrActionList.vue';
 import HrAnnouncementCreatePage from './components/HrAnnouncementCreatePage.vue';
 import HrCreatePage from './components/HrCreatePage.vue';
 import HrDetailPage from './components/HrDetailPage.vue';
+import HrEmployeeArchiveDetailPage from './components/HrEmployeeArchiveDetailPage.vue';
+import HrEmployeeArchiveEditPage from './components/HrEmployeeArchiveEditPage.vue';
+import HrEmployeeArchiveListPage from './components/HrEmployeeArchiveListPage.vue';
 import HrJobDescriptionCreatePage from './components/HrJobDescriptionCreatePage.vue';
 import HrListView from './components/HrListView.vue';
 import HrOfficeApplicationCreatePage from './components/HrOfficeApplicationCreatePage.vue';
@@ -89,6 +106,9 @@ const isCreateView = computed(() => actionLabel.value === 'new' || /^(新增|添
 const isJobDescriptionCreateView = computed(() => moduleKey.value === 'positions' && actionLabel.value === '新增岗位说明书');
 const isAnnouncementCreateView = computed(() => moduleKey.value === 'office' && actionLabel.value === '发布公告');
 const isOfficeApplicationCreateView = computed(() => moduleKey.value === 'office' && (actionLabel.value === 'new' || actionLabel.value === '新增办公申请'));
+const isEmployeeArchiveListView = computed(() => moduleKey.value === 'archives' && actionLabel.value === '员工档案' && !recordId.value);
+const isEmployeeArchiveDetailView = computed(() => moduleKey.value === 'archives' && actionLabel.value === '员工档案' && Boolean(recordId.value));
+const isEmployeeArchiveEditView = computed(() => moduleKey.value === 'archives' && actionLabel.value === '员工档案编辑' && Boolean(recordId.value));
 const isDetailView = computed(() => (
   Boolean(recordId.value)
   || (moduleKey.value !== 'payroll' && /详情|明细/.test(actionLabel.value))

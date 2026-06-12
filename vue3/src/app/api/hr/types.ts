@@ -143,6 +143,141 @@ export interface HrActionResult {
   message: string;
 }
 
+export interface HrEmergencyContact {
+  id: string;
+  name: string;
+  mobile: string;
+  relation: string;
+}
+
+export interface HrEducationExperience {
+  id: string;
+  period: string;
+  educationLevel: string;
+  schoolName: string;
+  majorName: string;
+  schoolType: string;
+  enrollmentType: string;
+  diploma: string;
+  degreeCert: string;
+}
+
+export interface HrWorkExperience {
+  id: string;
+  period: string;
+  companyName: string;
+  jobDescription: string;
+  workDescription: string;
+}
+
+export interface HrProjectExperience {
+  id: string;
+  period: string;
+  projectName: string;
+  projectDescription: string;
+}
+
+export interface HrPersonalSkill {
+  id: string;
+  skillName: string;
+  skillLevel: string;
+}
+
+export interface HrPersonalHonor {
+  id: string;
+  honorName: string;
+  obtainTime: string;
+  honorDescription: string;
+  certificatePhoto: string;
+}
+
+export interface HrEmployeeContract {
+  id: string;
+  version: string;
+  contractType: string;
+  startTime: string;
+  endTime: string;
+  attachment: string;
+}
+
+export interface HrEmployeeMaterial {
+  id: string;
+  name: string;
+  type: string;
+  date: string;
+  remark?: string;
+}
+
+export interface HrEmployeeAsset {
+  id: string;
+  assetCode: string;
+  assetName: string;
+  specification: string;
+  assetType: string;
+  assetStatus: string;
+  remark: string;
+}
+
+export interface HrEmployeeArchiveLog {
+  id: string;
+  action: string;
+  operator: string;
+  operatedAt: string;
+  remark: string;
+}
+
+export interface HrEmployeeArchive {
+  id: string;
+  employeeId: string;
+  workNo: string;
+  name: string;
+  sex: string;
+  mobile: string;
+  birthday: string;
+  departmentId: string;
+  departmentName: string;
+  departmentIds: string[];
+  postId: string;
+  postName: string;
+  leader: string;
+  leaderName: string;
+  entryTime: string;
+  dayOfTrial: number;
+  regularTime: string;
+  leaveTime: string;
+  workStatus: 0 | 1 | 2;
+  workStatusText: string;
+  trialSalary: number;
+  salary: number;
+  photo: string;
+  cardType: string;
+  idCard: string;
+  nowAddress: string;
+  bankAccountNo: string;
+  bankBranch: string;
+  nation: string;
+  native: string;
+  yearsOfWorkExperience: string;
+  qualification: string;
+  weichatCode: string;
+  email: string;
+  qqNumber: string;
+  maritalStatus: string;
+  personalProfile: string;
+  idCardFrontImgPath: string;
+  idCardReverseImgPath: string;
+  emergencyContacts: HrEmergencyContact[];
+  educationalBackgrounds: HrEducationExperience[];
+  workExperiences: HrWorkExperience[];
+  projectExperiences: HrProjectExperience[];
+  personalSkills: HrPersonalSkill[];
+  personalHonors: HrPersonalHonor[];
+  contracts: HrEmployeeContract[];
+  materials: HrEmployeeMaterial[];
+  assets: HrEmployeeAsset[];
+  operationLogs: HrEmployeeArchiveLog[];
+}
+
 export interface HrPayrollItem {
   id: string;
   schemeId: string;
