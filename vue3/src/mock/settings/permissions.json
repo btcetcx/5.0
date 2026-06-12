@@ -145,5 +145,399 @@
       "bomScope": "本人维护 BOM 与替代料",
       "enabled": true
     }
+  ],
+  "accountTree": [
+    {
+      "id": "dept-admin",
+      "key": "dept-admin",
+      "label": "总经办",
+      "type": "department",
+      "children": [
+        {
+          "id": "acct-001",
+          "key": "acct-001",
+          "label": "admin / 林总",
+          "type": "account",
+          "accountId": "acct-001",
+          "userName": "admin",
+          "fullName": "林总",
+          "departmentName": "总经办",
+          "postName": "总经理",
+          "mobile": "13800000001"
+        },
+        {
+          "id": "acct-002",
+          "key": "acct-002",
+          "label": "ops.li / 李运营",
+          "type": "account",
+          "accountId": "acct-002",
+          "userName": "ops.li",
+          "fullName": "李运营",
+          "departmentName": "总经办",
+          "postName": "运营负责人",
+          "mobile": "13800000002"
+        }
+      ]
+    },
+    {
+      "id": "dept-hr",
+      "key": "dept-hr",
+      "label": "人力资源部",
+      "type": "department",
+      "children": [
+        {
+          "id": "acct-003",
+          "key": "acct-003",
+          "label": "hr.zhang / 张人事",
+          "type": "account",
+          "accountId": "acct-003",
+          "userName": "hr.zhang",
+          "fullName": "张人事",
+          "departmentName": "人力资源部",
+          "postName": "人事主管",
+          "mobile": "13800000003"
+        },
+        {
+          "id": "acct-004",
+          "key": "acct-004",
+          "label": "pay.wang / 王薪资",
+          "type": "account",
+          "accountId": "acct-004",
+          "userName": "pay.wang",
+          "fullName": "王薪资",
+          "departmentName": "人力资源部",
+          "postName": "薪资专员",
+          "mobile": "13800000004"
+        }
+      ]
+    },
+    {
+      "id": "dept-rd",
+      "key": "dept-rd",
+      "label": "研发中心",
+      "type": "department",
+      "children": [
+        {
+          "id": "acct-005",
+          "key": "acct-005",
+          "label": "rd.chen / 陈研发",
+          "type": "account",
+          "accountId": "acct-005",
+          "userName": "rd.chen",
+          "fullName": "陈研发",
+          "departmentName": "研发中心",
+          "postName": "研发主管",
+          "mobile": "13800000005"
+        },
+        {
+          "id": "acct-006",
+          "key": "acct-006",
+          "label": "rd.zhao / 赵工程师",
+          "type": "account",
+          "accountId": "acct-006",
+          "userName": "rd.zhao",
+          "fullName": "赵工程师",
+          "departmentName": "研发中心",
+          "postName": "研发工程师",
+          "mobile": "13800000006"
+        }
+      ]
+    },
+    {
+      "id": "dept-finance",
+      "key": "dept-finance",
+      "label": "财务中心",
+      "type": "department",
+      "children": [
+        {
+          "id": "acct-007",
+          "key": "acct-007",
+          "label": "fin.liu / 刘会计",
+          "type": "account",
+          "accountId": "acct-007",
+          "userName": "fin.liu",
+          "fullName": "刘会计",
+          "departmentName": "财务中心",
+          "postName": "总账会计",
+          "mobile": "13800000007"
+        }
+      ]
+    }
+  ],
+  "permissionTree": [
+    {
+      "id": "platform-system",
+      "key": "platform-system",
+      "label": "系统设置",
+      "type": "platform",
+      "platformId": "system",
+      "children": [
+        {
+          "id": "menu-system-permissions",
+          "key": "menu-system-permissions",
+          "label": "权限管理",
+          "type": "menu",
+          "platformId": "system",
+          "menuId": "settings.permissions",
+          "children": [
+            { "id": "btn-system-permissions-view", "key": "settings.permissions:view", "label": "查看", "type": "button", "platformId": "system", "menuId": "settings.permissions", "buttonSign": "view" },
+            { "id": "btn-system-permissions-create", "key": "settings.permissions:create", "label": "新增", "type": "button", "platformId": "system", "menuId": "settings.permissions", "buttonSign": "create" },
+            { "id": "btn-system-permissions-edit", "key": "settings.permissions:edit", "label": "编辑", "type": "button", "platformId": "system", "menuId": "settings.permissions", "buttonSign": "edit" },
+            { "id": "btn-system-permissions-delete", "key": "settings.permissions:delete", "label": "删除", "type": "button", "platformId": "system", "menuId": "settings.permissions", "buttonSign": "delete" },
+            { "id": "btn-system-permissions-export", "key": "settings.permissions:export", "label": "导出", "type": "button", "platformId": "system", "menuId": "settings.permissions", "buttonSign": "export" }
+          ]
+        },
+        {
+          "id": "menu-system-security",
+          "key": "menu-system-security",
+          "label": "安全中心",
+          "type": "menu",
+          "platformId": "system",
+          "menuId": "settings.security",
+          "children": [
+            { "id": "btn-system-security-view", "key": "settings.security:view", "label": "查看", "type": "button", "platformId": "system", "menuId": "settings.security", "buttonSign": "view" },
+            { "id": "btn-system-security-edit", "key": "settings.security:edit", "label": "编辑", "type": "button", "platformId": "system", "menuId": "settings.security", "buttonSign": "edit" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "platform-hr",
+      "key": "platform-hr",
+      "label": "人力资源",
+      "type": "platform",
+      "platformId": "hr",
+      "children": [
+        {
+          "id": "menu-hr-account",
+          "key": "menu-hr-account",
+          "label": "账号权限",
+          "type": "menu",
+          "platformId": "hr",
+          "children": [
+            {
+              "id": "menu-hr-account-permissions",
+              "key": "menu-hr-account-permissions",
+              "label": "权限设置",
+              "type": "menu",
+              "platformId": "hr",
+              "menuId": "hr.account.permissions",
+              "children": [
+                { "id": "btn-hr-account-permissions-view", "key": "hr.account.permissions:view", "label": "查看", "type": "button", "platformId": "hr", "menuId": "hr.account.permissions", "buttonSign": "view" },
+                { "id": "btn-hr-account-permissions-save", "key": "hr.account.permissions:save", "label": "保存", "type": "button", "platformId": "hr", "menuId": "hr.account.permissions", "buttonSign": "save" },
+                { "id": "btn-hr-account-permissions-delete", "key": "hr.account.permissions:delete", "label": "删除", "type": "button", "platformId": "hr", "menuId": "hr.account.permissions", "buttonSign": "delete" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "menu-hr-employee-root",
+          "key": "menu-hr-employee-root",
+          "label": "员工管理",
+          "type": "menu",
+          "platformId": "hr",
+          "children": [
+            {
+              "id": "menu-hr-employee-info",
+              "key": "menu-hr-employee-info",
+              "label": "员工信息",
+              "type": "menu",
+              "platformId": "hr",
+              "menuId": "hr.employee.info",
+              "children": [
+                { "id": "btn-hr-employee-info-view", "key": "hr.employee.info:view", "label": "查看", "type": "button", "platformId": "hr", "menuId": "hr.employee.info", "buttonSign": "view" },
+                { "id": "btn-hr-employee-info-create", "key": "hr.employee.info:create", "label": "新增", "type": "button", "platformId": "hr", "menuId": "hr.employee.info", "buttonSign": "create" },
+                { "id": "btn-hr-employee-info-edit", "key": "hr.employee.info:edit", "label": "编辑", "type": "button", "platformId": "hr", "menuId": "hr.employee.info", "buttonSign": "edit" }
+              ]
+            },
+            {
+              "id": "menu-hr-employee-archive",
+              "key": "menu-hr-employee-archive",
+              "label": "员工档案",
+              "type": "menu",
+              "platformId": "hr",
+              "menuId": "hr.employee.archive",
+              "children": [
+                { "id": "btn-hr-employee-archive-view", "key": "hr.employee.archive:view", "label": "查看", "type": "button", "platformId": "hr", "menuId": "hr.employee.archive", "buttonSign": "view" },
+                { "id": "btn-hr-employee-archive-export", "key": "hr.employee.archive:export", "label": "导出", "type": "button", "platformId": "hr", "menuId": "hr.employee.archive", "buttonSign": "export" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "menu-hr-attendance",
+          "key": "menu-hr-attendance",
+          "label": "考勤管理",
+          "type": "menu",
+          "platformId": "hr",
+          "menuId": "hr.attendance",
+          "children": [
+            { "id": "btn-hr-attendance-view", "key": "hr.attendance:view", "label": "查看", "type": "button", "platformId": "hr", "menuId": "hr.attendance", "buttonSign": "view" },
+            { "id": "btn-hr-attendance-edit", "key": "hr.attendance:edit", "label": "编辑", "type": "button", "platformId": "hr", "menuId": "hr.attendance", "buttonSign": "edit" },
+            { "id": "btn-hr-attendance-export", "key": "hr.attendance:export", "label": "导出", "type": "button", "platformId": "hr", "menuId": "hr.attendance", "buttonSign": "export" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "platform-payroll",
+      "key": "platform-payroll",
+      "label": "薪资管理",
+      "type": "platform",
+      "platformId": "payroll",
+      "children": [
+        {
+          "id": "menu-payroll-sheets",
+          "key": "menu-payroll-sheets",
+          "label": "工资列表",
+          "type": "menu",
+          "platformId": "payroll",
+          "menuId": "payroll.sheets",
+          "children": [
+            { "id": "btn-payroll-sheets-view", "key": "payroll.sheets:view", "label": "查看", "type": "button", "platformId": "payroll", "menuId": "payroll.sheets", "buttonSign": "view" },
+            { "id": "btn-payroll-sheets-create", "key": "payroll.sheets:create", "label": "新增", "type": "button", "platformId": "payroll", "menuId": "payroll.sheets", "buttonSign": "create" },
+            { "id": "btn-payroll-sheets-approve", "key": "payroll.sheets:approve", "label": "审批", "type": "button", "platformId": "payroll", "menuId": "payroll.sheets", "buttonSign": "approve" },
+            { "id": "btn-payroll-sheets-export", "key": "payroll.sheets:export", "label": "导出", "type": "button", "platformId": "payroll", "menuId": "payroll.sheets", "buttonSign": "export" }
+          ]
+        }
+      ]
+    }
+  ],
+  "accountPermissions": [
+    {
+      "id": "ap-001",
+      "accountId": "acct-001",
+      "userName": "admin",
+      "fullName": "林总",
+      "departmentName": "总经办",
+      "mobile": "13800000001",
+      "platformId": "system",
+      "platformName": "系统设置",
+      "menuId": "settings.permissions",
+      "menuName": "权限管理",
+      "buttonKeys": ["settings.permissions:view", "settings.permissions:create", "settings.permissions:edit", "settings.permissions:delete", "settings.permissions:export"],
+      "buttonNames": ["查看", "新增", "编辑", "删除", "导出"]
+    },
+    {
+      "id": "ap-002",
+      "accountId": "acct-002",
+      "userName": "ops.li",
+      "fullName": "李运营",
+      "departmentName": "总经办",
+      "mobile": "13800000002",
+      "platformId": "system",
+      "platformName": "系统设置",
+      "menuId": "settings.permissions",
+      "menuName": "权限管理",
+      "buttonKeys": ["settings.permissions:view", "settings.permissions:edit", "settings.permissions:export"],
+      "buttonNames": ["查看", "编辑", "导出"]
+    },
+    {
+      "id": "ap-003",
+      "accountId": "acct-003",
+      "userName": "hr.zhang",
+      "fullName": "张人事",
+      "departmentName": "人力资源部",
+      "mobile": "13800000003",
+      "platformId": "hr",
+      "platformName": "人力资源",
+      "menuId": "hr.employee.info",
+      "menuName": "员工信息",
+      "buttonKeys": ["hr.employee.info:view", "hr.employee.info:create", "hr.employee.info:edit"],
+      "buttonNames": ["查看", "新增", "编辑"]
+    },
+    {
+      "id": "ap-004",
+      "accountId": "acct-004",
+      "userName": "pay.wang",
+      "fullName": "王薪资",
+      "departmentName": "人力资源部",
+      "mobile": "13800000004",
+      "platformId": "payroll",
+      "platformName": "薪资管理",
+      "menuId": "payroll.sheets",
+      "menuName": "工资列表",
+      "buttonKeys": ["payroll.sheets:view", "payroll.sheets:create", "payroll.sheets:approve", "payroll.sheets:export"],
+      "buttonNames": ["查看", "新增", "审批", "导出"]
+    },
+    {
+      "id": "ap-007",
+      "accountId": "acct-003",
+      "userName": "hr.zhang",
+      "fullName": "张人事",
+      "departmentName": "人力资源部",
+      "mobile": "13800000003",
+      "platformId": "hr",
+      "platformName": "人力资源",
+      "menuId": "hr.employee.archive",
+      "menuName": "员工档案",
+      "buttonKeys": ["hr.employee.archive:view", "hr.employee.archive:export"],
+      "buttonNames": ["查看", "导出"]
+    },
+    {
+      "id": "ap-008",
+      "accountId": "acct-001",
+      "userName": "admin",
+      "fullName": "林总",
+      "departmentName": "总经办",
+      "mobile": "13800000001",
+      "platformId": "hr",
+      "platformName": "人力资源",
+      "menuId": "hr.account.permissions",
+      "menuName": "权限设置",
+      "buttonKeys": ["hr.account.permissions:view", "hr.account.permissions:save", "hr.account.permissions:delete"],
+      "buttonNames": ["查看", "保存", "删除"]
+    },
+    {
+      "id": "ap-005",
+      "accountId": "acct-005",
+      "userName": "rd.chen",
+      "fullName": "陈研发",
+      "departmentName": "研发中心",
+      "mobile": "13800000005",
+      "platformId": "system",
+      "platformName": "系统设置",
+      "menuId": "settings.security",
+      "menuName": "安全中心",
+      "buttonKeys": ["settings.security:view", "settings.security:edit"],
+      "buttonNames": ["查看", "编辑"]
+    },
+    {
+      "id": "ap-006",
+      "accountId": "acct-006",
+      "userName": "rd.zhao",
+      "fullName": "赵工程师",
+      "departmentName": "研发中心",
+      "mobile": "13800000006",
+      "platformId": "hr",
+      "platformName": "人力资源",
+      "menuId": "hr.attendance",
+      "menuName": "考勤管理",
+      "buttonKeys": ["hr.attendance:view", "hr.attendance:export"],
+      "buttonNames": ["查看", "导出"]
+    }
+  ],
+  "superAdmins": [
+    {
+      "id": "sa-001",
+      "accountId": "acct-001",
+      "userName": "admin",
+      "name": "林总",
+      "deptAndPost": "总经办 / 总经理"
+    },
+    {
+      "id": "sa-002",
+      "accountId": "acct-002",
+      "userName": "ops.li",
+      "name": "李运营",
+      "deptAndPost": "总经办 / 运营负责人"
+    },
+    {
+      "id": "sa-003",
+      "accountId": "acct-005",
+      "userName": "rd.chen",
+      "name": "陈研发",
+      "deptAndPost": "研发中心 / 研发主管"
+    }
   ]
 }

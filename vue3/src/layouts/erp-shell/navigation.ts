@@ -942,7 +942,7 @@ export const topNavItems: TopNavItem[] = [
     sideItems: [
       jsxSideItem('workbench', '工作台', '/hr'),
       jsxSideItem('hrEmployee', '员工管理', '/hr/employees', [
-        { title: '员工管理', items: ['新增员工', '员工列表', '转正管理', '离职管理'] },
+        { title: '员工管理', items: ['新增员工', '员工列表', '入职办理', '转正管理', '调岗管理', '离职管理', '生成劳动合同'] },
         { title: '员工设置', items: ['员工自定义字段', '员工自定义编号', '员工审批设置', '员工策略设置', '设置员工打印模板'] },
       ]),
       {
@@ -963,10 +963,6 @@ export const topNavItems: TopNavItem[] = [
       jsxSideItem('hrAttendance', '考勤管理', '/hr/attendance', [
         { title: '考勤管理', items: ['新增考勤', '考勤列表'] },
         { title: '考勤设置', items: ['考勤自定义字段', '考勤自定义编号', '考勤审批设置', '考勤策略设置', '设置考勤打印模板'] },
-      ]),
-      jsxSideItem('hrSchedule', '排班管理', '/hr/schedules', [
-        { title: '排班管理', items: ['新增排班', '排班列表', '班次管理', '考勤组管理', '考勤日历'] },
-        { title: '排班设置', items: ['排班自定义字段', '排班自定义编号', '排班审批设置', '排班策略设置', '设置排班打印模板'] },
       ]),
       jsxSideItem('hrPayroll', '薪酬管理', '/hr/payroll', [
         { title: '薪酬管理', items: ['工资列表', '薪资方案', '薪酬类型', '薪酬项目'] },
@@ -1239,7 +1235,15 @@ export const topNavItems: TopNavItem[] = [
     status: 'ready',
     sideItems: [
       jsxSideItem('system', '系统设置', '/settings/system'),
-      jsxSideItem('permissions', '权限管理', '/settings/permissions'),
+      jsxSideItem('accounts', '用户账号', '/settings/accounts'),
+      jsxSideItem('roles', '角色管理', '/settings/roles'),
+      jsxSideItem('permissionResources', '权限资源', '/settings/permission-resources', [
+        { title: '权限资源', items: ['菜单管理', '按钮操作', '字段权限项', '数据权限规则'] },
+      ]),
+      jsxSideItem('permissions', '权限设置', '/settings/permissions', [
+        { title: '权限设置', items: ['按账号设置权限', '批量授权', '按功能授权账号', '角色授权'] },
+      ]),
+      jsxSideItem('superAdmins', '超级管理员', '/settings/super-admins'),
       jsxSideItem('security', '安全中心', '/settings/security'),
       jsxSideItem('data', '日志与数据', '/settings/data'),
       jsxSideItem('integrations', '集成与接口', '/settings/integrations'),

@@ -115,7 +115,37 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '设置中心' },
       },
       {
-        path: 'settings/:section(system|permissions|security|data|integrations)',
+        path: 'settings/accounts',
+        name: 'SettingsAccounts',
+        component: () => import('@/views/settings/SettingsAccountPage.vue'),
+        meta: { title: '用户账号' },
+      },
+      {
+        path: 'settings/roles',
+        name: 'SettingsRoles',
+        component: () => import('@/views/settings/SettingsRolePage.vue'),
+        meta: { title: '角色管理' },
+      },
+      {
+        path: 'settings/permission-resources',
+        name: 'SettingsPermissionResources',
+        component: () => import('@/views/settings/SettingsPermissionResourcePage.vue'),
+        meta: { title: '权限资源' },
+      },
+      {
+        path: 'settings/permissions',
+        name: 'SettingsPermissions',
+        component: () => import('@/views/settings/SettingsPermissionPage.vue'),
+        meta: { title: '权限设置' },
+      },
+      {
+        path: 'settings/super-admins',
+        name: 'SettingsSuperAdmins',
+        component: () => import('@/views/settings/SettingsSuperAdminPage.vue'),
+        meta: { title: '超级管理员' },
+      },
+      {
+        path: 'settings/:section(system|security|data|integrations)',
         name: 'SettingsCenterSection',
         component: () => import('@/views/settings/SettingsCenterPage.vue'),
         meta: { title: '设置中心' },

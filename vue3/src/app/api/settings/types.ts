@@ -67,6 +67,54 @@ export interface DataPermissionRow {
   enabled: boolean;
 }
 
+export interface AccountTreeNode {
+  id: string;
+  key: string;
+  label: string;
+  type: 'department' | 'account';
+  accountId?: string;
+  userName?: string;
+  fullName?: string;
+  departmentName?: string;
+  postName?: string;
+  mobile?: string;
+  children?: AccountTreeNode[];
+}
+
+export interface PermissionTreeNode {
+  id: string;
+  key: string;
+  label: string;
+  type: 'platform' | 'menu' | 'button';
+  platformId?: string;
+  menuId?: string;
+  buttonSign?: string;
+  children?: PermissionTreeNode[];
+}
+
+export interface AccountPermissionRow {
+  id: string;
+  accountId: string;
+  userName: string;
+  fullName: string;
+  departmentName: string;
+  mobile: string;
+  platformId: string;
+  platformName: string;
+  menuId: string;
+  menuName: string;
+  buttonKeys: string[];
+  buttonNames: string[];
+}
+
+export interface SuperAdminRow {
+  id: string;
+  accountId: string;
+  userName: string;
+  name: string;
+  deptAndPost: string;
+}
+
 export interface SecurityRule {
   id: string;
   type: '密码策略' | '登录限制' | '双因子认证';
@@ -149,6 +197,10 @@ export interface SettingsCenterData {
     roles: RoleRow[];
     functionPermissions: PermissionScopeRow[];
     dataPermissions: DataPermissionRow[];
+    accountTree: AccountTreeNode[];
+    permissionTree: PermissionTreeNode[];
+    accountPermissions: AccountPermissionRow[];
+    superAdmins: SuperAdminRow[];
   };
   security: {
     rules: SecurityRule[];

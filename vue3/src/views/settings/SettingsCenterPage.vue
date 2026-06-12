@@ -45,7 +45,24 @@
         </template>
 
         <template v-else-if="currentSection === 'permissions'">
-          <div class="settings-permission-workbench">
+          <div class="settings-permission-mode-tabs">
+            <button
+              :class="{ on: activePermissionMode === 'role' }"
+              type="button"
+              @click="activePermissionMode = 'role'"
+            >
+              角色权限
+            </button>
+            <button
+              :class="{ on: activePermissionMode === 'account' }"
+              type="button"
+              @click="activePermissionMode = 'account'"
+            >
+              账号授权
+            </button>
+          </div>
+
+          <div v-if="activePermissionMode === 'role'" class="settings-permission-workbench">
             <aside class="settings-role-panel">
               <div class="settings-role-head">
                 <div>
@@ -201,6 +218,231 @@
                   </label>
                 </div>
               </section>
+            </section>
+          </div>
+
+          <div v-else class="settings-account-auth">
+            <div class="aw-tabs">
+              <button
+                v-for="tab in accountPermissionTabs"
+                :key="tab.key"
+                :class="['t', { on: activeAccountPermissionTab === tab.key }]"
+                type="button"
+                @click="activeAccountPermissionTab = tab.key"
+              >
+                {{ tab.label }}
+              </button>
+            </div>
+
+            <section v-if="activeAccountPermissionTab === 'byFunction'" class="settings-account-layout">
+              <aside class="settings-tree-panel">
+                <div class="settings-tree-head">
+                  <strong>系统功能</strong>
+                  <input v-model="functionAuthKeyword" placeholder="搜索功能" />
+                </div>
+                <button
+                  v-for="node in functionMenuNodes"
+                  :key="node.node.key"
+                  :class="['settings-tree-row', `level-${node.level}`, { on: selectedFunctionMenuId === node.node.menuId }]"
+                  type="button"
+                  @click="selectFunctionMenu(node.node.menuId || '')"
+                >
+                  <span>{{ node.node.label }}</span>
+                </button>
+              </aside>
+
+              <section class="settings-auth-main">
+                <div class="settings-block-head">
+                  <div>
+                    <strong>{{ selectedFunctionMenu?.label || '请选择功能菜单' }}</strong>
+                    <p>查看当前功能已授权账号，可新增授权、删除单个授权或删除所有授权。</p>
+                  </div>
+                  <div class="settings-role-actions">
+                    <button class="aw-tool-btn" type="button" @click="openFunctionAuthorization">新增授权</button>
+                    <button class="aw-tool-btn danger" type="button" @click="deleteAllFunctionAuthorization">删除所有授权</button>
+                  </div>
+                </div>
+                <table class="aw-table">
+                  <thead>
+                    <tr><th>账号</th><th>姓名</th><th>部门</th><th>手机号</th><th>操作权限</th><th>操作</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="row in authorizedAccountsByFunction" :key="row.id">
+                      <td>{{ row.userName }}</td>
+                      <td>{{ row.fullName }}</td>
+                      <td>{{ row.departmentName }}</td>
+                      <td>{{ row.mobile }}</td>
+                      <td>{{ row.buttonNames.join('、') }}</td>
+                      <td><span class="aw-link" style="color:var(--aw-danger)" @click="deleteFunctionAuthorization(row.id)">删除</span></td>
+                    </tr>
+                    <tr v-if="authorizedAccountsByFunction.length === 0">
+                      <td colspan="6" class="settings-empty">暂无授权账号</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+            </section>
+
+            <section v-else-if="activeAccountPermissionTab === 'byAccount'" class="settings-account-layout">
+              <aside class="settings-tree-panel">
+                <div class="settings-tree-head">
+                  <strong>组织账号</strong>
+                  <input v-model="accountAuthKeyword" placeholder="搜索账号" />
+                </div>
+                <button
+                  v-for="node in accountTreeRows"
+                  :key="node.node.key"
+                  :class="['settings-tree-row', `level-${node.level}`, { on: selectedAccountId === node.node.accountId, muted: node.node.type === 'department' }]"
+                  type="button"
+                  @click="node.node.type === 'account' && selectAccount(node.node.accountId || '')"
+                >
+                  <span>{{ node.node.label }}</span>
+                </button>
+              </aside>
+
+              <section class="settings-auth-main">
+                <div class="settings-block-head">
+                  <div>
+                    <strong>{{ selectedAccount?.fullName || '请选择账号' }}</strong>
+                    <p>勾选菜单按钮权限后保存，复制他人权限会合并到当前账号待保存权限中。</p>
+                  </div>
+                  <div class="settings-role-actions">
+                    <input v-model="permissionTreeKeyword" class="settings-inline-input" placeholder="搜索功能菜单" />
+                    <button class="aw-tool-btn" type="button" @click="openCopyPermission('account')">复制他人权限</button>
+                    <button class="aw-btn primary" type="button" @click="saveAccountPermissions">保存</button>
+                  </div>
+                </div>
+                <div class="settings-permission-picker">
+                  <div class="settings-check-tree">
+                    <div
+                      v-for="node in permissionTreeRows"
+                      :key="node.node.key"
+                      :class="['settings-check-row', `level-${node.level}`, `type-${node.node.type}`]"
+                    >
+                      <input
+                        v-if="node.node.type === 'button'"
+                        :checked="selectedAccountPermissionKeys.includes(node.node.key)"
+                        type="checkbox"
+                        @change="toggleAccountPermissionKey(node.node.key)"
+                      />
+                      <input
+                        v-else-if="node.node.type === 'menu'"
+                        :checked="isPermissionMenuChecked(node.node, selectedAccountPermissionKeys)"
+                        type="checkbox"
+                        @change="togglePermissionMenu(node.node, selectedAccountPermissionKeys)"
+                      />
+                      <span>{{ node.node.label }}</span>
+                    </div>
+                  </div>
+                  <table class="aw-table">
+                    <thead><tr><th>功能菜单</th><th>操作按钮</th></tr></thead>
+                    <tbody>
+                      <tr v-for="row in selectedAccountPermissionDetails" :key="row.key">
+                        <td>{{ row.menuName }}</td>
+                        <td>{{ row.buttonName }}</td>
+                      </tr>
+                      <tr v-if="selectedAccountPermissionDetails.length === 0">
+                        <td colspan="2" class="settings-empty">暂无已选权限</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </section>
+
+            <section v-else-if="activeAccountPermissionTab === 'batch'" class="settings-account-layout">
+              <aside class="settings-tree-panel">
+                <div class="settings-tree-head">
+                  <strong>批量账号</strong>
+                  <input v-model="batchAccountKeyword" placeholder="搜索账号" />
+                </div>
+                <label v-for="node in batchAccountTreeRows" :key="node.node.key" :class="['settings-check-row', `level-${node.level}`, { muted: node.node.type === 'department' }]">
+                  <input
+                    v-if="node.node.type === 'account'"
+                    :checked="batchSelectedAccountIds.includes(node.node.accountId || '')"
+                    type="checkbox"
+                    @change="toggleBatchAccount(node.node.accountId || '')"
+                  />
+                  <span>{{ node.node.label }}</span>
+                </label>
+              </aside>
+
+              <section class="settings-auth-main">
+                <div class="settings-block-head">
+                  <div>
+                    <strong>批量授权</strong>
+                    <p>已选 {{ batchSelectedAccountIds.length }} 个账号、{{ batchSelectedPermissionKeys.length }} 个权限，保存后按合并授权写入账号权限。</p>
+                  </div>
+                  <div class="settings-role-actions">
+                    <input v-model="batchPermissionKeyword" class="settings-inline-input" placeholder="搜索功能菜单" />
+                    <button class="aw-tool-btn" type="button" @click="openCopyPermission('batch')">复制他人权限</button>
+                    <button class="aw-btn primary" type="button" @click="saveBatchPermissions">保存</button>
+                  </div>
+                </div>
+                <div class="settings-permission-picker">
+                  <div class="settings-check-tree">
+                    <div
+                      v-for="node in batchPermissionTreeRows"
+                      :key="node.node.key"
+                      :class="['settings-check-row', `level-${node.level}`, `type-${node.node.type}`]"
+                    >
+                      <input
+                        v-if="node.node.type === 'button'"
+                        :checked="batchSelectedPermissionKeys.includes(node.node.key)"
+                        type="checkbox"
+                        @change="toggleBatchPermission(node.node.key)"
+                      />
+                      <input
+                        v-else-if="node.node.type === 'menu'"
+                        :checked="isPermissionMenuChecked(node.node, batchSelectedPermissionKeys)"
+                        type="checkbox"
+                        @change="togglePermissionMenu(node.node, batchSelectedPermissionKeys)"
+                      />
+                      <span>{{ node.node.label }}</span>
+                    </div>
+                  </div>
+                  <table class="aw-table">
+                    <thead><tr><th>功能菜单</th><th>操作按钮</th></tr></thead>
+                    <tbody>
+                      <tr v-for="row in batchPermissionDetails" :key="row.key">
+                        <td>{{ row.menuName }}</td>
+                        <td>{{ row.buttonName }}</td>
+                      </tr>
+                      <tr v-if="batchPermissionDetails.length === 0">
+                        <td colspan="2" class="settings-empty">暂无已选权限</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </section>
+
+            <section v-else class="settings-auth-main">
+              <div class="settings-block-head">
+                <div>
+                  <strong>超级管理员</strong>
+                  <p>只维护超级管理员权限身份，不承担普通账号新增、编辑、停用等账号 CRUD。</p>
+                </div>
+                <div class="settings-role-actions">
+                  <input v-model="superAdminKeyword" class="settings-inline-input" placeholder="账号、姓名、部门" />
+                  <button class="aw-tool-btn" type="button" @click="querySuperAdmins">查询</button>
+                  <button class="aw-btn primary" type="button" @click="openSuperAdminModal">新增超级管理员</button>
+                </div>
+              </div>
+              <table class="aw-table">
+                <thead><tr><th>用户账号</th><th>用户姓名</th><th>部门岗位</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr v-for="row in filteredSuperAdmins" :key="row.id">
+                    <td>{{ row.userName }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.deptAndPost }}</td>
+                    <td><span class="aw-link" style="color:var(--aw-danger)" @click="deleteSuperAdmin(row.id)">删除</span></td>
+                  </tr>
+                  <tr v-if="filteredSuperAdmins.length === 0">
+                    <td colspan="4" class="settings-empty">暂无超级管理员</td>
+                  </tr>
+                </tbody>
+              </table>
             </section>
           </div>
         </template>
@@ -385,6 +627,88 @@
     </section>
 
     <aw-setting-modal
+      :open="functionAuthorizationModal.open"
+      title="新增授权"
+      width="760px"
+      @cancel="closeFunctionAuthorization"
+      @confirm="confirmFunctionAuthorization"
+    >
+      <div class="settings-modal-stack">
+        <div class="settings-modal-tip">当前授权功能：{{ selectedFunctionMenu?.label || '未选择功能' }}</div>
+        <section>
+          <strong>操作按钮</strong>
+          <div class="settings-modal-check-grid">
+            <label v-for="button in selectedFunctionButtons" :key="button.key" class="settings-check-row">
+              <input
+                :checked="functionAuthorizationModal.buttonKeys.includes(button.key)"
+                type="checkbox"
+                @change="toggleFunctionAuthorizationButton(button.key)"
+              />
+              <span>{{ button.label }}</span>
+            </label>
+          </div>
+        </section>
+        <section>
+          <strong>授权账号</strong>
+          <div class="settings-modal-check-grid">
+            <label v-for="account in accountOptions" :key="account.accountId" class="settings-check-row">
+              <input
+                :checked="functionAuthorizationModal.accountIds.includes(account.accountId || '')"
+                type="checkbox"
+                @change="toggleFunctionAuthorizationAccount(account.accountId || '')"
+              />
+              <span>{{ account.userName }} / {{ account.fullName }} / {{ account.departmentName }}</span>
+            </label>
+          </div>
+        </section>
+        <div class="settings-modal-tip">已选 {{ functionAuthorizationModal.accountIds.length }} 个账号</div>
+      </div>
+    </aw-setting-modal>
+
+    <aw-setting-modal
+      :open="copyPermissionModal.open"
+      title="复制他人权限"
+      width="720px"
+      @cancel="closeCopyPermission"
+      @confirm="confirmCopyPermission"
+    >
+      <div class="settings-modal-stack">
+        <div class="settings-modal-tip">选择要复制权限的账号，确认后会合并到当前待保存权限中。</div>
+        <div class="settings-modal-check-grid">
+          <label v-for="account in accountOptions" :key="account.accountId" class="settings-check-row">
+            <input
+              :checked="copyPermissionModal.accountIds.includes(account.accountId || '')"
+              type="checkbox"
+              @change="toggleCopyAccount(account.accountId || '')"
+            />
+            <span>{{ account.userName }} / {{ account.fullName }} / {{ account.departmentName }}</span>
+          </label>
+        </div>
+      </div>
+    </aw-setting-modal>
+
+    <aw-setting-modal
+      :open="superAdminModal.open"
+      title="新增超级管理员"
+      width="640px"
+      @cancel="closeSuperAdminModal"
+      @confirm="confirmSuperAdmin"
+    >
+      <div class="settings-modal-stack">
+        <div class="settings-modal-tip">请选择一个账号设置为超级管理员。</div>
+        <label class="aw-field">
+          <span>账号</span>
+          <select v-model="superAdminModal.accountId">
+            <option value="">请选择账号</option>
+            <option v-for="account in accountOptions" :key="account.accountId" :value="account.accountId">
+              {{ account.userName }} / {{ account.fullName }} / {{ account.departmentName }}
+            </option>
+          </select>
+        </label>
+      </div>
+    </aw-setting-modal>
+
+    <aw-setting-modal
       :open="modal.open"
       :title="modal.title"
       width="720px"
@@ -435,6 +759,8 @@ import AwSettingTable from '@/components/setting-page/AwSettingTable.vue';
 import AwSettingToolbar from '@/components/setting-page/AwSettingToolbar.vue';
 import { getSettingsCenterData, saveSettingsCenterData } from '@/app/api/settings/resources';
 import type {
+  AccountPermissionRow,
+  AccountTreeNode,
   ApiKeyRow,
   AuditLogRow,
   DataPermissionRow,
@@ -442,25 +768,44 @@ import type {
   GuideModule,
   IntegrationRow,
   NotificationRule,
+  PermissionTreeNode,
   PermissionScopeRow,
   RoleRow,
   SecurityRule,
   SettingsCenterData,
   SettingsSectionKey,
+  SuperAdminRow,
   SyncTaskRow,
 } from '@/app/api/settings/types';
 import type { SettingTableColumn, SettingTableRow } from '@/components/setting-page/types';
 
 type ModalField = { key: string; label: string; type?: 'textarea'; options?: string[]; span?: 'full' };
+type PermissionMode = 'role' | 'account';
+type AccountPermissionTabKey = 'byFunction' | 'byAccount' | 'batch' | 'superAdmin';
+type FlatNode<T> = { node: T; level: number; platformName?: string; menuName?: string };
+type PermissionDetail = { key: string; platformId: string; platformName: string; menuId: string; menuName: string; buttonName: string };
 
 const router = useRouter();
 const route = useRoute();
 const keyword = ref('');
 const toastText = ref('');
+const activePermissionMode = ref<PermissionMode>('role');
 const activePermissionTab = ref<'menus' | 'actions' | 'fields' | 'data'>('menus');
+const activeAccountPermissionTab = ref<AccountPermissionTabKey>('byFunction');
 const selectedRoleId = ref('');
 const selectedFunctionPermissionId = ref('');
 const activePermissionMenu = ref('项目管理');
+const selectedFunctionMenuId = ref('');
+const selectedAccountId = ref('');
+const selectedAccountPermissionKeys = ref<string[]>([]);
+const batchSelectedAccountIds = ref<string[]>([]);
+const batchSelectedPermissionKeys = ref<string[]>([]);
+const functionAuthKeyword = ref('');
+const accountAuthKeyword = ref('');
+const permissionTreeKeyword = ref('');
+const batchAccountKeyword = ref('');
+const batchPermissionKeyword = ref('');
+const superAdminKeyword = ref('');
 const activeDataTab = ref<'logs' | 'tasks'>('logs');
 const activeIntegrationTab = ref<'partners' | 'apis' | 'syncs'>('partners');
 const activeGuideTab = ref<'overview' | 'tasks' | 'templates' | 'progress'>('overview');
@@ -481,7 +826,7 @@ const defaultData: SettingsCenterData = {
     },
     notifications: [],
   },
-  permissions: { roles: [], functionPermissions: [], dataPermissions: [] },
+  permissions: { roles: [], functionPermissions: [], dataPermissions: [], accountTree: [], permissionTree: [], accountPermissions: [], superAdmins: [] },
   security: { rules: [] },
   data: { auditLogs: [], tasks: [] },
   integrations: { partners: [], apiKeys: [], syncTasks: [] },
@@ -499,6 +844,20 @@ const modal = reactive({
   form: {} as Record<string, string | number | boolean>,
 });
 const modalFields = ref<ModalField[]>([]);
+const functionAuthorizationModal = reactive({
+  open: false,
+  accountIds: [] as string[],
+  buttonKeys: [] as string[],
+});
+const copyPermissionModal = reactive({
+  open: false,
+  target: 'account' as 'account' | 'batch',
+  accountIds: [] as string[],
+});
+const superAdminModal = reactive({
+  open: false,
+  accountId: '',
+});
 
 const sectionMeta: Record<SettingsSectionKey, { label: string; route: string; desc: string; addText: string; search: string }> = {
   system: { label: '系统设置', route: '/settings/system', desc: '企业信息 / Logo', addText: '保存企业信息', search: '搜索企业信息、Logo、企业资料' },
@@ -509,18 +868,31 @@ const sectionMeta: Record<SettingsSectionKey, { label: string; route: string; de
   guide: { label: '初始化引导', route: '/settings/guide', desc: '引导总览、配置任务、引导模板、进度校验', addText: '新增引导', search: '搜索模块、任务、模板' },
 };
 
-const sectionCards = Object.entries(sectionMeta)
-  .filter(([key]) => key !== 'guide')
-  .map(([key, item]) => ({ key, ...item }));
+const sectionCards = [
+  sectionMeta.system,
+  { label: '用户账号', route: '/settings/accounts', desc: '维护登录账号、组织归属、岗位与账号状态', addText: '新增账号', search: '' },
+  { label: '角色管理', route: '/settings/roles', desc: '维护角色基础资料、成员数量和启停状态', addText: '新增角色', search: '' },
+  { label: '权限资源', route: '/settings/permission-resources', desc: '维护菜单、按钮、字段权限项和数据权限规则', addText: '新增资源', search: '' },
+  { label: '权限设置', route: '/settings/permissions', desc: '按账号、批量、按功能和角色配置授权关系', addText: '保存授权', search: '' },
+  { label: '超级管理员', route: '/settings/super-admins', desc: '独立维护系统超级管理员身份', addText: '新增超级管理员', search: '' },
+  sectionMeta.security,
+  sectionMeta.data,
+  sectionMeta.integrations,
+].map((item, index) => ({ key: `${item.route}-${index}`, ...item }));
 const currentSection = computed<SettingsSectionKey>(() => {
   const section = String(route.path.split('/')[2] || '');
-  if (['system', 'permissions', 'security', 'data', 'integrations'].includes(section)) return section as SettingsSectionKey;
+  if (['system', 'security', 'data', 'integrations'].includes(section)) return section as SettingsSectionKey;
   return 'system';
 });
 const currentTitle = computed(() => sectionMeta[currentSection.value].label);
 const currentDescription = computed(() => sectionMeta[currentSection.value].desc);
 const currentSearchPlaceholder = computed(() => sectionMeta[currentSection.value].search);
 const currentAddText = computed(() => {
+  if (currentSection.value === 'permissions' && activePermissionMode.value === 'account') {
+    if (activeAccountPermissionTab.value === 'byFunction') return '新增授权';
+    if (activeAccountPermissionTab.value === 'superAdmin') return '新增超级管理员';
+    return '账号授权';
+  }
   if (currentSection.value === 'permissions' && activePermissionTab.value === 'menus') return '新增岗位';
   if (currentSection.value === 'permissions' && ['actions', 'fields'].includes(activePermissionTab.value)) return '新增权限项';
   if (currentSection.value === 'permissions' && activePermissionTab.value === 'data') return '新增数据权限';
@@ -545,6 +917,12 @@ const permissionTabs = [
   { key: 'fields', label: '字段权限' },
   { key: 'data', label: '数据权限' },
 ] as const;
+const accountPermissionTabs: Array<{ key: AccountPermissionTabKey; label: string }> = [
+  { key: 'byFunction', label: '按功能授权账号' },
+  { key: 'byAccount', label: '按账号设置权限' },
+  { key: 'batch', label: '批量授权' },
+  { key: 'superAdmin', label: '超级管理员' },
+];
 const guideTabs = [
   { key: 'overview', label: '引导总览' },
   { key: 'tasks', label: '配置任务' },
@@ -699,6 +1077,27 @@ const dataTaskTableRows = computed(() => filteredDataTasks.value as unknown as S
 const partnerTableRows = computed(() => filteredPartners.value as unknown as SettingTableRow[]);
 const apiKeyTableRows = computed(() => filteredApiKeys.value as unknown as SettingTableRow[]);
 const syncTaskTableRows = computed(() => filteredSyncTasks.value as unknown as SettingTableRow[]);
+const accountOptions = computed(() => flattenAccounts(data.permissions.accountTree).filter((item) => item.accountId));
+const permissionButtons = computed(() => flattenPermissionButtons(data.permissions.permissionTree));
+const permissionMenus = computed(() => flattenPermissionMenus(data.permissions.permissionTree));
+const accountTreeRows = computed(() => flattenAccountTree(data.permissions.accountTree, accountAuthKeyword.value));
+const batchAccountTreeRows = computed(() => flattenAccountTree(data.permissions.accountTree, batchAccountKeyword.value));
+const functionMenuNodes = computed(() => flattenPermissionMenus(data.permissions.permissionTree, functionAuthKeyword.value));
+const permissionButtonRows = computed(() => flattenPermissionButtons(data.permissions.permissionTree, permissionTreeKeyword.value));
+const batchPermissionButtonRows = computed(() => flattenPermissionButtons(data.permissions.permissionTree, batchPermissionKeyword.value));
+const permissionTreeRows = computed(() => flattenPermissionTree(data.permissions.permissionTree, permissionTreeKeyword.value));
+const batchPermissionTreeRows = computed(() => flattenPermissionTree(data.permissions.permissionTree, batchPermissionKeyword.value));
+const selectedFunctionMenu = computed(() => permissionMenus.value.find((item) => item.node.menuId === selectedFunctionMenuId.value)?.node);
+const selectedFunctionButtons = computed(() => permissionButtons.value.filter((item) => item.node.menuId === selectedFunctionMenuId.value).map((item) => item.node));
+const authorizedAccountsByFunction = computed(() => data.permissions.accountPermissions.filter((item) => item.menuId === selectedFunctionMenuId.value));
+const selectedAccount = computed(() => accountOptions.value.find((item) => item.accountId === selectedAccountId.value));
+const selectedAccountPermissionDetails = computed(() => permissionDetailsFromKeys(selectedAccountPermissionKeys.value));
+const batchPermissionDetails = computed(() => permissionDetailsFromKeys(batchSelectedPermissionKeys.value));
+const filteredSuperAdmins = computed(() => {
+  const keywordValue = superAdminKeyword.value.trim();
+  if (!keywordValue) return data.permissions.superAdmins;
+  return data.permissions.superAdmins.filter((item) => [item.userName, item.name, item.deptAndPost].join(' ').includes(keywordValue));
+});
 const selectedRole = computed(() => data.permissions.roles.find((item) => item.id === selectedRoleId.value) || filteredRoles.value[0] || data.permissions.roles[0]);
 const selectedRoleFunctions = computed(() => {
   if (!selectedRole.value) return [];
@@ -722,7 +1121,7 @@ const activeRdTabOptions = computed(() => {
   return rdTabOptions[menu] || [];
 });
 const activeRdFieldOptions = computed(() => {
-  const menu = selectedFunctionPermission.value?.menu || '项目管理';
+  const menu = activePermissionMenu.value || selectedFunctionPermission.value?.menu || '项目管理';
   return rdFieldOptions[menu] || [];
 });
 const permissionSummary = computed(() => {
@@ -767,6 +1166,9 @@ onMounted(async () => {
   Object.assign(data.guide, result.guide);
   selectedRoleId.value = result.permissions.roles[0]?.id || '';
   selectedFunctionPermissionId.value = result.permissions.functionPermissions[0]?.id || '';
+  selectedFunctionMenuId.value = flattenPermissionMenus(result.permissions.permissionTree)[0]?.node.menuId || '';
+  selectedAccountId.value = flattenAccounts(result.permissions.accountTree)[0]?.accountId || '';
+  loadSelectedAccountPermissions();
 });
 
 watch(currentSection, () => {
@@ -785,7 +1187,81 @@ async function saveAll(message: string) {
   toast(message);
 }
 
+function flattenAccounts(nodes: AccountTreeNode[]): AccountTreeNode[] {
+  return nodes.flatMap((node) => [
+    node,
+    ...(node.children ? flattenAccounts(node.children) : []),
+  ]).filter((node) => node.type === 'account');
+}
+
+function flattenAccountTree(nodes: AccountTreeNode[], keywordValue = '', level = 0): Array<FlatNode<AccountTreeNode>> {
+  const keywordText = keywordValue.trim();
+  return nodes.flatMap((node) => {
+    const children = flattenAccountTree(node.children || [], keywordText, level + 1);
+    const matched = !keywordText || [node.label, node.userName, node.fullName, node.departmentName, node.postName].filter(Boolean).join(' ').includes(keywordText);
+    if (!matched && children.length === 0) return [];
+    return [{ node, level }, ...children];
+  });
+}
+
+function flattenPermissionMenus(nodes: PermissionTreeNode[], keywordValue = '', level = 0, platformName = ''): Array<FlatNode<PermissionTreeNode>> {
+  const keywordText = keywordValue.trim();
+  return nodes.flatMap((node) => {
+    const nextPlatformName = node.type === 'platform' ? node.label : platformName;
+    const children = flattenPermissionMenus(node.children || [], keywordText, level + 1, nextPlatformName);
+    const matched = node.type === 'menu' && (!keywordText || [node.label, nextPlatformName].join(' ').includes(keywordText));
+    return matched ? [{ node, level, platformName: nextPlatformName }, ...children] : children;
+  });
+}
+
+function flattenPermissionButtons(nodes: PermissionTreeNode[], keywordValue = '', level = 0, platformName = '', menuName = ''): Array<FlatNode<PermissionTreeNode>> {
+  const keywordText = keywordValue.trim();
+  return nodes.flatMap((node) => {
+    const nextPlatformName = node.type === 'platform' ? node.label : platformName;
+    const nextMenuName = node.type === 'menu' ? node.label : menuName;
+    const children = flattenPermissionButtons(node.children || [], keywordText, level + 1, nextPlatformName, nextMenuName);
+    const matched = node.type === 'button' && (!keywordText || [node.label, nextPlatformName, nextMenuName].join(' ').includes(keywordText));
+    return matched ? [{ node, level, platformName: nextPlatformName, menuName: nextMenuName }, ...children] : children;
+  });
+}
+
+function flattenPermissionTree(nodes: PermissionTreeNode[], keywordValue = '', level = 0): Array<FlatNode<PermissionTreeNode>> {
+  const keywordText = keywordValue.trim();
+  return nodes.flatMap((node) => {
+    const children = flattenPermissionTree(node.children || [], keywordText, level + 1);
+    const matched = !keywordText || node.label.includes(keywordText) || children.length > 0;
+    if (!matched) return [];
+    return [{ node, level }, ...children];
+  });
+}
+
+function permissionDetailsFromKeys(keys: string[]): PermissionDetail[] {
+  return keys
+    .map((key) => {
+      const item = permissionButtons.value.find((node) => node.node.key === key);
+      if (!item) return undefined;
+      return {
+        key,
+        platformId: item.node.platformId || '',
+        platformName: item.platformName || '',
+        menuId: item.node.menuId || '',
+        menuName: [item.platformName, item.menuName].filter(Boolean).join(' / '),
+        buttonName: item.node.label,
+      };
+    })
+    .filter((item): item is PermissionDetail => Boolean(item));
+}
+
+function unique(values: string[]) {
+  return Array.from(new Set(values.filter(Boolean)));
+}
+
 function handleAdd() {
+  if (currentSection.value === 'permissions' && activePermissionMode.value === 'account') {
+    if (activeAccountPermissionTab.value === 'byFunction') openFunctionAuthorization();
+    if (activeAccountPermissionTab.value === 'superAdmin') openSuperAdminModal();
+    return;
+  }
   if (currentSection.value === 'system') openNotification();
   if (currentSection.value === 'permissions' && activePermissionTab.value === 'menus') openRole();
   if (currentSection.value === 'permissions' && ['actions', 'fields'].includes(activePermissionTab.value)) openFunctionPermission(activeMenuPermission.value);
@@ -1028,6 +1504,260 @@ function setDataScopeValue(key: DataScopeKey, value: string) {
   permission[key] = value;
 }
 
+function selectFunctionMenu(menuId: string) {
+  selectedFunctionMenuId.value = menuId;
+}
+
+function selectAccount(accountId: string) {
+  selectedAccountId.value = accountId;
+  loadSelectedAccountPermissions();
+}
+
+function loadSelectedAccountPermissions() {
+  selectedAccountPermissionKeys.value = unique(
+    data.permissions.accountPermissions
+      .filter((item) => item.accountId === selectedAccountId.value)
+      .flatMap((item) => item.buttonKeys),
+  );
+}
+
+function toggleFunctionAuthorizationButton(key: string) {
+  toggleArrayValue(functionAuthorizationModal.buttonKeys, key);
+}
+
+function toggleFunctionAuthorizationAccount(accountId: string) {
+  toggleArrayValue(functionAuthorizationModal.accountIds, accountId);
+}
+
+function openFunctionAuthorization() {
+  if (!selectedFunctionMenuId.value) {
+    toast('请先选择功能菜单');
+    return;
+  }
+  functionAuthorizationModal.open = true;
+  functionAuthorizationModal.accountIds = [];
+  functionAuthorizationModal.buttonKeys = selectedFunctionButtons.value.length === 1 ? [selectedFunctionButtons.value[0].key] : [];
+}
+
+function closeFunctionAuthorization() {
+  functionAuthorizationModal.open = false;
+}
+
+function confirmFunctionAuthorization() {
+  if (!selectedFunctionMenu.value) {
+    toast('请先选择功能菜单');
+    return;
+  }
+  if (selectedFunctionButtons.value.length > 0 && functionAuthorizationModal.buttonKeys.length === 0) {
+    toast('请选择至少一个操作按钮');
+    return;
+  }
+  if (functionAuthorizationModal.accountIds.length === 0) {
+    toast('请选择至少一个账号');
+    return;
+  }
+  functionAuthorizationModal.accountIds.forEach((accountId) => {
+    mergeAccountPermission(accountId, functionAuthorizationModal.buttonKeys);
+  });
+  closeFunctionAuthorization();
+  saveAll('功能授权已保存');
+}
+
+function deleteFunctionAuthorization(id: string) {
+  if (!window.confirm('确认删除该账号的功能授权吗？')) return;
+  data.permissions.accountPermissions = data.permissions.accountPermissions.filter((item) => item.id !== id);
+  saveAll('功能授权已删除');
+}
+
+function deleteAllFunctionAuthorization() {
+  if (!selectedFunctionMenuId.value) {
+    toast('请先选择功能菜单');
+    return;
+  }
+  if (!window.confirm('确认删除当前功能的所有账号授权吗？')) return;
+  data.permissions.accountPermissions = data.permissions.accountPermissions.filter((item) => item.menuId !== selectedFunctionMenuId.value);
+  saveAll('当前功能授权已全部删除');
+}
+
+function toggleAccountPermissionKey(key: string) {
+  toggleArrayValue(selectedAccountPermissionKeys.value, key);
+}
+
+function toggleBatchAccount(accountId: string) {
+  toggleArrayValue(batchSelectedAccountIds.value, accountId);
+}
+
+function toggleBatchPermission(key: string) {
+  toggleArrayValue(batchSelectedPermissionKeys.value, key);
+}
+
+function permissionMenuButtonKeys(menu: PermissionTreeNode) {
+  return flattenPermissionButtons(menu.children || []).map((item) => item.node.key);
+}
+
+function isPermissionMenuChecked(menu: PermissionTreeNode, target: string[]) {
+  const keys = permissionMenuButtonKeys(menu);
+  return keys.length > 0 && keys.every((key) => target.includes(key));
+}
+
+function togglePermissionMenu(menu: PermissionTreeNode, target: string[]) {
+  const keys = permissionMenuButtonKeys(menu);
+  if (keys.length === 0) return;
+  if (keys.every((key) => target.includes(key))) {
+    keys.forEach((key) => {
+      const index = target.indexOf(key);
+      if (index >= 0) target.splice(index, 1);
+    });
+    return;
+  }
+  keys.forEach((key) => {
+    if (!target.includes(key)) target.push(key);
+  });
+}
+
+function openCopyPermission(target: 'account' | 'batch') {
+  if (target === 'account' && !selectedAccountId.value) {
+    toast('请先选择一个账号');
+    return;
+  }
+  copyPermissionModal.open = true;
+  copyPermissionModal.target = target;
+  copyPermissionModal.accountIds = [];
+}
+
+function closeCopyPermission() {
+  copyPermissionModal.open = false;
+}
+
+function toggleCopyAccount(accountId: string) {
+  toggleArrayValue(copyPermissionModal.accountIds, accountId);
+}
+
+function confirmCopyPermission() {
+  if (copyPermissionModal.accountIds.length === 0) {
+    toast('请选择要复制的账号');
+    return;
+  }
+  const copiedKeys = unique(
+    data.permissions.accountPermissions
+      .filter((item) => copyPermissionModal.accountIds.includes(item.accountId))
+      .flatMap((item) => item.buttonKeys),
+  );
+  if (copyPermissionModal.target === 'account') {
+    selectedAccountPermissionKeys.value = unique([...selectedAccountPermissionKeys.value, ...copiedKeys]);
+  } else {
+    batchSelectedPermissionKeys.value = unique([...batchSelectedPermissionKeys.value, ...copiedKeys]);
+  }
+  closeCopyPermission();
+  toast('权限已复制到待保存列表');
+}
+
+function saveAccountPermissions() {
+  if (!selectedAccount.value?.accountId) {
+    toast('请先选择一个账号');
+    return;
+  }
+  replaceAccountPermissions(selectedAccount.value.accountId, selectedAccountPermissionKeys.value);
+  saveAll('账号权限已保存');
+}
+
+function saveBatchPermissions() {
+  if (batchSelectedAccountIds.value.length === 0) {
+    toast('请选择至少一个账号');
+    return;
+  }
+  if (batchSelectedPermissionKeys.value.length === 0) {
+    toast('请选择至少一个权限');
+    return;
+  }
+  batchSelectedAccountIds.value.forEach((accountId) => {
+    mergeAccountPermission(accountId, batchSelectedPermissionKeys.value);
+  });
+  batchSelectedAccountIds.value = [];
+  batchSelectedPermissionKeys.value = [];
+  saveAll('批量授权已保存');
+}
+
+function mergeAccountPermission(accountId: string, keys: string[]) {
+  const oldKeys = data.permissions.accountPermissions
+    .filter((item) => item.accountId === accountId)
+    .flatMap((item) => item.buttonKeys);
+  replaceAccountPermissions(accountId, unique([...oldKeys, ...keys]));
+}
+
+function replaceAccountPermissions(accountId: string, keys: string[]) {
+  const account = accountOptions.value.find((item) => item.accountId === accountId);
+  if (!account?.accountId) return;
+  const safeAccountId = account.accountId;
+  const details = permissionDetailsFromKeys(keys);
+  const rows = Object.values(
+    details.reduce<Record<string, AccountPermissionRow>>((map, detail) => {
+      if (!map[detail.menuId]) {
+        map[detail.menuId] = {
+          id: `ap-${safeAccountId}-${detail.menuId}`,
+          accountId: safeAccountId,
+          userName: account.userName || '',
+          fullName: account.fullName || '',
+          departmentName: account.departmentName || '',
+          mobile: account.mobile || '',
+          platformId: detail.platformId,
+          platformName: detail.platformName,
+          menuId: detail.menuId,
+          menuName: detail.menuName,
+          buttonKeys: [],
+          buttonNames: [],
+        };
+      }
+      map[detail.menuId].buttonKeys.push(detail.key);
+      map[detail.menuId].buttonNames.push(detail.buttonName);
+      return map;
+    }, {}),
+  );
+  data.permissions.accountPermissions = [
+    ...data.permissions.accountPermissions.filter((item) => item.accountId !== safeAccountId),
+    ...rows,
+  ];
+  if (selectedAccountId.value === safeAccountId) loadSelectedAccountPermissions();
+}
+
+function openSuperAdminModal() {
+  superAdminModal.open = true;
+  superAdminModal.accountId = '';
+}
+
+function closeSuperAdminModal() {
+  superAdminModal.open = false;
+}
+
+function confirmSuperAdmin() {
+  const account = accountOptions.value.find((item) => item.accountId === superAdminModal.accountId);
+  if (!account?.accountId) {
+    toast('请选择账号');
+    return;
+  }
+  if (!data.permissions.superAdmins.some((item) => item.accountId === account.accountId)) {
+    data.permissions.superAdmins.push({
+      id: `sa-${account.accountId}`,
+      accountId: account.accountId,
+      userName: account.userName || '',
+      name: account.fullName || '',
+      deptAndPost: `${account.departmentName || '-'} / ${account.postName || '-'}`,
+    });
+  }
+  closeSuperAdminModal();
+  saveAll('超级管理员已保存');
+}
+
+function deleteSuperAdmin(id: string) {
+  if (!window.confirm('确认删除该超级管理员权限吗？')) return;
+  data.permissions.superAdmins = data.permissions.superAdmins.filter((item) => item.id !== id);
+  saveAll('超级管理员已删除');
+}
+
+function querySuperAdmins() {
+  toast(`查询完成，共 ${filteredSuperAdmins.value.length} 条超级管理员`);
+}
+
 function openNotification(row?: NotificationRule) {
   openModal('消息通知规则', 'notification', [
     { key: 'channel', label: '通知渠道', options: ['站内通知', '短信通知', '邮件通知'] },
@@ -1246,6 +1976,186 @@ function publishGuide() {
   grid-template-columns: 250px minmax(0, 1fr);
   gap: 14px;
   align-items: start;
+}
+
+.settings-permission-mode-tabs {
+  display: inline-flex;
+  gap: 4px;
+  border: 1px solid var(--aw-border);
+  border-radius: 8px;
+  background: var(--aw-bg);
+  padding: 4px;
+  margin-bottom: 14px;
+}
+
+.settings-permission-mode-tabs button {
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--aw-fg-2);
+  cursor: pointer;
+  padding: 7px 16px;
+}
+
+.settings-permission-mode-tabs button.on {
+  background: #fff;
+  color: var(--aw-primary);
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(16, 24, 40, .06);
+}
+
+.settings-account-auth {
+  display: grid;
+  gap: 14px;
+}
+
+.settings-account-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.settings-tree-panel,
+.settings-auth-main {
+  border: 1px solid var(--aw-border);
+  border-radius: 8px;
+  background: #fff;
+  min-width: 0;
+  padding: 12px;
+}
+
+.settings-tree-panel {
+  background: var(--aw-bg);
+}
+
+.settings-tree-head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.settings-tree-head input,
+.settings-inline-input {
+  border: 1px solid var(--aw-border);
+  border-radius: 6px;
+  height: 32px;
+  min-width: 160px;
+  padding: 0 10px;
+}
+
+.settings-tree-row {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--aw-fg-2);
+  cursor: pointer;
+  display: block;
+  min-height: 34px;
+  padding: 7px 10px;
+  text-align: left;
+}
+
+.settings-tree-row.on {
+  border-color: rgba(37, 99, 235, .24);
+  background: #fff;
+  color: var(--aw-primary);
+  font-weight: 700;
+}
+
+.settings-tree-row.muted,
+.settings-check-row.muted {
+  color: var(--aw-fg-3);
+  font-weight: 700;
+}
+
+.settings-tree-row.level-1,
+.settings-check-row.level-1 {
+  padding-left: 18px;
+}
+
+.settings-tree-row.level-2,
+.settings-check-row.level-2 {
+  padding-left: 30px;
+}
+
+.settings-tree-row.level-3,
+.settings-check-row.level-3 {
+  padding-left: 42px;
+}
+
+.settings-permission-picker {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.settings-check-tree {
+  border: 1px solid var(--aw-border);
+  border-radius: 8px;
+  background: var(--aw-bg);
+  max-height: 420px;
+  overflow: auto;
+  padding: 8px;
+}
+
+.settings-check-tree .settings-check-row {
+  border-radius: 6px;
+  min-height: 30px;
+  padding-right: 8px;
+}
+
+.settings-check-tree .settings-check-row.type-platform {
+  color: var(--aw-fg-1);
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.settings-check-tree .settings-check-row.type-menu {
+  color: var(--aw-fg-2);
+  font-weight: 600;
+}
+
+.settings-check-tree .settings-check-row.type-button {
+  background: #fff;
+  border: 1px solid transparent;
+}
+
+.settings-empty {
+  color: var(--aw-fg-3);
+  padding: 18px;
+  text-align: center;
+}
+
+.settings-modal-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.settings-modal-stack section {
+  display: grid;
+  gap: 10px;
+}
+
+.settings-modal-tip {
+  border: 1px solid var(--aw-border);
+  border-radius: 8px;
+  background: var(--aw-bg);
+  color: var(--aw-fg-2);
+  font-size: 13px;
+  padding: 10px 12px;
+}
+
+.settings-modal-check-grid {
+  display: grid;
+  gap: 6px 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.aw-tool-btn.danger {
+  color: var(--aw-danger);
 }
 
 .settings-role-panel,
