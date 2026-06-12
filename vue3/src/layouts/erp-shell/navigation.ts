@@ -1228,6 +1228,33 @@ export const topNavItems: TopNavItem[] = [
         { title: '碳排放', items: ['排放核算', '排放报告', '减排目标'] },
         { title: '碳设置', items: ['核算标准', '排放因子'] },
       ]),
+      jsxSideItem('product', '产品能耗', '/energy/product'),
+      jsxSideItem('department', '部门能耗', '/energy/department'),
+      jsxSideItem('data', '能耗数据', '/energy/data'),
+      jsxSideItem('equipment', '用能设备', '/energy/equipment'),
+    ],
+  },
+  {
+    key: 'bid',
+    label: '投标',
+    icon: '📋',
+    title: '投标中心',
+    route: '/bid',
+    status: 'pending',
+    sideItems: [
+      jsxSideItem('announce', '招投标资讯', '/bid/announce', [
+        { title: '\u4fe1\u606f\u641c\u7d22', items: ['\u62db\u6807\u91c7\u8d2d\u641c\u7d22', '\u62df\u5728\u5efa\u641c\u7d22', '\u4f01\u4e1a\u641c\u7d22', '\u91c7\u8d2d\u5355\u4f4d\u641c\u7d22'] },
+        { title: '\u8ba2\u9605\u76d1\u63a7', items: ['\u6211\u7684\u8ba2\u9605', '\u8ba2\u9605\u7ba1\u7406', '\u9879\u76ee\u8fdb\u5ea6\u76d1\u63a7', '\u4f01\u4e1a\u60c5\u62a5\u76d1\u63a7'] },
+        { title: '\u5546\u673a\u6316\u6398', items: ['\u6f5c\u5728\u9879\u76ee\u9884\u6d4b'] },
+      ]),
+      { key: 'collect', label: '\u6211\u7684\u6536\u85cf', route: '/bid/collect' },
+      { key: 'account', label: '\u8d26\u6237\u4f59\u989d', route: '/bid/account' },
+      jsxSideItem('manage', '\u6295\u6807\u7ba1\u7406', '/bid/manage', [
+        { title: '\u6295\u6807\u7ba1\u7406', items: ['\u516c\u53f8\u7ba1\u7406', '\u5458\u5de5\u7ba1\u7406', '\u5ba2\u6237\u7ba1\u7406', '\u6807\u4e66\u9879\u76ee'] },
+      ]),
+      jsxSideItem('material', '\u8d44\u6599\u7ba1\u7406', '/bid/material', [
+        { title: '\u8d44\u6599\u7ba1\u7406', items: ['\u8d44\u6599\u7ba1\u7406', '\u5408\u540c\u7ba1\u7406', '\u6295\u6807\u516c\u53f8'] },
+      ]),
     ],
   },
   {

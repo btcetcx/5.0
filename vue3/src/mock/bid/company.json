@@ -1,0 +1,5 @@
+﻿[
+  { "id":"bc001","name":"广东傲为科技有限公司","unifiedCode":"91440101MA5XXXXXX1","legalPerson":"陈建国","registeredCapital":50000000,"establishDate":"2010-03-15","address":"广州市天河区科技园XX路XX号","contacts":"陈建国","phone":"020-88886666","qualificationLevel":"一级","status":"启用","businessScope":"铝合金压铸、焊接加工、机械设备制造、自动化设备研发" },
+  { "id":"bc002","name":"傲为精密制造有限公司","unifiedCode":"91440101MA5XXXXXX2","legalPerson":"陈建国","registeredCapital":30000000,"establishDate":"2015-08-20","address":"佛山市南海区XX工业区","contacts":"刘经理","phone":"0757-88886666","qualificationLevel":"二级","status":"启用","businessScope":"精密零部件加工、模具制造" }
+
+]

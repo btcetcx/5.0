@@ -1,0 +1,5 @@
+﻿[
+  { "id":"brp001","year":"2026","month":"5","totalBids":5,"wonBids":2,"totalAmount":32600000,"wonAmount":12800000,"bidRate":40,"bondTotal":1150000,"avgBondAmount":230000,"topRegion":"广东省","topProjectType":"工程招标" },
+  { "id":"brp002","year":"2026","month":"4","totalBids":3,"wonBids":1,"totalAmount":18500000,"wonAmount":6500000,"bidRate":33.3,"bondTotal":600000,"avgBondAmount":200000,"topRegion":"浙江省","topProjectType":"设备采购" }
+
+]

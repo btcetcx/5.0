@@ -1,0 +1,6 @@
+﻿[
+  { "id":"br001","projectId":"bp002","projectTitle":"智能仓储物流系统集成项目","registerDate":"2026-05-22","deadline":"2026-06-15","submittedDate":"2026-06-10","documents":"已提交","status":"已报名","contacts":"李华","phone":"13800001001" },
+  { "id":"br002","projectId":"bp003","projectTitle":"汽车零部件精密加工生产线技术改造","registerDate":"2026-06-03","deadline":"2026-06-28","submittedDate":"","documents":"准备中","status":"待提交","contacts":"王强","phone":"13800001002" },
+  { "id":"br003","projectId":"bp004","projectTitle":"厂房屋顶光伏发电项目","registerDate":"2026-06-11","deadline":"2026-07-05","submittedDate":"","documents":"编制中","status":"已报名","contacts":"陈工","phone":"13800001003" }
+
+]

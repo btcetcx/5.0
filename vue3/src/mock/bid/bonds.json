@@ -1,0 +1,6 @@
+﻿[
+  { "id":"bb001","projectId":"bp001","projectTitle":"年产10万吨铝合金型材生产线建设项目","bondAmount":500000,"paymentDate":"2026-05-10","returnDate":"2026-07-20","paymentMethod":"银行保函","status":"已退还","receiptNo":"BOND-2026-001","handler":"张明" },
+  { "id":"bb002","projectId":"bp002","projectTitle":"智能仓储物流系统集成项目","bondAmount":200000,"paymentDate":"2026-05-18","returnDate":"","paymentMethod":"电汇","status":"在保","receiptNo":"BOND-2026-002","handler":"李华" },
+  { "id":"bb003","projectId":"bp003","projectTitle":"汽车零部件精密加工生产线技术改造","bondAmount":300000,"paymentDate":"2026-05-28","returnDate":"","paymentMethod":"银行保函","status":"在保","receiptNo":"BOND-2026-003","handler":"王强" }
+
+]

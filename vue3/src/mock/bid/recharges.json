@@ -1,0 +1,7 @@
+﻿[
+  { "id": "rc001", "orderNo": "RC-20260605001", "amount": 50000, "method": "微信支付", "status": "已到账", "createTime": "2026-06-05 14:30", "arriveTime": "2026-06-05 14:31", "receiptNo": "RCT-20260605001", "remark": "充值用于投标保证金" },
+  { "id": "rc002", "orderNo": "RC-20260520001", "amount": 20000, "method": "银行转账", "status": "已到账", "createTime": "2026-05-20 09:15", "arriveTime": "2026-05-21 10:00", "receiptNo": "RCT-20260520001", "remark": "续费季度套餐" },
+  { "id": "rc003", "orderNo": "RC-20260410001", "amount": 100000, "method": "银行转账", "status": "已到账", "createTime": "2026-04-10 16:20", "arriveTime": "2026-04-11 08:30", "receiptNo": "RCT-20260410001", "remark": "年度平台使用费" },
+  { "id": "rc004", "orderNo": "RC-20260308001", "amount": 30000, "method": "支付宝", "status": "已到账", "createTime": "2026-03-08 11:00", "arriveTime": "2026-03-08 11:02", "receiptNo": "RCT-20260308001", "remark": "" },
+  { "id": "rc005", "orderNo": "RC-20260701001", "amount": 15000, "method": "微信支付", "status": "处理中", "createTime": "2026-07-01 10:00", "arriveTime": "", "receiptNo": "", "remark": "追加保证金" }
+]

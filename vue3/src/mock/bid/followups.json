@@ -1,0 +1,6 @@
+﻿[
+  { "id":"bf001","projectTitle":"智慧园区整体解决方案项目","tenderer":"深圳智慧园区科技有限公司","bidAmount":15000000,"pubDate":"2026-06-01","deadline":"2026-07-10","region":"深圳市","priority":"高","status":"待评估","person":"张明" },
+  { "id":"bf002","projectTitle":"新能源汽车电池生产线项目","tenderer":"广州新能源科技有限公司","bidAmount":22000000,"pubDate":"2026-06-05","deadline":"2026-07-15","region":"广州市","priority":"高","status":"关注中","person":"李华" },
+  { "id":"bf003","projectTitle":"污水处理设备采购项目","tenderer":"佛山环保科技有限公司","bidAmount":3800000,"pubDate":"2026-06-08","deadline":"2026-07-05","region":"佛山市","priority":"中","status":"关注中","person":"王强" }
+
+]

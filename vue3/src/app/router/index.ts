@@ -1,4 +1,4 @@
-﻿import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import { contractCenters } from '@/app/contracts/modules';
 import ErpShell from '@/layouts/erp-shell/ErpShell.vue';
 
@@ -68,7 +68,6 @@ const contractRoutes: RouteRecordRaw[] = contractCenters.flatMap((center) => [
 
 const pendingCenterRoutes: RouteRecordRaw[] = [
   { path: 'after-sales', name: 'AfterSalesCenter', title: '售后中心' },
-  { path: 'energy', name: 'EnergyCenter', title: '能耗中心' },
 ].flatMap((center) => [
   {
     path: center.path,
@@ -429,6 +428,65 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '售后设置' },
       },
       {
+        path: 'energy',
+        name: 'EnergyWorkbench',
+        component: () => import('@/views/energy/EnergyWorkbench.vue'),
+        meta: { title: '能耗中心' },
+      },
+      {
+        path: 'energy/monitor',
+        name: 'EnergyMonitor',
+        component: () => import('@/views/energy/EnergyResourcePage.vue'),
+        meta: { title: '能耗监测' },
+      },
+      {
+        path: 'energy/analysis',
+        name: 'EnergyAnalysis',
+        component: () => import('@/views/energy/EnergyResourcePage.vue'),
+        meta: { title: '能耗分析' },
+      },
+      {
+        path: 'energy/reports',
+        name: 'EnergyReports',
+        component: () => import('@/views/energy/EnergyResourcePage.vue'),
+        meta: { title: '能耗报表' },
+      },
+      {
+        path: 'energy/saving',
+        name: 'EnergySaving',
+        component: () => import('@/views/energy/EnergyResourcePage.vue'),
+        meta: { title: '节能措施' },
+      },
+      {
+        path: 'energy/carbon',
+        name: 'EnergyCarbon',
+        component: () => import('@/views/energy/EnergyResourcePage.vue'),
+      },
+      {
+        path: 'energy/product',
+        name: 'EnergyProduct',
+        component: () => import('@/views/energy/EnergyResourcePage.vue'),
+        meta: { title: '产品能耗' },
+      },
+      {
+        path: 'energy/department',
+        name: 'EnergyDepartment',
+        component: () => import('@/views/energy/EnergyResourcePage.vue'),
+        meta: { title: '部门能耗' },
+      },
+      {
+        path: 'energy/data',
+        name: 'EnergyDataRecords',
+        component: () => import('@/views/energy/EnergyResourcePage.vue'),
+        meta: { title: '能耗数据' },
+      },
+      {
+        path: 'energy/equipment',
+        name: 'EnergyEquipment',
+        component: () => import('@/views/energy/EnergyResourcePage.vue'),
+        meta: { title: '用能设备' },
+      },
+      {
         path: 'equipment',
         name: 'EquipmentWorkbench',
         component: () => import('@/views/contracts/ContractWorkbenchPage.vue'),
@@ -583,6 +641,24 @@ const routes: RouteRecordRaw[] = [
         name: 'FinanceSettings',
         component: () => import('@/views/finance/FinanceResourcePage.vue'),
         meta: { title: '财务设置' },
+      },
+      {
+        path: 'bid',
+        name: 'BidCenter',
+        component: () => import('@/views/bid/BidResourcePage.vue'),
+        meta: { title: '投标中心' },
+      },
+      {
+        path: 'bid/:section(announce|collect|account|manage|material)',
+        name: 'BidSection',
+        component: () => import('@/views/bid/BidResourcePage.vue'),
+        meta: { title: '投标管理' },
+      },
+      {
+        path: 'bid/:section(announce|manage|material)/:page',
+        name: 'BidSubPage',
+        component: () => import('@/views/bid/BidResourcePage.vue'),
+        meta: { title: '投标详情' },
       },
       ...pendingCenterRoutes,
       ...contractRoutes,

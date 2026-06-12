@@ -1,0 +1,8 @@
+﻿[
+  { "id": "dp001", "deptName": "一车间", "deptCode": "DEPT-01", "totalConsumption": 125800, "electric": 98600, "gas": 21200, "water": 6000, "unit": "kWh", "cost": 100640, "lastMonthConsumption": 118500, "changeRate": 6.2, "carbonEmission": 67.5, "period": "2026-05" },
+  { "id": "dp002", "deptName": "二车间", "deptCode": "DEPT-02", "totalConsumption": 89600, "electric": 71800, "gas": 14200, "water": 3600, "unit": "kWh", "cost": 71680, "lastMonthConsumption": 92800, "changeRate": -3.4, "carbonEmission": 48.1, "period": "2026-05" },
+  { "id": "dp003", "deptName": "三车间", "deptCode": "DEPT-03", "totalConsumption": 65200, "electric": 49800, "gas": 12800, "water": 2600, "unit": "kWh", "cost": 52160, "lastMonthConsumption": 68100, "changeRate": -4.3, "carbonEmission": 35.0, "period": "2026-05" },
+  { "id": "dp004", "deptName": "动力车间", "deptCode": "DEPT-DL", "totalConsumption": 45200, "electric": 32500, "gas": 10500, "water": 2200, "unit": "kWh", "cost": 36160, "lastMonthConsumption": 43500, "changeRate": 3.9, "carbonEmission": 24.3, "period": "2026-05" },
+  { "id": "dp005", "deptName": "办公楼", "deptCode": "DEPT-BG", "totalConsumption": 12500, "electric": 11200, "gas": 800, "water": 500, "unit": "kWh", "cost": 10000, "lastMonthConsumption": 13100, "changeRate": -4.6, "carbonEmission": 6.7, "period": "2026-05" },
+  { "id": "dp006", "deptName": "仓库", "deptCode": "DEPT-CK", "totalConsumption": 8600, "electric": 7600, "gas": 600, "water": 400, "unit": "kWh", "cost": 6880, "lastMonthConsumption": 8200, "changeRate": 4.9, "carbonEmission": 4.6, "period": "2026-05" }
+]

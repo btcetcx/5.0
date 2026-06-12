@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <aside class="aw-side">
     <h4>{{ title }}</h4>
     <div
@@ -77,7 +77,7 @@ function clampFlyoutTop(top: number) {
 function scheduleClose() {
   closeTimer = setTimeout(() => {
     hoverItem.value = undefined;
-  }, 150);
+  }, 300);
 }
 
 function cancelClose() {

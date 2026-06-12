@@ -1,0 +1,8 @@
+﻿[
+  { "id":"bp001","code":"BID-2026-001","title":"年产10万吨铝合金型材生产线建设项目","bidDept":"销售部","bidPerson":"张明","bidAmount":12800000,"bidDate":"2026-05-15","openDate":"2026-06-20","bidBond":500000,"bondStatus":"已退还","projectType":"工程招标","region":"广东省","tenderer":"广东铝业集团有限公司","status":"已完成","result":"中标","remark":"已签订合同" },
+  { "id":"bp002","code":"BID-2026-002","title":"智能仓储物流系统集成项目","bidDept":"技术部","bidPerson":"李华","bidAmount":5600000,"bidDate":"2026-05-20","openDate":"2026-06-18","bidBond":200000,"bondStatus":"在保","projectType":"设备采购","region":"浙江省","tenderer":"浙江智能物流科技有限公司","status":"进行中","result":"待开标","remark":"" },
+  { "id":"bp003","code":"BID-2026-003","title":"汽车零部件精密加工生产线技术改造","bidDept":"生产部","bidPerson":"王强","bidAmount":8900000,"bidDate":"2026-06-01","openDate":"2026-07-05","bidBond":300000,"bondStatus":"在保","projectType":"工程招标","region":"江苏省","tenderer":"江苏汽车零部件制造有限公司","status":"进行中","result":"待评标","remark":"" },
+  { "id":"bp004","code":"BID-2026-004","title":"厂房屋顶光伏发电项目","bidDept":"设备部","bidPerson":"陈工","bidAmount":3500000,"bidDate":"2026-06-10","openDate":"2026-07-12","bidBond":150000,"bondStatus":"未缴纳","projectType":"工程招标","region":"广东省","tenderer":"广东新能源科技有限公司","status":"报名中","result":"-","remark":"" },
+  { "id":"bp005","code":"BID-2026-005","title":"ERP系统升级改造项目","bidDept":"信息部","bidPerson":"赵丽","bidAmount":1800000,"bidDate":"2026-06-12","openDate":"2026-07-08","bidBond":80000,"bondStatus":"在保","projectType":"服务采购","region":"广东省","tenderer":"广州软件科技有限公司","status":"进行中","result":"待评标","remark":"" }
+
+]

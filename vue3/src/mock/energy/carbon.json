@@ -1,0 +1,64 @@
+﻿[
+  {
+    "id": "cb001",
+    "year": "2026",
+    "month": "5",
+    "totalEmission": 205,
+    "scope1": 85,
+    "scope2": 120,
+    "unit": "tCO₂",
+    "reductionTarget": 20,
+    "actualReduction": 6.5,
+    "status": "达标",
+    "details": [
+      { "source": "电力消耗", "emission": 120, "ratio": 58.5 },
+      { "source": "天然气燃烧", "emission": 65, "ratio": 31.7 },
+      { "source": "柴油发电机", "emission": 12, "ratio": 5.9 },
+      { "source": "其他", "emission": 8, "ratio": 3.9 }
+    ],
+    "offsetMeasures": [
+      { "measure": "光伏发电", "amount": 3.2, "date": "2026-05-31" },
+      { "measure": "碳汇购买", "amount": 10, "date": "2026-05-01" }
+    ]
+  },
+  {
+    "id": "cb002",
+    "year": "2026",
+    "month": "4",
+    "totalEmission": 215,
+    "scope1": 88,
+    "scope2": 127,
+    "unit": "tCO₂",
+    "reductionTarget": 20,
+    "actualReduction": 4.2,
+    "status": "达标",
+    "details": [
+      { "source": "电力消耗", "emission": 127, "ratio": 59.1 },
+      { "source": "天然气燃烧", "emission": 68, "ratio": 31.6 },
+      { "source": "柴油发电机", "emission": 12, "ratio": 5.6 },
+      { "source": "其他", "emission": 8, "ratio": 3.7 }
+    ],
+    "offsetMeasures": [
+      { "measure": "碳汇购买", "amount": 15, "date": "2026-04-30" }
+    ]
+  },
+  {
+    "id": "cb003",
+    "year": "2026",
+    "month": "3",
+    "totalEmission": 228,
+    "scope1": 92,
+    "scope2": 136,
+    "unit": "tCO₂",
+    "reductionTarget": 20,
+    "actualReduction": 3.1,
+    "status": "未达标",
+    "details": [
+      { "source": "电力消耗", "emission": 136, "ratio": 59.6 },
+      { "source": "天然气燃烧", "emission": 72, "ratio": 31.6 },
+      { "source": "柴油发电机", "emission": 12, "ratio": 5.3 },
+      { "source": "其他", "emission": 8, "ratio": 3.5 }
+    ],
+    "offsetMeasures": []
+  }
+]

@@ -1,0 +1,34 @@
+﻿{
+  "collectionPoints": [
+    { "id": "cp001", "name": "总配电柜", "code": "ELEC-MAIN", "meterType": "智能电表", "location": "一车间", "unit": "kWh", "status": "在线" },
+    { "id": "cp002", "name": "空压机组", "code": "ELEC-AIR", "meterType": "智能电表", "location": "动力车间", "unit": "kWh", "status": "在线" },
+    { "id": "cp003", "name": "燃气锅炉", "code": "GAS-BOILER", "meterType": "燃气表", "location": "锅炉房", "unit": "m³", "status": "在线" },
+    { "id": "cp004", "name": "光伏发电", "code": "SOLAR-PV", "meterType": "逆变器", "location": "厂房屋顶", "unit": "kWh", "status": "在线" },
+    { "id": "cp005", "name": "总水表", "code": "WATER-MAIN", "meterType": "智能水表", "location": "厂区入口", "unit": "t", "status": "在线" }
+  ],
+  "alarmThresholds": [
+    { "id": "at001", "pointId": "mp001", "pointName": "总配电柜-进线", "maxValue": 5000, "minValue": 0, "unit": "kWh", "enabled": true },
+    { "id": "at002", "pointId": "mp007", "pointName": "中央空调总机", "maxValue": 1500, "minValue": 0, "unit": "kWh", "enabled": true }
+  ],
+  "analysisDimensions": [
+    { "id": "ad001", "name": "按车间", "key": "workshop", "enabled": true },
+    { "id": "ad002", "name": "按能源类型", "key": "energyType", "enabled": true },
+    { "id": "ad003", "name": "按设备", "key": "device", "enabled": true },
+    { "id": "ad004", "name": "按时间段", "key": "timePeriod", "enabled": false }
+  ],
+  "carbonFactors": [
+    { "id": "cf001", "energyType": "电力", "factor": 0.536, "unit": "tCO₂/MWh", "effectiveDate": "2026-01-01" },
+    { "id": "cf002", "energyType": "天然气", "factor": 2.165, "unit": "tCO₂/t", "effectiveDate": "2026-01-01" },
+    { "id": "cf003", "energyType": "柴油", "factor": 3.186, "unit": "tCO₂/t", "effectiveDate": "2026-01-01" },
+    { "id": "cf004", "energyType": "水", "factor": 0.298, "unit": "tCO₂/kt", "effectiveDate": "2026-01-01" }
+  ],
+  "areas": [
+    { "id": "area001", "name": "一车间", "code": "AREA-01", "location": "厂区东侧", "manager": "张主任", "description": "机加工生产线", "status": "启用" },
+    { "id": "area002", "name": "二车间", "code": "AREA-02", "location": "厂区西侧", "manager": "李主任", "description": "焊接装配线", "status": "启用" },
+    { "id": "area003", "name": "三车间", "code": "AREA-03", "location": "厂区南侧", "manager": "王主任", "description": "涂装烘干线", "status": "启用" },
+    { "id": "area004", "name": "动力车间", "code": "AREA-DL", "location": "厂区北侧", "manager": "陈工", "description": "空压/锅炉房", "status": "启用" },
+    { "id": "area005", "name": "办公楼", "code": "AREA-BG", "location": "厂区入口", "manager": "刘主管", "description": "行政办公区", "status": "启用" },
+    { "id": "area006", "name": "仓库", "code": "AREA-CK", "location": "厂区东侧", "manager": "赵主管", "description": "原料/成品仓库", "status": "启用" },
+    { "id": "area007", "name": "厂房屋顶", "code": "AREA-ROOF", "location": "厂房屋顶", "manager": "陈工", "description": "光伏发电区", "status": "启用" }
+  ]
+}

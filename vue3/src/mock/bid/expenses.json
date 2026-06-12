@@ -1,0 +1,9 @@
+﻿[
+  { "id": "ex001", "orderNo": "EXP-20260610001", "item": "招标信息查询费", "amount": -200, "projectName": "智能温控终端销售订单", "type": "信息费", "status": "已扣费", "createTime": "2026-06-10 08:30", "remark": "查询广州市水务集团招标公告" },
+  { "id": "ex002", "orderNo": "EXP-20260608001", "item": "投标报名费", "amount": -1500, "projectName": "污水处理厂扩建工程", "type": "报名费", "status": "已扣费", "createTime": "2026-06-08 14:20", "remark": "广州市番禺区石楼镇" },
+  { "id": "ex003", "orderNo": "EXP-20260601001", "item": "招标文件下载费", "amount": -500, "projectName": "智能仓储物流系统集成项目", "type": "文件费", "status": "已扣费", "createTime": "2026-06-01 09:00", "remark": "" },
+  { "id": "ex004", "orderNo": "EXP-20260528001", "item": "企业信用报告", "amount": -300, "projectName": "-", "type": "报告费", "status": "已扣费", "createTime": "2026-05-28 15:45", "remark": "广东傲为科技有限公司" },
+  { "id": "ex005", "orderNo": "EXP-20260520001", "item": "投标保证金", "amount": -50000, "projectName": "年产10万吨铝合金型材生产线", "type": "保证金", "status": "已退还", "createTime": "2026-05-20 10:00", "remark": "已中标后退还" },
+  { "id": "ex006", "orderNo": "EXP-20260515001", "item": "平台会员费", "amount": -5000, "projectName": "-", "type": "会员费", "status": "已扣费", "createTime": "2026-05-15 00:00", "remark": "季度高级会员" },
+  { "id": "ex007", "orderNo": "EXP-20260702001", "item": "投标保证金", "amount": -30000, "projectName": "汽车零部件精密加工生产线", "type": "保证金", "status": "冻结中", "createTime": "2026-07-02 10:30", "remark": "待开标后退还" }
+]

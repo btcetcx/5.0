@@ -32,7 +32,7 @@ button{font:inherit;cursor:pointer}
 .aw-side .dot{opacity:.6}
 
 .aw-flyout{position:fixed;left:210px;min-width:420px;max-width:520px;background:#fff;border:1px solid var(--aw-border);border-radius:8px;box-shadow:0 8px 24px rgba(16,24,40,.08);padding:16px 18px;z-index:30;margin-left:6px;animation:awFlyIn .14s ease}
-.aw-flyout::before{content:"";position:absolute;left:-10px;top:0;width:10px;height:100%}
+.aw-flyout::before{content:"";position:absolute;left:-6px;top:0;width:12px;height:100%}
 @keyframes awFlyIn{from{opacity:0;transform:translateY(-2px)}to{opacity:1;transform:none}}
 .aw-flyout-sec + .aw-flyout-sec{margin-top:14px}
 .aw-flyout-h{font-size:13px;font-weight:600;color:var(--aw-fg-1);padding-bottom:6px;border-bottom:1px solid var(--aw-divider);margin-bottom:10px}

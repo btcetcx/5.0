@@ -1,0 +1,7 @@
+﻿[
+  { "id":"an001","title":"广州市番禺区石楼镇污水处理厂扩建工程招标","tenderer":"广州市水务集团","region":"广州市","pubDate":"2026-06-10","deadline":"2026-07-15","budget":85000000,"projectType":"工程招标","source":"招标采购","status":"已发布"},
+  { "id":"an002","title":"佛山市南海区智能立体停车库建设项目","tenderer":"佛山城建投资集团","region":"佛山市","pubDate":"2026-06-08","deadline":"2026-07-12","budget":32000000,"projectType":"工程招标","source":"招标采购","status":"已发布"},
+  { "id":"an003","title":"珠海市金湾区产业园区基础设施升级改造","tenderer":"珠海经开区管委会","region":"珠海市","pubDate":"2026-06-05","deadline":"2026-07-10","budget":120000000,"projectType":"工程招标","source":"招标采购","status":"公告中"},
+  { "id":"nzj001","title":"东莞松山湖智能制造产业园（拟建）","tenderer":"东莞松山湖管委会","region":"东莞市","pubDate":"2026-06-01","deadline":"","budget":200000000,"projectType":"拟建项目","source":"拟在建","status":"规划设计"},
+  { "id":"nzj002","title":"深圳市龙华区新能源电池研发中心（拟建）","tenderer":"深圳龙华区政府","region":"深圳市","pubDate":"2026-05-28","deadline":"","budget":150000000,"projectType":"拟建项目","source":"拟在建","status":"可研阶段"}
+]
