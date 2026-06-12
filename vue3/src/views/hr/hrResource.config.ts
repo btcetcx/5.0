@@ -42,7 +42,7 @@ export const hrModuleConfigs: Record<HrModuleKey, HrModuleConfig> = {
       { key: 'approve', label: '审批记录' },
       { key: 'op', label: '操作记录' },
     ],
-    actions: ['入职办理', '转正管理', '调岗管理', '离职管理', '生成劳动合同'],
+    actions: [],
     insights: [
       { label: '组织/岗位校验', value: '2项待确认', tone: 'y' },
       { label: '入转调离流程', value: '6项待办', tone: 'b' },
