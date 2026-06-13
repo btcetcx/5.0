@@ -1,0 +1,6 @@
+{
+  "rules": [
+    { "id": "sec-password", "type": "密码策略", "scope": "全部用户", "detail": "最小 10 位，必须包含大小写字母、数字和符号，90 天到期", "owner": "安全管理员", "enabled": true },
+    { "id": "sec-login", "type": "登录限制", "scope": "管理后台 / 移动端", "detail": "IP 白名单、工作时段访问、连续失败 5 次锁定 30 分钟", "owner": "运维管理员", "enabled": true }
+  ]
+}

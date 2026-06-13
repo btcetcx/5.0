@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>研发中心预览</title>
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-soft: #eff6ff;
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --border: #dfe5ef;
+        --text: #1f2937;
+        --muted: #667085;
+        --success: #16a34a;
+        --warning: #d97706;
+        --sidebar: #172033;
+        --sidebar-active: #23304a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 1180px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 226px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        background: var(--sidebar);
+        color: #d8e1f2;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 56px;
+        padding: 0 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, .08);
+      }
+
+      .brand strong {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .menu {
+        padding: 10px 8px;
+      }
+
+      .menu button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        height: 40px;
+        margin-bottom: 4px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .menu button.active,
+      .menu button:hover {
+        background: var(--sidebar-active);
+        color: #fff;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .topbar strong {
+        display: block;
+      }
+
+      .topbar span {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .segmented {
+        display: inline-flex;
+        padding: 2px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: #fff;
+      }
+
+      .segmented button {
+        height: 26px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--muted);
+      }
+
+      .segmented button.active {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .tabs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 40px;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .tab {
+        display: inline-flex;
+        align-items: center;
+        height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .tab.active {
+        border-color: var(--primary);
+        background: var(--primary-soft);
+        color: var(--primary);
+      }
+
+      main {
+        padding: 16px;
+      }
+
+      .page {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .head,
+      .toolbar,
+      .detail-toolbar,
+      .title-line,
+      .metas,
+      .toolbar-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .head,
+      .detail-toolbar {
+        justify-content: space-between;
+        padding: 14px 16px;
+      }
+
+      .head h1 {
+        margin: 0 0 4px;
+        font-size: 18px;
+      }
+
+      .head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .btn {
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: #fff;
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .btn.primary {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .toolbar {
+        display: grid;
+        grid-template-columns: minmax(280px, 1fr) repeat(5, auto);
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .toolbar-actions {
+        gap: 8px;
+      }
+
+      .search,
+      .field input,
+      .field select,
+      .field textarea {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        outline: none;
+      }
+
+      .search,
+      .field input,
+      .field select {
+        height: 32px;
+        padding: 0 12px;
+      }
+
+      .field textarea {
+        min-height: 82px;
+        padding: 8px 12px;
+        resize: vertical;
+      }
+
+      .notice {
+        display: none;
+        padding: 10px 12px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 13px;
+      }
+
+      .notice.show {
+        display: block;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        height: 42px;
+        padding: 0 12px;
+        border-bottom: 1px solid #edf1f7;
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      th {
+        background: #f8fafc;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      tbody tr:hover td {
+        background: #fafcff;
+      }
+
+      .table-wrap,
+      .detail-table-wrap {
+        overflow: auto;
+      }
+
+      .link {
+        color: var(--primary);
+        cursor: pointer;
+      }
+
+      .num {
+        font-variant-numeric: tabular-nums;
+      }
+
+      .status {
+        font-weight: 700;
+      }
+
+      .status.green {
+        color: var(--success);
+      }
+
+      .status.blue {
+        color: var(--primary);
+      }
+
+      .status.yellow {
+        color: var(--warning);
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 18px;
+        padding: 16px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+
+      .field.wide {
+        grid-column: span 2;
+      }
+
+      .field label {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .quick-grid,
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        padding: 0 16px 16px;
+      }
+
+      .quick-card,
+      .metric {
+        padding: 14px;
+      }
+
+      .quick-card span,
+      .metric span,
+      .metric em {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+        font-style: normal;
+      }
+
+      .metric strong {
+        display: block;
+        margin: 10px 0 6px;
+        font-size: 24px;
+      }
+
+      .detail-header {
+        padding: 18px 20px;
+      }
+
+      .title-line {
+        gap: 12px;
+      }
+
+      .title-line h1 {
+        margin: 0;
+        font-size: 22px;
+      }
+
+      .code {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .metas {
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .detail-card {
+        padding: 0 16px 16px;
+      }
+
+      .detail-tabs {
+        display: flex;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .detail-tabs button {
+        height: 44px;
+        padding: 0 16px;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .detail-tabs button.active {
+        border-bottom-color: var(--primary);
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .section-title {
+        margin: 14px 0 10px;
+        font-weight: 700;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border: 1px solid var(--border);
+        border-right: 0;
+        border-bottom: 0;
+      }
+
+      .info-item {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr);
+        min-height: 42px;
+        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .info-item span,
+      .info-item strong {
+        padding: 10px 12px;
+      }
+
+      .info-item span {
+        background: #f8fafc;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .info-item strong {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 500;
+      }
+
+      .rich {
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #f8fafc;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .detail-table {
+        min-width: 960px;
+        border-collapse: collapse;
+      }
+
+      .detail-table th,
+      .detail-table td {
+        border: 1px solid var(--border);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand"><strong>AW</strong><span>研发中心</span></div>
+        <nav class="menu" id="menu"></nav>
+      </aside>
+      <section class="shell">
+        <header class="topbar">
+          <div>
+            <strong id="pageTitle">研发项目</strong>
+            <span>与销售中心同框架转化：列表页、新增页、详情页</span>
+          </div>
+          <div class="topbar-actions">
+            <div class="segmented"><button class="active">Mock</button><button>Remote</button></div>
+            <div class="avatar">研</div>
+          </div>
+        </header>
+        <nav class="tabs"><span class="tab active" id="activeTab">研发项目</span></nav>
+        <main id="app"></main>
+      </section>
+    </div>
+
+    <script>
+      const configs = {
+        projects: {
+          title: "研发项目",
+          createLabel: "新增研发项目",
+          search: "搜索项目名称、编号、客户、产品、负责人",
+          primary: "name",
+          columns: [["code", "项目编号"], ["name", "项目名称", "link"], ["customerName", "客户"], ["productName", "目标产品"], ["ownerName", "项目负责人"], ["startDate", "立项日期"], ["expectedDate", "计划完成"], ["bomStatusName", "BOM状态", "status"], ["processStatusName", "工艺状态", "status"], ["quoteStatusName", "报价状态", "status"], ["statusName", "项目状态", "status"]],
+          fields: ["项目名称", "客户", "目标产品", "项目负责人", "立项日期", "计划完成日期", "优先级", "项目说明"]
+        },
+        boms: {
+          title: "BOM管理",
+          createLabel: "新增BOM",
+          search: "搜索BOM名称、编号、适用产品、版本、编制人",
+          primary: "name",
+          columns: [["code", "BOM编号"], ["name", "BOM名称", "link"], ["productName", "适用产品"], ["version", "版本"], ["typeName", "BOM类型"], ["materialCount", "物料数", "num"], ["totalCost", "成本估算", "num"], ["authorName", "编制人"], ["effectiveDate", "生效日期"], ["statusName", "状态", "status"]],
+          fields: ["BOM名称", "适用产品", "版本号", "BOM类型", "编制人", "生效日期"]
+        },
+        processes: {
+          title: "工艺路线",
+          createLabel: "新增工艺路线",
+          search: "搜索工艺名称、编号、适用产品、版本、编制人",
+          primary: "name",
+          columns: [["code", "工艺编号"], ["name", "工艺名称", "link"], ["productName", "适用产品"], ["version", "版本"], ["categoryName", "工艺分类"], ["operationCount", "工序数", "num"], ["outsourcingCount", "委外工序", "num"], ["standardHours", "标准工时", "num"], ["authorName", "编制人"], ["statusName", "状态", "status"]],
+          fields: ["工艺名称", "适用产品", "版本号", "工艺分类", "编制人", "生效日期"]
+        }
+      };
+      const data = {
+        projects: [
+          { id: "project_001", code: "RD-202606-001", name: "启明智能控制器研发项目", customerName: "深圳市启明科技有限公司", productName: "智能控制器 AW-C200", ownerName: "陈思源", startDate: "2026-06-01", expectedDate: "2026-07-20", bomStatusName: "已锁定", processStatusName: "已锁定", quoteStatusName: "已确认", statusName: "研发中", priorityName: "高", description: "面向工业现场温控与采集的控制器项目，需要同步维护项目BOM、工艺路线和成本报价基准。" },
+          { id: "project_002", code: "RD-202606-002", name: "泽远产线传感器适配项目", customerName: "上海泽远制造有限公司", productName: "温湿度传感器 AW-S18", ownerName: "李文涛", startDate: "2026-06-03", expectedDate: "2026-08-10", bomStatusName: "编制中", processStatusName: "待配置", quoteStatusName: "待测算", statusName: "立项", priorityName: "中", description: "按客户现有产线接口调整外壳、线束与测试工艺，形成可报价的项目版本。" }
+        ],
+        boms: [
+          { id: "bom_001", code: "BOM-202606-001", name: "AW-C200 智能控制器项目BOM", productName: "智能控制器 AW-C200", version: "V1.2", typeName: "项目BOM", materialCount: 8, totalCost: 18420, authorName: "王启", effectiveDate: "2026-06-05", statusName: "已审批" },
+          { id: "bom_002", code: "BOM-202606-002", name: "AW-S18 传感器设计BOM", productName: "温湿度传感器 AW-S18", version: "V0.9", typeName: "设计BOM", materialCount: 6, totalCost: 6800, authorName: "周远", effectiveDate: "2026-06-08", statusName: "草稿" }
+        ],
+        processes: [
+          { id: "process_001", code: "PROC-202606-001", name: "AW-C200 控制器装配工艺", productName: "智能控制器 AW-C200", version: "V1.1", categoryName: "装配工艺", operationCount: 6, outsourcingCount: 1, standardHours: 3.6, authorName: "赵工", statusName: "已启用" },
+          { id: "process_002", code: "PROC-202606-002", name: "AW-S18 传感器测试工艺", productName: "温湿度传感器 AW-S18", version: "V0.8", categoryName: "测试工艺", operationCount: 4, outsourcingCount: 0, standardHours: 1.8, authorName: "孙敏", statusName: "编制中" }
+        ]
+      };
+      const detailTables = {
+        members: { title: "项目成员", columns: ["姓名", "角色", "加入时间"], rows: [["陈思源", "项目负责人", "2026-06-01"], ["王启", "BOM工程师", "2026-06-01"], ["赵工", "工艺工程师", "2026-06-02"], ["张国", "销售接口人", "2026-06-02"]] },
+        bom: { title: "BOM清单", columns: ["序号", "物料编码", "物料名称", "规格型号", "单位", "项目用量", "来源", "状态"], rows: [["1", "MAT-PCB-001", "控制主板", "AW-C200-MB", "块", "20", "项目BOM", "已锁定"], ["2", "MAT-SHELL-012", "铝合金外壳", "C200-AL", "套", "20", "项目BOM", "已锁定"], ["3", "MAT-WIRE-088", "端子线束", "C200-WH", "套", "20", "项目BOM", "已锁定"]] },
+        process: { title: "工艺路线", columns: ["序号", "工序编号", "工序名称", "工作中心", "类型", "工时", "状态"], rows: [["1", "OP-010", "SMT贴片", "电子车间", "自制", "0.8h", "已确认"], ["2", "OP-020", "外壳阳极氧化", "华南表面处理", "委外", "1.0h", "已确认"], ["3", "OP-030", "整机装配", "装配车间", "自制", "1.2h", "已确认"]] },
+        quote: { title: "报价测算", columns: ["序号", "成本项", "来源说明", "金额", "状态"], rows: [["1", "材料成本", "来自项目BOM", "18,420.00", "已锁定"], ["2", "工艺成本", "来自项目工艺路线", "6,800.00", "已锁定"], ["3", "项目费用", "打样、测试、差旅", "3,200.00", "已记录"]] },
+        logs: { title: "操作记录", columns: ["操作类型", "操作人", "操作时间", "操作内容"], rows: [["创建项目", "陈思源", "2026-06-01 09:20", "项目立项并分配研发成员"], ["锁定BOM", "王启", "2026-06-05 15:10", "BOM版本 V1.2 已作为报价基准"], ["锁定工艺", "赵工", "2026-06-06 11:40", "装配工艺 V1.1 已确认"]] }
+      };
+      let active = "projects";
+      let view = "list";
+      let activeRecord = data.projects[0];
+      let activeDetailTab = "info";
+
+      function initMenu() {
+        document.getElementById("menu").innerHTML = [["projects", "项", "研发项目"], ["boms", "B", "BOM管理"], ["processes", "工", "工艺路线"]]
+          .map(([key, icon, label]) => `<button data-key="${key}" onclick="switchResource('${key}')"><span>${icon}</span>${label}</button>`).join("");
+      }
+
+      function switchResource(key) {
+        active = key;
+        view = "list";
+        activeRecord = data[key][0];
+        render();
+      }
+
+      function render() {
+        const cfg = configs[active];
+        document.getElementById("pageTitle").textContent = cfg.title;
+        document.getElementById("activeTab").textContent = view === "new" ? cfg.createLabel : view === "detail" ? `${cfg.title}详情` : cfg.title;
+        document.querySelectorAll(".menu button").forEach((btn) => btn.classList.toggle("active", btn.dataset.key === active));
+        if (view === "new") renderCreate();
+        else if (view === "detail") renderDetail();
+        else renderList();
+      }
+
+      function renderList() {
+        const cfg = configs[active];
+        const rows = data[active];
+        document.getElementById("app").innerHTML = `
+          <section class="page">
+            <section class="card head">
+              <div><h1>${cfg.title}</h1><p>${cfg.search}</p></div>
+              <button class="btn primary" onclick="view='new';render()">${cfg.createLabel}</button>
+            </section>
+            <section class="card toolbar">
+              <input class="search" placeholder="${cfg.search}" />
+              <button class="btn" onclick="notice('已刷新，共 ${rows.length} 条。')">刷新</button>
+              <button class="btn" onclick="notice('高级筛选面板已预留。')">筛选</button>
+              <button class="btn" onclick="notice('字段配置已预留。')">字段配置</button>
+              <button class="btn" onclick="notice('${cfg.title}导入入口已预留。')">导入</button>
+              <button class="btn" onclick="notice('${cfg.title}导出任务已创建。')">导出</button>
+            </section>
+            <div class="notice" id="notice"></div>
+            <section class="card table-wrap">
+              <table>
+                <thead><tr><th style="width:46px"><input type="checkbox" /></th><th style="width:64px">序号</th>${cfg.columns.map((col) => `<th>${col[1]}</th>`).join("")}<th>操作</th></tr></thead>
+                <tbody>${rows.map((row, index) => `<tr><td><input type="checkbox" /></td><td>${index + 1}</td>${cfg.columns.map((col) => cell(row, col)).join("")}<td><span class="link" onclick="openDetail('${row.id}')">查看</span></td></tr>`).join("")}</tbody>
+              </table>
+              <div class="footer"><span>共 ${rows.length} 条，已选 0 条</span><span><button class="btn">批量提交</button> <button class="btn">批量指定</button></span></div>
+            </section>
+          </section>`;
+      }
+
+      function renderCreate() {
+        const cfg = configs[active];
+        const extras = active === "projects"
+          ? [["成员配置", "保存项目后可在详情页维护研发、销售、工艺、BOM成员。"], ["BOM基准", "项目详情可引用或新增BOM，并锁定为报价和生产基准。"], ["工艺基准", "项目详情可选择工艺路线，支持自制和委外工序追踪。"]]
+          : active === "boms"
+            ? [["物料导入", "预留Excel导入、物料选择和替代料维护入口。"], ["型号适配", "支持按产品型号过滤适用物料。"], ["审批生效", "保存后可在详情页查看审批状态和生效信息。"]]
+            : [["工序画布", "保存后可维护串序、并序、自制和委外工序。"], ["工时成本", "支持标准工时、人工、设备和委外成本测算。"], ["质量参数", "可记录检验要求、技术参数和产出物。"]];
+        document.getElementById("app").innerHTML = `
+          <section class="page">
+            <section class="card detail-toolbar">
+              <button class="btn" onclick="view='list';render()">返回列表</button>
+              <div class="toolbar-actions"><button class="btn" onclick="renderCreate()">重置</button><button class="btn primary" onclick="notice('${cfg.createLabel}已保存，静态预览不写入数据。')">保存</button></div>
+            </section>
+            <section class="card head"><div><h1>${cfg.createLabel}</h1><p>按研发中心资源配置生成新增页。</p></div></section>
+            <div class="notice" id="notice"></div>
+            <section class="card">
+              <div class="section-title" style="padding:16px 16px 0">基础信息</div>
+              <div class="form-grid">${cfg.fields.map((label) => `<div class="field ${label.includes("说明") ? "wide" : ""}"><label>${label}</label>${label.includes("说明") ? `<textarea placeholder="请输入${label}"></textarea>` : `<input placeholder="请输入${label}" />`}</div>`).join("")}</div>
+              <div class="section-title" style="padding:0 16px">初始化入口</div>
+              <div class="quick-grid">${extras.map(([title, desc]) => `<article class="card quick-card"><strong>${title}</strong><span>${desc}</span></article>`).join("")}</div>
+            </section>
+          </section>`;
+      }
+
+      function renderDetail() {
+        const cfg = configs[active];
+        const row = activeRecord;
+        const metrics = active === "projects"
+          ? [["BOM状态", row.bomStatusName, "影响报价和采购基准"], ["工艺状态", row.processStatusName, "影响生产和成本测算"], ["报价状态", row.quoteStatusName, "确认后可同步销售"], ["优先级", row.priorityName || "-", "用于研发排期"]]
+          : active === "boms"
+            ? [["物料数", row.materialCount, "包含多层结构物料"], ["成本估算", money(row.totalCost), "用于项目报价测算"], ["版本", row.version, "审批后锁定生效"], ["类型", row.typeName, "区分设计/制造/项目BOM"]]
+            : [["工序数", row.operationCount, "包含串序和并序"], ["委外工序", row.outsourcingCount, "影响采购协同"], ["标准工时", `${row.standardHours}h`, "用于产能和成本测算"], ["版本", row.version, "审批后作为生产基准"]];
+        document.getElementById("app").innerHTML = `
+          <section class="page">
+            <section class="card detail-toolbar">
+              <button class="btn" onclick="view='list';render()">返回列表</button>
+              <div class="toolbar-actions"><button class="btn primary" onclick="notice('锁定动作已记录。')">${active === "projects" ? "锁定报价" : active === "boms" ? "锁定BOM" : "锁定工艺"}</button><button class="btn">修改</button><button class="btn">提交审批</button><button class="btn">导出</button></div>
+            </section>
+            <section class="card detail-header">
+              <div class="title-line"><h1>${row[cfg.primary]}</h1><span class="status ${tone(row.statusName)}">${row.statusName || row.bomStatusName || "-"}</span></div>
+              <div class="code">单据编号：${row.code}</div>
+              <div class="metas"><span>适用产品：${row.productName}</span><span>负责人/编制人：${row.ownerName || row.authorName}</span><span>客户/项目：${row.customerName || row.projectCode || "-"}</span><span>版本：${row.version || "-"}</span></div>
+            </section>
+            <div class="metric-grid">${metrics.map((item) => `<article class="card metric"><span>${item[0]}</span><strong>${item[1]}</strong><em>${item[2]}</em></article>`).join("")}</div>
+            <div class="notice" id="notice"></div>
+            <section class="card detail-card"><nav class="detail-tabs" id="detailTabs"></nav><div id="detailPanel"></div></section>
+          </section>`;
+        renderDetailTabs();
+        renderDetailPanel();
+      }
+
+      function renderDetailTabs() {
+        const tabList = active === "projects" ? [["info", "基础信息"], ["members", "项目成员"], ["bom", "BOM清单"], ["process", "工艺路线"], ["quote", "报价测算"], ["logs", "操作记录"]] : active === "boms" ? [["info", "基础信息"], ["bom", "物料明细"], ["logs", "变更记录"]] : [["info", "基础信息"], ["process", "工序明细"], ["logs", "工艺参数"]];
+        document.getElementById("detailTabs").innerHTML = tabList.map(([key, label]) => `<button class="${activeDetailTab === key ? "active" : ""}" onclick="activeDetailTab='${key}';renderDetailTabs();renderDetailPanel()">${label}</button>`).join("");
+      }
+
+      function renderDetailPanel() {
+        const row = activeRecord;
+        if (activeDetailTab === "info") {
+          document.getElementById("detailPanel").innerHTML = `<div class="section-title">基础信息</div><div class="info-grid">${Object.entries(row).filter(([key]) => key !== "id").map(([key, value]) => `<div class="info-item"><span>${label(key)}</span><strong>${value}</strong></div>`).join("")}</div><div class="section-title">说明</div><div class="rich">${row.description || "该详情页用于维护研发资源的基础资料、明细、状态和跨模块联动信息。"}</div>`;
+          return;
+        }
+        const table = detailTables[activeDetailTab] || detailTables.logs;
+        document.getElementById("detailPanel").innerHTML = `<div class="section-title">${table.title}</div><div class="detail-table-wrap"><table class="detail-table"><thead><tr>${table.columns.map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>${table.rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+      }
+
+      function openDetail(id) {
+        activeRecord = data[active].find((item) => item.id === id) || data[active][0];
+        activeDetailTab = "info";
+        view = "detail";
+        render();
+      }
+
+      function cell(row, col) {
+        const value = row[col[0]] ?? "-";
+        if (col[2] === "link") return `<td><span class="link" onclick="openDetail('${row.id}')">${value}</span></td>`;
+        if (col[2] === "num") return `<td class="num">${typeof value === "number" ? money(value) : value}</td>`;
+        if (col[2] === "status") return `<td><span class="status ${tone(value)}">${value}</span></td>`;
+        return `<td>${value}</td>`;
+      }
+
+      function tone(value) {
+        if (["已锁定", "已确认", "已审批", "已启用", "完成"].includes(String(value))) return "green";
+        if (["研发中", "编制中", "立项"].includes(String(value))) return "blue";
+        return "yellow";
+      }
+
+      function money(value) {
+        return Number(value || 0).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      function label(key) {
+        return ({ code: "编号", name: "名称", customerName: "客户", productName: "产品", ownerName: "负责人", startDate: "立项日期", expectedDate: "计划完成", bomStatusName: "BOM状态", processStatusName: "工艺状态", quoteStatusName: "报价状态", statusName: "状态", priorityName: "优先级", version: "版本", typeName: "BOM类型", materialCount: "物料数", totalCost: "成本估算", authorName: "编制人", effectiveDate: "生效日期", categoryName: "工艺分类", operationCount: "工序数", outsourcingCount: "委外工序", standardHours: "标准工时" })[key] || key;
+      }
+
+      function notice(text) {
+        const el = document.getElementById("notice");
+        el.textContent = text;
+        el.classList.add("show");
+      }
+
+      initMenu();
+      render();
+    </script>
+  </body>
+</html>

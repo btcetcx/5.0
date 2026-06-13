@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>傲为 ERP 销售中心预览</title>
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-soft: #eff6ff;
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --border: #dfe5ef;
+        --text: #1f2937;
+        --muted: #667085;
+        --success: #16a34a;
+        --warning: #d97706;
+        --sidebar: #172033;
+        --sidebar-active: #23304a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 1180px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 226px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        background: var(--sidebar);
+        color: #d8e1f2;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 56px;
+        padding: 0 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, .08);
+      }
+
+      .brand strong {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .menu {
+        padding: 10px 8px;
+      }
+
+      .menu button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        height: 40px;
+        margin-bottom: 4px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .menu button:hover,
+      .menu button.active {
+        background: var(--sidebar-active);
+        color: #fff;
+      }
+
+      .shell {
+        min-width: 0;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .topbar strong {
+        display: block;
+      }
+
+      .topbar span {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .segmented {
+        display: inline-flex;
+        padding: 2px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: #fff;
+      }
+
+      .segmented button {
+        height: 26px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .segmented button.active {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .tabs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 40px;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .tab {
+        display: inline-flex;
+        align-items: center;
+        height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .tab.active {
+        border-color: var(--primary);
+        background: var(--primary-soft);
+        color: var(--primary);
+      }
+
+      main {
+        padding: 16px;
+      }
+
+      .page {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 16px;
+      }
+
+      .head h1 {
+        margin: 0 0 4px;
+        font-size: 18px;
+      }
+
+      .head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .btn {
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: #fff;
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .btn.primary {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .toolbar {
+        display: grid;
+        grid-template-columns: minmax(280px, 1fr) repeat(5, auto);
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .search {
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        outline: none;
+      }
+
+      .notice {
+        display: none;
+        padding: 10px 12px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 13px;
+      }
+
+      .notice.show {
+        display: block;
+      }
+
+      .table-wrap {
+        overflow: hidden;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        height: 42px;
+        padding: 0 12px;
+        border-bottom: 1px solid #edf1f7;
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      th {
+        background: #f8fafc;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      tbody tr:hover td {
+        background: #fafcff;
+      }
+
+      .link {
+        color: var(--primary);
+        cursor: pointer;
+      }
+
+      .num {
+        font-variant-numeric: tabular-nums;
+      }
+
+      .status {
+        font-weight: 600;
+      }
+
+      .status.green {
+        color: var(--success);
+      }
+
+      .status.blue {
+        color: var(--primary);
+      }
+
+      .status.yellow {
+        color: var(--warning);
+      }
+
+      .status.gray {
+        color: var(--muted);
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .kpi {
+        padding: 16px;
+      }
+
+      .kpi span,
+      .kpi em {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+        font-style: normal;
+      }
+
+      .kpi strong {
+        display: block;
+        margin: 10px 0 6px;
+        font-size: 24px;
+      }
+
+      .drawer,
+      .modal-mask {
+        display: none;
+      }
+
+      .drawer.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, .32);
+        z-index: 20;
+      }
+
+      .drawer-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 520px;
+        height: 100%;
+        padding: 18px;
+        background: #fff;
+        box-shadow: -10px 0 24px rgba(15, 23, 42, .12);
+      }
+
+      .drawer-panel header,
+      .modal header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+
+      .drawer-panel h2,
+      .modal h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+
+      .detail-list {
+        display: grid;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .detail-row {
+        display: grid;
+        grid-template-columns: 130px minmax(0, 1fr);
+        min-height: 38px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .detail-row:last-child {
+        border-bottom: 0;
+      }
+
+      .detail-row span,
+      .detail-row strong {
+        padding: 10px 12px;
+      }
+
+      .detail-row span {
+        background: #f8fafc;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .modal-mask.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, .32);
+        z-index: 30;
+      }
+
+      .modal {
+        width: 720px;
+        max-width: calc(100vw - 48px);
+        border-radius: 10px;
+        background: #fff;
+        padding: 18px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 18px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+
+      .field label {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .field input,
+      .field select {
+        height: 32px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+      }
+
+      .modal-foot {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand"><strong>AW</strong><span>销售中心</span></div>
+        <nav class="menu" id="menu"></nav>
+      </aside>
+      <section class="shell">
+        <header class="topbar">
+          <div>
+            <strong id="pageTitle">销售工作台</strong>
+            <span>参考 vue3-admin-better 重建的销售管理框架静态预览</span>
+          </div>
+          <div class="topbar-actions">
+            <div class="segmented"><button class="active">Mock</button><button>Remote</button></div>
+            <div class="avatar">销</div>
+          </div>
+        </header>
+        <nav class="tabs"><span class="tab active" id="activeTab">销售工作台</span></nav>
+        <main id="app"></main>
+      </section>
+    </div>
+
+    <div class="drawer" id="drawer">
+      <div class="drawer-panel">
+        <header><h2 id="drawerTitle">详情</h2><button class="btn" onclick="closeDrawer()">关闭</button></header>
+        <div class="detail-list" id="detailList"></div>
+      </div>
+    </div>
+
+    <div class="modal-mask" id="modal">
+      <div class="modal">
+        <header><h2 id="modalTitle">新增</h2><button class="btn" onclick="closeModal()">关闭</button></header>
+        <div class="form-grid" id="formGrid"></div>
+        <div class="modal-foot">
+          <button class="btn" onclick="closeModal()">取消</button>
+          <button class="btn primary" onclick="submitCreate()">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const configs = {
+        dashboard: { title: "销售工作台" },
+        customers: {
+          title: "客户管理",
+          createLabel: "新增客户",
+          search: "搜索客户名称、联系人、手机号、负责人",
+          primary: "name",
+          columns: [
+            ["code", "客户编码"],
+            ["name", "客户名称", "link"],
+            ["groupName", "客户分组"],
+            ["contactName", "联系人"],
+            ["contactPhone", "联系电话"],
+            ["managerName", "负责人"],
+            ["creditLimit", "信用额度", "num"],
+            ["receivableAmount", "应收金额", "num"],
+            ["creditStatusName", "信用状态", "status"],
+            ["statusName", "状态", "status"]
+          ],
+          fields: ["客户名称", "客户分组", "联系人", "联系电话", "负责人", "信用额度"]
+        },
+        plans: {
+          title: "销售计划",
+          createLabel: "新增计划",
+          search: "搜索计划名称、编号、产品、负责人",
+          primary: "name",
+          columns: [
+            ["code", "计划编号"],
+            ["name", "计划名称", "link"],
+            ["productSummary", "产品摘要"],
+            ["cycle", "计划周期"],
+            ["ownerName", "负责人"],
+            ["targetAmount", "目标金额", "num"],
+            ["doneAmount", "完成金额", "num"],
+            ["achievementRate", "达成率", "num"],
+            ["statusName", "状态", "status"]
+          ],
+          fields: ["计划名称", "产品摘要", "开始日期", "结束日期", "负责人", "目标金额"]
+        },
+        quotes: {
+          title: "报价管理",
+          createLabel: "新增报价",
+          search: "搜索报价主题、编号、客户、版本",
+          primary: "topic",
+          columns: [
+            ["code", "报价编号"],
+            ["topic", "报价主题", "link"],
+            ["quoteTypeName", "报价类型"],
+            ["customerName", "客户"],
+            ["amount", "报价金额", "num"],
+            ["priceVersion", "价格版本"],
+            ["conversionStatusName", "转化状态", "status"],
+            ["quoteDate", "报价日期"],
+            ["expireDate", "有效期至"],
+            ["statusName", "状态", "status"]
+          ],
+          fields: ["报价主题", "客户", "报价类型", "报价金额", "报价日期", "有效期至"]
+        },
+        contracts: {
+          title: "合同管理",
+          createLabel: "新增合同",
+          search: "搜索合同主题、编号、客户、来源单据",
+          primary: "topic",
+          columns: [
+            ["code", "合同编号"],
+            ["topic", "合同主题", "link"],
+            ["customerName", "客户"],
+            ["sourceCode", "来源单据"],
+            ["amount", "合同金额", "num"],
+            ["orderedAmount", "已下单金额", "num"],
+            ["shippedAmount", "已发货金额", "num"],
+            ["receivedAmount", "已回款金额", "num"],
+            ["expireDate", "失效日期"],
+            ["executionStatusName", "履约状态", "status"]
+          ],
+          fields: ["合同主题", "客户", "来源单据", "合同金额", "签订日期", "失效日期"]
+        },
+        orders: {
+          title: "订单管理",
+          createLabel: "新增订单",
+          search: "搜索订单主题、编号、客户、来源单据",
+          primary: "topic",
+          columns: [
+            ["code", "订单编号"],
+            ["topic", "订单主题", "link"],
+            ["sourceType", "来源类型"],
+            ["sourceCode", "来源单据"],
+            ["customerName", "客户"],
+            ["amount", "订单金额", "num"],
+            ["creditCheckName", "信用校验", "status"],
+            ["receivableAmount", "应收金额", "num"],
+            ["deliveryDate", "交付日期"],
+            ["progressName", "进度", "status"],
+            ["statusName", "状态", "status"]
+          ],
+          fields: ["订单主题", "客户", "来源类型", "来源单据", "订单金额", "交付日期"]
+        }
+      };
+
+      const data = {
+        customers: [
+          { id: "customer_001", code: "CUS-2026-001", name: "深圳市启明科技有限公司", groupName: "重点客户", contactName: "何志远", contactPhone: "13900139002", managerName: "张国", creditLimit: 200000, receivableAmount: 18600, creditStatusName: "正常", statusName: "启用" },
+          { id: "customer_002", code: "CUS-2026-002", name: "上海泽远制造有限公司", groupName: "普通客户", contactName: "周远", contactPhone: "13500135005", managerName: "陈思源", creditLimit: 120000, receivableAmount: 0, creditStatusName: "正常", statusName: "启用" },
+          { id: "customer_003", code: "CUS-2026-003", name: "广州明德贸易有限公司", groupName: "渠道客户", contactName: "苏婧", contactPhone: "13700137003", managerName: "李文涛", creditLimit: 90000, receivableAmount: 56000, creditStatusName: "临近额度", statusName: "启用" }
+        ],
+        plans: [
+          { id: "plan_001", code: "SP-202606-001", name: "华南区域六月销售计划", productSummary: "传感器 / 控制器", cycle: "2026-06-01 ~ 2026-06-30", ownerName: "张国", targetAmount: 500000, doneAmount: 216000, achievementRate: 43, statusName: "执行中" },
+          { id: "plan_002", code: "SP-202606-002", name: "重点客户复购计划", productSummary: "智能控制模块", cycle: "2026-06-01 ~ 2026-07-15", ownerName: "李文涛", targetAmount: 320000, doneAmount: 320000, achievementRate: 100, statusName: "已完成" }
+        ],
+        quotes: [
+          { id: "quote_001", code: "QT-20260603001", topic: "启明智能控制器项目报价", quoteTypeName: "项目报价", customerName: "深圳市启明科技有限公司", amount: 128000, priceVersion: "PV-2026-06-A", conversionStatusName: "已转合同", quoteDate: "2026-06-03", expireDate: "2026-06-30", statusName: "已审批" },
+          { id: "quote_002", code: "QT-20260602002", topic: "泽远产线自动化配件报价", quoteTypeName: "标准报价", customerName: "上海泽远制造有限公司", amount: 68000, priceVersion: "PV-2026-05-B", conversionStatusName: "待转化", quoteDate: "2026-06-02", expireDate: "2026-06-25", statusName: "待审批" }
+        ],
+        contracts: [
+          { id: "contract_001", code: "HT-20260603001", topic: "启明年度供货合同", customerName: "深圳市启明科技有限公司", sourceCode: "报价单 QT-20260603001", amount: 128000, orderedAmount: 42600, shippedAmount: 18600, receivedAmount: 3000, expireDate: "2026-12-31", executionStatusName: "履约中" },
+          { id: "contract_002", code: "HT-20260601003", topic: "泽远项目合同", customerName: "上海泽远制造有限公司", sourceCode: "项目 PRJ-2026-05555", amount: 68000, orderedAmount: 68000, shippedAmount: 68000, receivedAmount: 68000, expireDate: "2026-09-30", executionStatusName: "履约完成" }
+        ],
+        orders: [
+          { id: "order_001", code: "SO-20260603001", topic: "启明控制器首批订单", sourceType: "合同转订单", sourceCode: "HT-20260603001", customerName: "深圳市启明科技有限公司", amount: 42600, creditCheckName: "通过", receivableAmount: 18600, deliveryDate: "2026-06-18", progressName: "待发货", statusName: "执行中" },
+          { id: "order_002", code: "SO-20260602002", topic: "泽远配件补货订单", sourceType: "手动创建", sourceCode: "手动", customerName: "上海泽远制造有限公司", amount: 24600, creditCheckName: "通过", receivableAmount: 0, deliveryDate: "2026-06-12", progressName: "已完成", statusName: "已完成" }
+        ]
+      };
+
+      const menuItems = [
+        ["dashboard", "▦", "销售工作台"],
+        ["customers", "人", "客户管理"],
+        ["plans", "计", "销售计划"],
+        ["quotes", "报", "报价管理"],
+        ["contracts", "合", "合同管理"],
+        ["orders", "单", "订单管理"]
+      ];
+
+      let active = "dashboard";
+      let keyword = "";
+
+      function initMenu() {
+        document.getElementById("menu").innerHTML = menuItems.map(([key, icon, label]) =>
+          `<button data-key="${key}" onclick="switchModule('${key}')"><span>${icon}</span>${label}</button>`
+        ).join("");
+      }
+
+      function switchModule(key) {
+        active = key;
+        keyword = "";
+        render();
+      }
+
+      function render() {
+        const cfg = configs[active];
+        document.getElementById("pageTitle").textContent = cfg.title;
+        document.getElementById("activeTab").textContent = cfg.title;
+        document.querySelectorAll(".menu button").forEach(btn => btn.classList.toggle("active", btn.dataset.key === active));
+        if (active === "dashboard") renderDashboard();
+        else renderResource();
+      }
+
+      function renderDashboard() {
+        document.getElementById("app").innerHTML = `
+          <section class="page">
+            <div class="dashboard-grid">
+              ${[
+                ["本月报价额", "¥196,000", "2 单报价"],
+                ["合同金额", "¥196,000", "履约中 1 单"],
+                ["订单金额", "¥67,200", "执行中 1 单"],
+                ["客户数", "3", "重点客户 1 家"]
+              ].map(item => `<article class="card kpi"><span>${item[0]}</span><strong>${item[1]}</strong><em>${item[2]}</em></article>`).join("")}
+            </div>
+            <section class="card head">
+              <div><h1>销售中心模块</h1><p>客户、计划、报价、合同、订单已可预览。</p></div>
+              <button class="btn primary" onclick="switchModule('customers')">进入客户管理</button>
+            </section>
+          </section>`;
+      }
+
+      function renderResource() {
+        const cfg = configs[active];
+        const rows = data[active].filter(row => !keyword || JSON.stringify(row).toLowerCase().includes(keyword.toLowerCase()));
+        document.getElementById("app").innerHTML = `
+          <section class="page">
+            <section class="card head">
+              <div><h1>${cfg.title}</h1><p>${cfg.search}</p></div>
+              <button class="btn primary" onclick="openModal()">${cfg.createLabel}</button>
+            </section>
+            <section class="card toolbar">
+              <input class="search" value="${keyword}" placeholder="${cfg.search}" oninput="keyword=this.value;renderResource()" />
+              <button class="btn" onclick="showNotice('${cfg.title}已刷新，共 ${rows.length} 条。')">刷新</button>
+              <button class="btn" onclick="showNotice('筛选面板已预留，可继续接入高级筛选。')">筛选</button>
+              <button class="btn" onclick="showNotice('字段配置已预留，可按列显示控制。')">字段配置</button>
+              <button class="btn" onclick="showNotice('${cfg.title}导入入口已预留。')">导入</button>
+              <button class="btn" onclick="showNotice('${cfg.title}导出任务已创建，共 ${rows.length} 条。')">导出</button>
+            </section>
+            <div class="notice" id="notice"></div>
+            <section class="card table-wrap">
+              <table>
+                <thead><tr><th style="width:46px"><input type="checkbox" /></th><th style="width:64px">序号</th>${cfg.columns.map(col => `<th>${col[1]}</th>`).join("")}<th>操作</th></tr></thead>
+                <tbody>
+                  ${rows.map((row, index) => `<tr>
+                    <td><input type="checkbox" /></td>
+                    <td class="num">${index + 1}</td>
+                    ${cfg.columns.map(col => cell(row, col)).join("")}
+                    <td><span class="link" onclick="openDrawer('${row.id}')">查看</span></td>
+                  </tr>`).join("")}
+                </tbody>
+              </table>
+              <div class="footer"><span>共 ${rows.length} 条，已选 0 条</span><span><button class="btn">批量提交</button> <button class="btn">批量指定</button></span></div>
+            </section>
+          </section>`;
+      }
+
+      function cell(row, col) {
+        const value = row[col[0]] ?? "-";
+        if (col[2] === "link") return `<td><span class="link" onclick="openDrawer('${row.id}')">${value}</span></td>`;
+        if (col[2] === "num") return `<td class="num">${typeof value === "number" ? value.toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : value}</td>`;
+        if (col[2] === "status") return `<td><span class="status ${tone(value)}">${value}</span></td>`;
+        return `<td>${value}</td>`;
+      }
+
+      function tone(value) {
+        if (["启用", "正常", "已审批", "已完成", "履约完成", "通过"].includes(String(value))) return "green";
+        if (["执行中", "履约中", "待发货"].includes(String(value))) return "blue";
+        if (["待审批", "临近额度", "草稿"].includes(String(value))) return "yellow";
+        return "gray";
+      }
+
+      function showNotice(text) {
+        const notice = document.getElementById("notice");
+        notice.textContent = text;
+        notice.classList.add("show");
+      }
+
+      function openDrawer(id) {
+        const cfg = configs[active];
+        const row = data[active].find(item => item.id === id);
+        if (!row) return;
+        document.getElementById("drawerTitle").textContent = row[cfg.primary] || "详情";
+        document.getElementById("detailList").innerHTML = cfg.columns.map(col => `
+          <div class="detail-row"><span>${col[1]}</span><strong>${row[col[0]] ?? "-"}</strong></div>
+        `).join("");
+        document.getElementById("drawer").classList.add("show");
+      }
+
+      function closeDrawer() {
+        document.getElementById("drawer").classList.remove("show");
+      }
+
+      function openModal() {
+        const cfg = configs[active];
+        document.getElementById("modalTitle").textContent = cfg.createLabel;
+        document.getElementById("formGrid").innerHTML = cfg.fields.map(label => `
+          <div class="field"><label>${label}</label><input placeholder="请输入${label}" /></div>
+        `).join("");
+        document.getElementById("modal").classList.add("show");
+      }
+
+      function closeModal() {
+        document.getElementById("modal").classList.remove("show");
+      }
+
+      function submitCreate() {
+        closeModal();
+        showNotice(configs[active].createLabel + "已保存，当前为静态预览数据。");
+      }
+
+      initMenu();
+      render();
+    </script>
+  </body>
+</html>

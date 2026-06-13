@@ -1,0 +1,183 @@
+{
+  "company": {
+    "company": "海南傲为智慧科技有限公司",
+    "shortName": "海南傲为智慧",
+    "unifiedCode": "91460000MA5T000001",
+    "industry": "智能制造",
+    "contact": "老夏",
+    "phone": "0898-6688 0000",
+    "email": "admin@aowei.example",
+    "address": "海南省海口市龙华区智慧产业园 A 座",
+    "logoText": "傲"
+  },
+  "notifications": [
+    {
+      "id": "notice-site",
+      "channel": "站内通知",
+      "scene": "审批待办 / 系统公告 / 异常告警",
+      "rule": "实时推送，未读保留 90 天",
+      "receiver": "发起人、审批人、模块管理员",
+      "enabled": true
+    },
+    {
+      "id": "notice-sms",
+      "channel": "短信通知",
+      "scene": "登录异常 / 付款审批 / 发货异常",
+      "rule": "高风险事件立即发送，普通事件汇总发送",
+      "receiver": "负责人、部门主管",
+      "enabled": true
+    },
+    {
+      "id": "notice-mail",
+      "channel": "邮件通知",
+      "scene": "日报周报 / 导入导出结果 / 备份结果",
+      "rule": "按模板发送，失败自动重试 3 次",
+      "receiver": "订阅人、运维管理员",
+      "enabled": true
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-pcs",
+      "group": "计数",
+      "code": "PCS",
+      "name": "个",
+      "symbol": "个",
+      "baseUnit": "个",
+      "factor": "1",
+      "aliases": "件 / 只",
+      "isBase": true,
+      "enabled": true
+    },
+    {
+      "id": "unit-set",
+      "group": "计数",
+      "code": "SET",
+      "name": "套",
+      "symbol": "套",
+      "baseUnit": "个",
+      "factor": "1",
+      "aliases": "成套 / 组件",
+      "isBase": false,
+      "enabled": true
+    },
+    {
+      "id": "unit-kg",
+      "group": "重量",
+      "code": "KG",
+      "name": "kg",
+      "symbol": "kg",
+      "baseUnit": "kg",
+      "factor": "1",
+      "aliases": "千克 / 公斤",
+      "isBase": true,
+      "enabled": true
+    },
+    {
+      "id": "unit-g",
+      "group": "重量",
+      "code": "G",
+      "name": "g",
+      "symbol": "g",
+      "baseUnit": "kg",
+      "factor": "0.001",
+      "aliases": "克",
+      "isBase": false,
+      "enabled": true
+    },
+    {
+      "id": "unit-m",
+      "group": "长度",
+      "code": "M",
+      "name": "m",
+      "symbol": "m",
+      "baseUnit": "m",
+      "factor": "1",
+      "aliases": "米",
+      "isBase": true,
+      "enabled": true
+    },
+    {
+      "id": "unit-roll",
+      "group": "长度",
+      "code": "ROLL",
+      "name": "卷",
+      "symbol": "卷",
+      "baseUnit": "m",
+      "factor": "100",
+      "aliases": "卷料 / 100m",
+      "isBase": false,
+      "enabled": true
+    },
+    {
+      "id": "unit-box",
+      "group": "包装",
+      "code": "CTN",
+      "name": "箱",
+      "symbol": "箱",
+      "baseUnit": "箱",
+      "factor": "1",
+      "aliases": "箱装",
+      "isBase": true,
+      "enabled": true
+    }
+  ],
+  "currencies": [
+    {
+      "id": "currency-cny",
+      "code": "CNY",
+      "name": "人民币",
+      "symbol": "¥",
+      "precision": 2,
+      "exchangeRate": "1",
+      "rateMode": "固定",
+      "rateSource": "基础币",
+      "updateCycle": "固定",
+      "rateUpdatedAt": "2026-06-06 09:00",
+      "isBase": true,
+      "enabled": true
+    },
+    {
+      "id": "currency-usd",
+      "code": "USD",
+      "name": "美元",
+      "symbol": "$",
+      "precision": 2,
+      "exchangeRate": "7.2000",
+      "rateMode": "自动同步",
+      "rateSource": "中国外汇交易中心",
+      "updateCycle": "每日",
+      "rateUpdatedAt": "2026-06-06 09:00",
+      "isBase": false,
+      "enabled": true
+    },
+    {
+      "id": "currency-eur",
+      "code": "EUR",
+      "name": "欧元",
+      "symbol": "EUR",
+      "precision": 2,
+      "exchangeRate": "7.8500",
+      "rateMode": "自动同步",
+      "rateSource": "中国外汇交易中心",
+      "updateCycle": "每日",
+      "rateUpdatedAt": "2026-06-06 09:00",
+      "isBase": false,
+      "enabled": true
+    },
+    {
+      "id": "currency-hkd",
+      "code": "HKD",
+      "name": "港币",
+      "symbol": "HK$",
+      "precision": 2,
+      "exchangeRate": "0.9200",
+      "rateMode": "自动同步",
+      "rateSource": "中国外汇交易中心",
+      "updateCycle": "每日",
+      "rateUpdatedAt": "2026-06-06 09:00",
+      "isBase": false,
+      "enabled": true
+    }
+  ]
+}

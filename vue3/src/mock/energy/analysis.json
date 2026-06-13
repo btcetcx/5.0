@@ -1,0 +1,33 @@
+﻿{
+  "todayEnergy": [
+    { "hour": "00:00", "value": 180 },
+    { "hour": "02:00", "value": 120 },
+    { "hour": "04:00", "value": 95 },
+    { "hour": "06:00", "value": 280 },
+    { "hour": "08:00", "value": 650 },
+    { "hour": "10:00", "value": 820 },
+    { "hour": "12:00", "value": 510 },
+    { "hour": "14:00", "value": 780 },
+    { "hour": "16:00", "value": 720 },
+    { "hour": "18:00", "value": 450 },
+    { "hour": "20:00", "value": 320 },
+    { "hour": "22:00", "value": 210 }
+  ],
+  "dailyRecords": [
+    { "date": "2026-06-05", "total": 8200, "electric": 6500, "gas": 1200, "water": 500 },
+    { "date": "2026-06-06", "total": 7850, "electric": 6200, "gas": 1150, "water": 500 },
+    { "date": "2026-06-07", "total": 5500, "electric": 4200, "gas": 850, "water": 450 },
+    { "date": "2026-06-08", "total": 5600, "electric": 4300, "gas": 860, "water": 440 },
+    { "date": "2026-06-09", "total": 8100, "electric": 6400, "gas": 1200, "water": 500 },
+    { "date": "2026-06-10", "total": 7950, "electric": 6300, "gas": 1150, "water": 500 },
+    { "date": "2026-06-11", "total": 4100, "electric": 3200, "gas": 620, "water": 280 }
+  ],
+  "cards": [
+    { "key": "todayTotal", "label": "今日总能耗", "value": 4100, "unit": "kWh", "tone": "green" },
+    { "key": "todayCost", "label": "今日能耗成本", "value": 3280, "unit": "元", "tone": "yellow" },
+    { "key": "monthTotal", "label": "本月总能耗", "value": 89200, "unit": "kWh", "tone": "blue" },
+    { "key": "monthCost", "label": "本月累计成本", "value": 71360, "unit": "元", "tone": "green" },
+    { "key": "carbonTotal", "label": "碳排放量", "value": 48.5, "unit": "tCO₂", "tone": "red" },
+    { "key": "savingRate", "label": "节能率", "value": 3.2, "unit": "%", "tone": "green" }
+  ]
+}

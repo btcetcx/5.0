@@ -1,0 +1,9 @@
+﻿[
+  { "id": "pr001", "productCode": "P-1001", "productName": "铝合金压铸件-A型", "category": "压铸件", "totalConsumption": 28500, "electricConsumption": 22800, "gasConsumption": 5700, "unit": "kWh", "cost": 22800, "carbonEmission": 15.3, "period": "2026-05", "ratio": 22.5, "trend": "up" },
+  { "id": "pr002", "productCode": "P-1002", "productName": "铝合金压铸件-B型", "category": "压铸件", "totalConsumption": 19200, "electricConsumption": 15360, "gasConsumption": 3840, "unit": "kWh", "cost": 15360, "carbonEmission": 10.3, "period": "2026-05", "ratio": 15.2, "trend": "stable" },
+  { "id": "pr003", "productCode": "P-2001", "productName": "焊接组件-支架", "category": "焊接件", "totalConsumption": 15800, "electricConsumption": 14200, "gasConsumption": 1600, "unit": "kWh", "cost": 12640, "carbonEmission": 8.5, "period": "2026-05", "ratio": 12.5, "trend": "down" },
+  { "id": "pr004", "productCode": "P-2002", "productName": "焊接组件-底座", "category": "焊接件", "totalConsumption": 12300, "electricConsumption": 11070, "gasConsumption": 1230, "unit": "kWh", "cost": 9840, "carbonEmission": 6.6, "period": "2026-05", "ratio": 9.7, "trend": "down" },
+  { "id": "pr005", "productCode": "P-3001", "productName": "涂装件-外罩", "category": "涂装件", "totalConsumption": 21000, "electricConsumption": 10500, "gasConsumption": 10500, "unit": "kWh", "cost": 18900, "carbonEmission": 12.8, "period": "2026-05", "ratio": 16.6, "trend": "up" },
+  { "id": "pr006", "productCode": "P-4001", "productName": "组装成品-设备A", "category": "组装件", "totalConsumption": 9800, "electricConsumption": 8820, "gasConsumption": 980, "unit": "kWh", "cost": 7840, "carbonEmission": 5.3, "period": "2026-05", "ratio": 7.7, "trend": "stable" },
+  { "id": "pr007", "productCode": "P-4002", "productName": "组装成品-设备B", "category": "组装件", "totalConsumption": 8200, "electricConsumption": 7380, "gasConsumption": 820, "unit": "kWh", "cost": 6560, "carbonEmission": 4.4, "period": "2026-05", "ratio": 6.5, "trend": "up" }
+]

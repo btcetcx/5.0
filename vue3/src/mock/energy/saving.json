@@ -1,0 +1,75 @@
+﻿[
+  {
+    "id": "sv001",
+    "code": "SV-001",
+    "title": "空压机变频改造",
+    "category": "设备改造",
+    "targetValue": 150000,
+    "currentValue": 85000,
+    "unit": "kWh",
+    "investment": 120000,
+    "savingAmount": 85000,
+    "paybackPeriod": 1.4,
+    "startDate": "2026-01-15",
+    "endDate": "2026-06-30",
+    "responsibleDept": "设备动力部",
+    "responsiblePerson": "陈工",
+    "status": "执行中",
+    "effect": "良好",
+    "executionSteps": [
+      { "step": "方案设计", "done": true, "date": "2026-01-20" },
+      { "step": "设备采购", "done": true, "date": "2026-02-15" },
+      { "step": "安装调试", "done": true, "date": "2026-03-10" },
+      { "step": "试运行", "done": true, "date": "2026-04-01" },
+      { "step": "效果评估", "done": false }
+    ]
+  },
+  {
+    "id": "sv002",
+    "code": "SV-002",
+    "title": "照明LED改造",
+    "category": "照明节能",
+    "targetValue": 80000,
+    "currentValue": 45000,
+    "unit": "kWh",
+    "investment": 50000,
+    "savingAmount": 45000,
+    "paybackPeriod": 1.1,
+    "startDate": "2026-03-01",
+    "endDate": "2026-08-31",
+    "responsibleDept": "行政部",
+    "responsiblePerson": "刘主管",
+    "status": "执行中",
+    "effect": "良好",
+    "executionSteps": [
+      { "step": "灯具选型", "done": true, "date": "2026-03-10" },
+      { "step": "分批更换办公楼", "done": true, "date": "2026-04-15" },
+      { "step": "分批更换车间", "done": true, "date": "2026-05-20" },
+      { "step": "效果对比", "done": false }
+    ]
+  },
+  {
+    "id": "sv003",
+    "code": "SV-003",
+    "title": "光伏发电扩容",
+    "category": "新能源",
+    "targetValue": 200000,
+    "currentValue": 0,
+    "unit": "kWh",
+    "investment": 500000,
+    "savingAmount": 0,
+    "paybackPeriod": 3.5,
+    "startDate": "2026-07-01",
+    "endDate": "2026-12-31",
+    "responsibleDept": "设备动力部",
+    "responsiblePerson": "陈工",
+    "status": "规划中",
+    "effect": "待评估",
+    "executionSteps": [
+      { "step": "可行性评估", "done": true, "date": "2026-06-05" },
+      { "step": "方案设计", "done": false },
+      { "step": "施工安装", "done": false },
+      { "step": "并网发电", "done": false }
+    ]
+  }
+]

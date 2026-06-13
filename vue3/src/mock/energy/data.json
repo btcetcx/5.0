@@ -1,0 +1,10 @@
+﻿[
+  { "id": "ed001", "pointId": "mp001", "pointName": "总配电柜-进线", "category": "电力", "recordedAt": "2026-06-11 08:00:00", "value": 285.6, "unit": "kWh", "cost": 228.48, "carbonEmission": 0.153, "meterReading": 128945.2, "source": "自动采集", "status": "已确认" },
+  { "id": "ed002", "pointId": "mp001", "pointName": "总配电柜-进线", "category": "电力", "recordedAt": "2026-06-11 09:00:00", "value": 312.4, "unit": "kWh", "cost": 249.92, "carbonEmission": 0.167, "meterReading": 129257.6, "source": "自动采集", "status": "已确认" },
+  { "id": "ed003", "pointId": "mp002", "pointName": "空压机组", "category": "电力", "recordedAt": "2026-06-11 08:00:00", "value": 120.3, "unit": "kWh", "cost": 96.24, "carbonEmission": 0.064, "meterReading": 52186.5, "source": "自动采集", "status": "已确认" },
+  { "id": "ed004", "pointId": "mp003", "pointName": "冷却水循环泵", "category": "电力", "recordedAt": "2026-06-11 08:00:00", "value": 65.8, "unit": "kWh", "cost": 52.64, "carbonEmission": 0.035, "meterReading": 32105.2, "source": "自动采集", "status": "已确认" },
+  { "id": "ed005", "pointId": "mp004", "pointName": "天然气主管", "category": "燃气", "recordedAt": "2026-06-11 08:00:00", "value": 45.2, "unit": "m³", "cost": 135.6, "carbonEmission": 0.098, "meterReading": 128945.0, "source": "自动采集", "status": "已确认" },
+  { "id": "ed006", "pointId": "mp007", "pointName": "中央空调总机", "category": "电力", "recordedAt": "2026-06-11 08:00:00", "value": 95.2, "unit": "kWh", "cost": 76.16, "carbonEmission": 0.051, "meterReading": 45218.6, "source": "自动采集", "status": "告警" },
+  { "id": "ed007", "pointId": "mp009", "pointName": "水表总表", "category": "水", "recordedAt": "2026-06-11 08:00:00", "value": 12.5, "unit": "t", "cost": 37.5, "carbonEmission": 0.004, "meterReading": 128945.0, "source": "手动录入", "status": "待确认" },
+  { "id": "ed008", "pointId": "mp010", "pointName": "光伏发电", "category": "发电", "recordedAt": "2026-06-11 08:00:00", "value": 85.3, "unit": "kWh", "cost": -68.24, "carbonEmission": -0.046, "meterReading": 12582.0, "source": "自动采集", "status": "已确认" }
+]

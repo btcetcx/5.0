@@ -1,0 +1,6 @@
+[
+  { "id": "rpt_001", "subject": "近30天质量趋势", "code": "QCR-202605-001", "source": "质量趋势", "object": "全部质检单", "qty": "96%", "inspector": "系统", "date": "2026-05", "status": "已生成", "stage": "REPORT", "passRate": "96%", "defectRate": "2.8%", "trend": "较上期提升1.6%", "tone": "green" },
+  { "id": "rpt_002", "subject": "来料不良分析", "code": "QCR-202605-002", "source": "不良分析", "object": "IQC来料", "qty": "18项", "inspector": "系统", "date": "2026-05", "status": "已生成", "stage": "REPORT", "passRate": "94%", "defectRate": "4.2%", "trend": "尺寸类不良上升", "tone": "yellow" },
+  { "id": "rpt_003", "subject": "供应商质量月报", "code": "QCR-202605-003", "source": "供应商质量", "object": "供应商A/B/C", "qty": "Top 10", "inspector": "系统", "date": "2026-05", "status": "已确认", "stage": "REPORT", "passRate": "95%", "defectRate": "3.1%", "trend": "供应商A需CAPA跟踪", "tone": "blue" },
+  { "id": "rpt_004", "subject": "工序质量分析", "code": "QCR-202605-004", "source": "工序质量", "object": "压装/焊接/总装", "qty": "98%", "inspector": "系统", "date": "2026-05", "status": "未生成", "stage": "REPORT", "passRate": "98%", "defectRate": "1.2%", "trend": "压装返工下降", "tone": "gray" }
+]

@@ -1,0 +1,7 @@
+.codex-tools/
+.DS_Store
+.codex-validation/
+*.log
+*.out.log
+*.err.log
+vue3/.codex-validation/

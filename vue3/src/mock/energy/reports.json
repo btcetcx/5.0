@@ -1,0 +1,52 @@
+﻿[
+  {
+    "id": "rpt001",
+    "title": "2026年6月能耗日报",
+    "type": "日报",
+    "period": "2026-06-11",
+    "startDate": "2026-06-11",
+    "endDate": "2026-06-11",
+    "totalConsumption": 4100,
+    "totalCost": 3280,
+    "carbonEmission": 2.15,
+    "unit": "kWh",
+    "status": "已生成",
+    "createdBy": "系统",
+    "createdAt": "2026-06-11 08:00:00",
+    "sections": [
+      { "title": "电力消耗", "items": [{ "label": "峰时段", "value": 1800, "unit": "kWh" }, { "label": "平时段", "value": 1100, "unit": "kWh" }, { "label": "谷时段", "value": 300, "unit": "kWh" }] },
+      { "title": "燃气消耗", "items": [{ "label": "燃气用量", "value": 620, "unit": "m³" }, { "label": "热值折算", "value": 1860, "unit": "kWh" }] },
+      { "title": "用水量", "items": [{ "label": "工业用水", "value": 280, "unit": "t" }] }
+    ]
+  },
+  {
+    "id": "rpt002",
+    "title": "2026年6月能耗周报",
+    "type": "周报",
+    "period": "2026年第24周",
+    "startDate": "2026-06-08",
+    "endDate": "2026-06-14",
+    "totalConsumption": 20150,
+    "totalCost": 16120,
+    "carbonEmission": 10.8,
+    "unit": "kWh",
+    "status": "已生成",
+    "createdBy": "系统",
+    "createdAt": "2026-06-08 00:00:00"
+  },
+  {
+    "id": "rpt003",
+    "title": "2026年5月能耗月报",
+    "type": "月报",
+    "period": "2026年5月",
+    "startDate": "2026-05-01",
+    "endDate": "2026-05-31",
+    "totalConsumption": 385000,
+    "totalCost": 308000,
+    "carbonEmission": 205,
+    "unit": "kWh",
+    "status": "已生成",
+    "createdBy": "系统",
+    "createdAt": "2026-06-01 00:00:00"
+  }
+]

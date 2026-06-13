@@ -1,0 +1,87 @@
+{
+  "fieldScopes": [
+    { "key": "base", "label": "基础信息" },
+    { "key": "source", "label": "来源记录" },
+    { "key": "sampling", "label": "抽样记录" },
+    { "key": "inspection", "label": "检验明细" },
+    { "key": "disposal", "label": "不良处置" },
+    { "key": "report", "label": "质检报告" }
+  ],
+  "fields": [
+    { "id": 1, "name": "供应商批次", "code": "supplierLot", "type": "文本", "scope": "base", "required": true, "enabled": true },
+    { "id": 2, "name": "客户验货人", "code": "customerInspector", "type": "文本", "scope": "source", "required": false, "enabled": true },
+    { "id": 3, "name": "样本范围", "code": "sampleRange", "type": "文本", "scope": "sampling", "required": true, "enabled": true },
+    { "id": 4, "name": "复检要求", "code": "recheckRequirement", "type": "多行文本", "scope": "disposal", "required": false, "enabled": true },
+    { "id": 5, "name": "报告附件", "code": "reportAttachment", "type": "附件", "scope": "report", "required": false, "enabled": true }
+  ],
+  "numberPrefix": "QC",
+  "numberSeparator": "-",
+  "numberSelected": ["stage", "date", "serial"],
+  "numberCandidates": [
+    { "key": "prefix", "label": "前缀", "preview": "QC", "fixed": true },
+    { "key": "stage", "label": "检验阶段", "preview": "IQC", "group": "biz" },
+    { "key": "date", "label": "日期", "preview": "20260530" },
+    { "key": "dept", "label": "质检部门", "preview": "QCD" },
+    { "key": "serial", "label": "流水号", "preview": "0001" },
+    { "key": "custom1", "label": "自定义代码", "preview": "C1", "editable": true }
+  ],
+  "approvals": [
+    {
+      "id": 1,
+      "name": "让步放行审批流程",
+      "category": "异常处理",
+      "nodes": [
+        { "name": "质检主管复核", "approvers": ["王质检"], "method": "依次审批" },
+        { "name": "质量经理批准", "approvers": ["质量经理"], "method": "会签" }
+      ],
+      "creator": "质量经理",
+      "updatedAt": "2026-05-20 09:30",
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "name": "检验方案发布审批",
+      "category": "方案配置",
+      "nodes": [
+        { "name": "方案编制复核", "approvers": ["老夏"], "method": "依次审批" },
+        { "name": "质量经理批准", "approvers": ["质量经理"], "method": "或签" }
+      ],
+      "creator": "老夏",
+      "updatedAt": "2026-05-21 10:00",
+      "enabled": true
+    }
+  ],
+  "printTemplates": [
+    { "id": 1, "name": "IQC来料检验报告", "scene": "来料检验", "paper": "A4", "owner": "老夏", "updatedAt": "2026-05-20", "enabled": true },
+    { "id": 2, "name": "OQC出货放行单", "scene": "出货检验", "paper": "A4", "owner": "陈质检", "updatedAt": "2026-05-21", "enabled": true }
+  ],
+  "strategies": [
+    {
+      "key": "execution",
+      "label": "检验执行",
+      "rows": [
+        { "key": "autoTask", "title": "来源单据自动生成质检任务", "sub": "采购到货、生产报工、成品入库申请和销售出库可按阶段自动生成待检任务。", "type": "switch", "enabled": true },
+        { "key": "planRequired", "title": "检验方案必选", "sub": "新增检验任务必须选择启用状态的质检方案，方案带出检验项目和抽样规则。", "type": "switch", "enabled": true },
+        { "key": "stageOwner", "title": "阶段默认检验组", "sub": "IQC/IPQC/FQC/OQC 根据来源自动推荐检验组。", "type": "select", "value": "按阶段推荐", "options": ["按阶段推荐", "按物料分类推荐", "手工选择"] }
+      ]
+    },
+    {
+      "key": "disposal",
+      "label": "异常处置",
+      "rows": [
+        { "key": "isolate", "title": "不合格自动隔离", "sub": "判定不合格后同步冻结仓储库存或生产工序批次。", "type": "switch", "enabled": true },
+        { "key": "recheck", "title": "返工后强制复检", "sub": "返工完成必须生成复检记录，复检合格后才允许放行。", "type": "switch", "enabled": true },
+        { "key": "capa", "title": "重大异常触发 CAPA/8D", "sub": "CRITICAL 或连续批退自动进入 CAPA/8D 改善跟踪。", "type": "switch", "enabled": true }
+      ]
+    },
+    {
+      "key": "writeback",
+      "label": "来源回写",
+      "rows": [
+        { "key": "warehouse", "title": "仓储回写", "sub": "IQC/OQC 结果回写入库上架、出库过账和质量库存状态。", "type": "switch", "enabled": true },
+        { "key": "production", "title": "生产回写", "sub": "IPQC/FQC 结果回写工序隔离、返工数量、成品入库合格数量。", "type": "switch", "enabled": true },
+        { "key": "supplierScore", "title": "供应商质量评分", "sub": "来料不合格、拒收和 CAPA 验证结果回写供应商质量评分。", "type": "switch", "enabled": true }
+      ]
+    }
+  ]
+}
