@@ -72,7 +72,7 @@ const moduleConfigs: Record<string, any> = {
   monitor: {
       columns: [
         { key: 'code', title: '编号', width: 110 },
-        { key: 'name', title: '采集点', width: 140, link: true },
+        { key: 'name', title: '采集点', link: true },
         { key: 'category', title: '类别', width: 90 },
         { key: 'deviceName', title: '关联设备', width: 130 },
         { key: 'location', title: '位置', width: 110 },
@@ -98,7 +98,7 @@ const moduleConfigs: Record<string, any> = {
     },
     reports: {
       columns: [
-        { key: 'title', title: '报表名称', width: 200, link: true },
+        { key: 'title', title: '报表名称', link: true },
         { key: 'type', title: '类型', width: 80 },
         { key: 'period', title: '周期', width: 150 },
         { key: 'totalConsumption', title: '总能耗', width: 100 },
@@ -118,7 +118,7 @@ const moduleConfigs: Record<string, any> = {
     saving: {
       columns: [
         { key: 'code', title: '编号', width: 100 },
-        { key: 'title', title: '措施名称', width: 180, link: true },
+        { key: 'title', title: '措施名称', link: true },
         { key: 'category', title: '分类', width: 100 },
         { key: 'targetValue', title: '目标节能量', width: 110 },
         { key: 'currentValue', title: '已节能量', width: 110 },
@@ -139,7 +139,7 @@ const moduleConfigs: Record<string, any> = {
     carbon: {
       columns: [
         { key: 'year', title: '年份', width: 80 },
-        { key: 'month', title: '月份', width: 80, link: true },
+        { key: 'month', title: '月份', link: true },
         { key: 'totalEmission', title: '总排放(tCO₂)', width: 130 },
         { key: 'scope1', title: '范围一', width: 100 },
         { key: 'scope2', title: '范围二', width: 100 },
@@ -153,7 +153,7 @@ const moduleConfigs: Record<string, any> = {
     product: {
       columns: [
         { key: 'productCode', title: '产品编号', width: 100 },
-        { key: 'productName', title: '产品名称', width: 160, link: true },
+        { key: 'productName', title: '产品名称', link: true },
         { key: 'category', title: '分类', width: 90 },
         { key: 'totalConsumption', title: '总能耗(kWh)', width: 120 },
         { key: 'electricConsumption', title: '电力(kWh)', width: 110 },
@@ -174,7 +174,7 @@ const moduleConfigs: Record<string, any> = {
     },
     department: {
       columns: [
-        { key: 'deptName', title: '部门名称', width: 120, link: true },
+        { key: 'deptName', title: '部门名称', link: true },
         { key: 'totalConsumption', title: '总能耗(kWh)', width: 120 },
         { key: 'electric', title: '电力(kWh)', width: 100 },
         { key: 'gas', title: '燃气(kWh)', width: 100 },
@@ -187,9 +187,9 @@ const moduleConfigs: Record<string, any> = {
       treeNodes: [],
       actions: ['refresh'],
     },
-    data: {
+    energyData: {
       columns: [
-        { key: 'pointName', title: '采集点', width: 130 },
+        { key: 'pointName', title: '采集点' },
         { key: 'category', title: '类别', width: 70 },
         { key: 'recordedAt', title: '记录时间', width: 150 },
         { key: 'value', title: '读数', width: 90 },
@@ -212,7 +212,7 @@ const moduleConfigs: Record<string, any> = {
     equipment: {
       columns: [
         { key: 'code', title: '设备编号', width: 110 },
-        { key: 'name', title: '设备名称', width: 160, link: true },
+        { key: 'name', title: '设备名称', link: true },
         { key: 'category', title: '分类', width: 100 },
         { key: 'power', title: '功率(kW)', width: 90 },
         { key: 'location', title: '位置', width: 110 },
@@ -390,16 +390,14 @@ watch(() => route.path, () => { showDetail.value = false; showCreate.value = fal
   <template v-if="!showSettingPage && moduleKey === 'monitor'">
     <aw-list-page>
       <template #tree>
-        <div class="aw-tree-panel">
-          <div class="aw-tree-title">采集点分类</div>
-          <button v-for="n in moduleConfig.treeNodes" :key="n.key" :class="['aw-tree-node', pickedTree === n.key ? 'active' : '']" type="button" @click="treeFilter(n.key)">{{ n.label }}<span class="aw-tree-count">{{ n.count }}</span></button>
-        </div>
+
+        <aw-resource-tree title="采集点分类" :total="rows.length" :nodes="moduleConfig.treeNodes" v-model="pickedTree" @select="treeFilter" />
       </template>
       <template #toolbar>
         <aw-list-toolbar :title="moduleTitle" search-placeholder="搜索采集点..." :actions="['refresh']" @action="handleToolbar" v-model:keyword="keyword"></aw-list-toolbar>
       </template>
       <template #default>
-        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length">
+        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length" :fit-width="true">
           <template #cell="{ column, record, value }">
             <span v-if="column.key === 'name'" class="aw-link" @click="showRow(record)">{{ value }}</span>
             <span v-else-if="column.key === 'status'" :class="['aw-status', toneByStatus(String(value))]">{{ value }}</span>
@@ -413,11 +411,11 @@ watch(() => route.path, () => { showDetail.value = false; showCreate.value = fal
     <!-- 告警列表 -->
     <section class="aw-form-card energy-alarm-list" v-if="alarmRows.length > 0">
       <div class="energy-sub-head"><h3>异常告警</h3></div>
-      <aw-data-table :columns="[
-        { key: 'pointName', title: '采集点', width: 130 },
+      <aw-data-table :fit-width="true" :columns="[
+        { key: 'pointName', title: '采集点' },
         { key: 'alarmType', title: '告警类型', width: 100 },
         { key: 'alarmLevel', title: '级别', width: 80 },
-        { key: 'message', title: '告警内容', width: 300 },
+        { key: 'message', title: '告警内容' },
         { key: 'currentValue', title: '当前值', width: 90 },
         { key: 'threshold', title: '阈值', width: 90 },
         { key: 'occuredAt', title: '发生时间', width: 150 },
@@ -471,23 +469,31 @@ watch(() => route.path, () => { showDetail.value = false; showCreate.value = fal
           </div>
         </div>
       </section>
+      <section class="aw-form-card" v-if="analysisData.todayEnergy && analysisData.todayEnergy.length">
+        <div class="energy-panel-head"><h2>今日实时能耗（kWh）</h2></div>
+        <div class="energy-chart">
+          <div class="energy-line-chart">
+            <div v-for="(pt, idx) in analysisData.todayEnergy" :key="pt.hour" class="energy-line-col" :style="{ height: (pt.value / 900 * 160) + 'px' }">
+              <span class="energy-line-dot"></span>
+              <span class="energy-line-label" v-if="idx % 2 === 0">{{ pt.hour }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </template>
 
   <!-- 能耗报表 -->
   <template v-if="!showSettingPage && moduleKey === 'reports'">
     <aw-list-page>
-      <template #tree>
-        <div class="aw-tree-panel" v-if="moduleConfig.treeNodes.length > 0">
-          <div class="aw-tree-title">报表类型</div>
-          <button v-for="n in moduleConfig.treeNodes" :key="n.key" :class="['aw-tree-node', pickedTree === n.key ? 'active' : '']" type="button" @click="treeFilter(n.key)">{{ n.label }}<span class="aw-tree-count">{{ n.count }}</span></button>
-        </div>
+      <template v-if="moduleConfig.treeNodes.length > 0" #tree>
+        <aw-resource-tree title="报表类型" :total="rows.length" :nodes="moduleConfig.treeNodes" v-model="pickedTree" @select="treeFilter" />
       </template>
       <template #toolbar>
         <aw-list-toolbar :title="moduleTitle" search-placeholder="搜索报表..." :actions="['refresh']" @action="handleToolbar" v-model:keyword="keyword"></aw-list-toolbar>
       </template>
       <template #default>
-        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length">
+        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length" :fit-width="true">
           <template #cell="{ column, record, value }">
             <span v-if="column.key === 'title'" class="aw-link" @click="showRow(record)">{{ value }}</span>
             <span v-else-if="column.key === 'totalConsumption' || column.key === 'totalCost' || column.key === 'carbonEmission'">{{ typeof value === 'number' ? value.toLocaleString() : value }}</span>
@@ -502,17 +508,14 @@ watch(() => route.path, () => { showDetail.value = false; showCreate.value = fal
   <!-- 节能措施 -->
   <template v-if="!showSettingPage && moduleKey === 'saving'">
     <aw-list-page>
-      <template #tree>
-        <div class="aw-tree-panel" v-if="moduleConfig.treeNodes.length > 0">
-          <div class="aw-tree-title">措施分类</div>
-          <button v-for="n in moduleConfig.treeNodes" :key="n.key" :class="['aw-tree-node', pickedTree === n.key ? 'active' : '']" type="button" @click="treeFilter(n.key)">{{ n.label }}<span class="aw-tree-count">{{ n.count }}</span></button>
-        </div>
+      <template v-if="moduleConfig.treeNodes.length > 0" #tree>
+        <aw-resource-tree title="措施分类" :total="rows.length" :nodes="moduleConfig.treeNodes" v-model="pickedTree" @select="treeFilter" />
       </template>
       <template #toolbar>
         <aw-list-toolbar :title="moduleTitle" search-placeholder="搜索节能措施..." :actions="['refresh', 'create']" @action="handleToolbar" v-model:keyword="keyword"></aw-list-toolbar>
       </template>
       <template #default>
-        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length">
+        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length" :fit-width="true">
           <template #cell="{ column, record, value }">
             <span v-if="column.key === 'title'" class="aw-link" @click="showRow(record)">{{ value }}</span>
             <span v-else-if="column.key === 'status'" :class="['aw-status', toneByStatus(String(value))]">{{ value }}</span>
@@ -532,7 +535,7 @@ watch(() => route.path, () => { showDetail.value = false; showCreate.value = fal
         <aw-list-toolbar :title="moduleTitle" search-placeholder="" :actions="['refresh']" @action="handleToolbar"></aw-list-toolbar>
       </template>
       <template #default>
-        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length">
+        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length" :fit-width="true">
           <template #cell="{ column, record, value }">
             <span v-if="column.key === 'month' || column.key === 'year'" class="aw-link" @click="showRow(record)">{{ value ? record.year + '年' + record.month + '月' : value }}</span>
             <span v-else-if="column.key === 'status'" :class="['aw-status', toneByStatus(String(value))]">{{ value }}</span>
@@ -545,14 +548,14 @@ watch(() => route.path, () => { showDetail.value = false; showCreate.value = fal
   <!-- 产品能耗 / 部门能耗 / 能耗数据 / 用能设备 -->
   <template v-if="!showSettingPage && (moduleKey === 'product' || moduleKey === 'department' || moduleKey === 'energyData' || moduleKey === 'equipment')">
     <aw-list-page>
-      <template #tree>
-        <aw-resource-tree v-if="moduleConfig.treeNodes.length > 0" title="分类" :total="rows.length" :nodes="moduleConfig.treeNodes" v-model="pickedTree" @select="treeFilter" />
+      <template v-if="moduleConfig.treeNodes.length > 0" #tree>
+        <aw-resource-tree title="分类" :total="rows.length" :nodes="moduleConfig.treeNodes" v-model="pickedTree" @select="treeFilter" />
       </template>
       <template #toolbar>
         <aw-list-toolbar :title="moduleTitle" search-placeholder="搜索..." :actions="moduleConfig.actions" @action="handleToolbar" v-model:keyword="keyword"></aw-list-toolbar>
       </template>
       <template #default>
-        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length">
+        <aw-data-table :columns="moduleConfig.columns" :rows="rows" :total="rows.length" :fit-width="true">
           <template #cell="{ column, record, value }">
             <span v-if="column.link" class="aw-link" @click="showRow(record)">{{ value }}</span>
             <span v-else-if="column.key === 'status'" :class="['aw-status', toneByStatus(String(value))]">{{ value }}</span>
@@ -809,6 +812,41 @@ watch(() => route.path, () => { showDetail.value = false; showCreate.value = fal
   color: var(--aw-fg-3);
   font-size: 11px;
   white-space: nowrap;
+}
+
+.energy-bar-chart + .energy-legend {
+  display: none;
+}
+
+.energy-line-chart {
+  align-items: flex-end;
+  display: flex;
+  gap: 2px;
+  height: 180px;
+  justify-content: space-between;
+  padding: 20px 0 14px;
+}
+.energy-line-col {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0;
+  justify-content: flex-end;
+  position: relative;
+}
+.energy-line-col .energy-line-dot {
+  background: var(--aw-primary, #1677ff);
+  border-radius: 50%;
+  height: 6px;
+  width: 6px;
+}
+.energy-line-col .energy-line-label {
+  color: var(--aw-fg-3);
+  font-size: 11px;
+  margin-top: 6px;
+  position: absolute;
+  bottom: -14px;
 }
 
 .energy-legend {

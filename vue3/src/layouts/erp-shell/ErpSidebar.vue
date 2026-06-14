@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <aside class="aw-side">
     <h4>{{ title }}</h4>
     <div
@@ -25,7 +25,7 @@
       <div v-for="section in hoverItem.flyout" :key="section.title" class="aw-flyout-sec">
         <div class="aw-flyout-h">{{ section.title }}</div>
         <div class="aw-flyout-items">
-          <a v-for="entry in section.items" :key="entry.label" :class="{ disabled: !entry.route }" @click="openFlyoutEntry(entry)">{{ entry.label }}</a>
+          <a v-for="entry in section.items" :key="getEntryLabel(entry)" @click="openFlyoutEntry(entry)">{{ getEntryLabel(entry) }}</a>
         </div>
       </div>
     </div>
@@ -84,9 +84,15 @@ function cancelClose() {
   clearTimeout(closeTimer);
 }
 
-function openFlyoutEntry(entry: FlyoutEntry) {
-  if (!entry.route) return;
-  router.push(entry.route);
+function getEntryLabel(entry: string | FlyoutEntry): string {
+  return typeof entry === 'string' ? entry : entry.label;
+}
+
+function openFlyoutEntry(entry: string | FlyoutEntry) {
+  const label = typeof entry === 'string' ? entry : entry.label;
+  const route = typeof entry === 'string' ? undefined : entry.route;
+  const target = route || (hoverItem.value?.route && (hoverItem.value.route + '?action=' + encodeURIComponent(label)));
+  if (target) router.push(target);
   hoverItem.value = undefined;
 }
 </script>

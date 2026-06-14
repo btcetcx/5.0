@@ -649,7 +649,19 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '投标中心' },
       },
       {
-        path: 'bid/:section(announce|collect|account|manage|material)',
+        path: 'bid/account',
+        name: 'BidAccount',
+        component: () => import('@/views/bid/AccountPage.vue'),
+        meta: { title: '账户余额' },
+      },
+      {
+        path: 'bid/announce/search',
+        name: 'BidAnnounceSearch',
+        component: () => import('@/views/bid/BidSearchPage.vue'),
+        meta: { title: '招标采购搜索' },
+      },
+      {
+        path: 'bid/:section(announce|collect|manage|material)',
         name: 'BidSection',
         component: () => import('@/views/bid/BidResourcePage.vue'),
         meta: { title: '投标管理' },

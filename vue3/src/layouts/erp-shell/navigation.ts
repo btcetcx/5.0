@@ -1,6 +1,6 @@
 export interface FlyoutSection {
   title: string;
-  items: FlyoutEntry[];
+  items: (string | FlyoutEntry)[];
 }
 
 export interface FlyoutEntry {
@@ -144,17 +144,17 @@ const productionScheduleFlyout = (): FlyoutSection[] => {
 
 const actionRoute = (route: string, label: string) => `${route}?action=${encodeURIComponent(label)}`;
 
-const jsxFlyout = (route: string, sections: Array<{ title: string; items: string[] }>): FlyoutSection[] =>
+const jsxFlyout = (route: string, sections: Array<{ title: string; items: (string | FlyoutEntry)[] }>): FlyoutSection[] =>
   sections.map((section) => ({
     title: section.title,
-    items: section.items.map((label) => ({ label, route: actionRoute(route, label) })),
+    items: section.items.map((label) => typeof label === 'string' ? { label, route: actionRoute(route, label) } : { label: label.label, route: label.route || actionRoute(route, label.label) }),
   }));
 
 const jsxSideItem = (
   key: string,
   label: string,
   route: string,
-  sections?: Array<{ title: string; items: string[] }>,
+  sections?: Array<{ title: string; items: (string | FlyoutEntry)[] }>,
 ): SideNavItem => ({
   key,
   label,
@@ -826,7 +826,7 @@ export const topNavItems: TopNavItem[] = [
     icon: '↩',
     title: '售后中心',
     route: '/after-sales',
-    status: 'pending',
+    status: 'ready',
     sideItems: [
       jsxSideItem('workbench', '工作台', '/after-sales'),
       {
@@ -880,7 +880,7 @@ export const topNavItems: TopNavItem[] = [
     icon: '✓',
     title: '质检中心',
     route: '/qc',
-    status: 'pending',
+    status: 'ready',
     sideItems: [
       jsxSideItem('workbench', '工作台', '/qc'),
       {
@@ -938,7 +938,7 @@ export const topNavItems: TopNavItem[] = [
     icon: '人',
     title: '人力中心',
     route: '/hr',
-    status: 'pending',
+    status: 'ready',
     sideItems: [
       jsxSideItem('workbench', '工作台', '/hr'),
       jsxSideItem('hrEmployee', '员工管理', '/hr/employees', [
@@ -1081,7 +1081,7 @@ export const topNavItems: TopNavItem[] = [
     icon: '▣',
     title: '设备中心',
     route: '/equipment',
-    status: 'pending',
+    status: 'ready',
     sideItems: [
       jsxSideItem('workbench', '工作台', '/equipment'),
       {
@@ -1205,7 +1205,7 @@ export const topNavItems: TopNavItem[] = [
     icon: '⚡',
     title: '能耗中心',
     route: '/energy',
-    status: 'pending',
+    status: 'ready',
     sideItems: [
       jsxSideItem('workbench', '工作台', '/energy'),
       jsxSideItem('monitor', '能耗监测', '/energy/monitor', [
@@ -1240,10 +1240,10 @@ export const topNavItems: TopNavItem[] = [
     icon: '📋',
     title: '投标中心',
     route: '/bid',
-    status: 'pending',
+    status: 'ready',
     sideItems: [
       jsxSideItem('announce', '招投标资讯', '/bid/announce', [
-        { title: '\u4fe1\u606f\u641c\u7d22', items: ['\u62db\u6807\u91c7\u8d2d\u641c\u7d22', '\u62df\u5728\u5efa\u641c\u7d22', '\u4f01\u4e1a\u641c\u7d22', '\u91c7\u8d2d\u5355\u4f4d\u641c\u7d22'] },
+        { title: '\u4fe1\u606f\u641c\u7d22', items: [{ label: '\u62db\u6807\u91c7\u8d2d\u641c\u7d22', route: '/bid/announce/search' }, '\u62df\u5728\u5efa\u641c\u7d22', '\u4f01\u4e1a\u641c\u7d22', '\u91c7\u8d2d\u5355\u4f4d\u641c\u7d22'] },
         { title: '\u8ba2\u9605\u76d1\u63a7', items: ['\u6211\u7684\u8ba2\u9605', '\u8ba2\u9605\u7ba1\u7406', '\u9879\u76ee\u8fdb\u5ea6\u76d1\u63a7', '\u4f01\u4e1a\u60c5\u62a5\u76d1\u63a7'] },
         { title: '\u5546\u673a\u6316\u6398', items: ['\u6f5c\u5728\u9879\u76ee\u9884\u6d4b'] },
       ]),
